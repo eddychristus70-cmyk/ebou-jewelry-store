@@ -790,17 +790,8 @@
       const orderCSRFToken = generateOrderCSRFToken();
       sessionStorage.setItem("orderCSRFToken", orderCSRFToken);
 
-      const PW = "devpass";
       let allOrders = [];
       let currentFilter = "all";
-
-      function checkAuth() {
-        const url = new URL(window.location.href);
-        const pw = url.searchParams.get("pw");
-        if (pw === PW) return true;
-        const entered = prompt("Enter admin password:");
-        return entered === PW;
-      }
 
       function formatDate(timestamp) {
         if (!timestamp) return { date: "N/A", time: "N/A" };
@@ -1172,11 +1163,6 @@
       }
 
       document.addEventListener("DOMContentLoaded", () => {
-        if (!checkAuth()) {
-          document.getElementById("locked").style.display = "flex";
-          return;
-        }
-
         document.getElementById("content").style.display = "block";
 
         document.getElementById("q").addEventListener("input", filterOrders);
