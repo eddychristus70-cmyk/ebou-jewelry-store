@@ -147,6 +147,11 @@
         border: 2px solid rgba(229, 15, 101, 0.3);
       }
 
+      .btn-secondary {
+        background: #6b7280;
+        color: #fff;
+      }
+
       .inbox-grid {
         display: grid;
         grid-template-columns: 2fr 1fr;
@@ -387,6 +392,11 @@
             <i class="fas fa-file-export"></i>
             Export JSON
           </button>
+          <button class="btn btn-secondary" id="import-messages">
+            <i class="fas fa-file-import"></i>
+            Import JSON
+          </button>
+          <input type="file" id="import-file" accept=".json" style="display: none;" />
         </div>
         <div style="display: flex; gap: 12px; align-items: center">
           <button
@@ -1006,10 +1016,48 @@
         async function fetchMessages() {
           setStatus("Loading messages…");
           const limitParam = limitSelect.value;
+          let apiMessages = [];
 
-          // Load directly from localStorage (primary storage)
+          // First, try to fetch from backend API
           try {
-            console.log("Loading messages from localStorage...");
+            console.log("Fetching messages from API...");
+            const endpoints = [
+              "/.netlify/functions/contact-messages",
+              "/api/contact-messages",
+            ];
+            
+            for (const endpoint of endpoints) {
+              try {
+                const response = await fetch(endpoint);
+                if (response.ok) {
+                  const data = await response.json();
+                  if (data.messages && Array.isArray(data.messages)) {
+                    apiMessages = data.messages;
+                    console.log("Loaded messages from API:", apiMessages.length);
+                    break;
+                  }
+                }
+              } catch (err) {
+                console.warn("API endpoint failed:", endpoint, err);
+              }
+            }
+          } catch (err) {
+            console.error("Error fetching from API:", err);
+          }
+
+          // Combine API messages with localStorage messages (avoiding duplicates)
+          const uniqueMessagesMap = new Map();
+          
+          // Add API messages first (they're from server)
+          apiMessages.forEach((msg) => {
+            const key =
+              msg.id ||
+              `${msg.email}-${msg.date || msg.createdAt}-${msg.topic}`;
+            uniqueMessagesMap.set(key, msg);
+          });
+
+          // Then add localStorage messages (but don't override API messages)
+          try {
             const localStored = localStorage.getItem("contactMessages");
             if (localStored) {
               let localMessages = JSON.parse(localStored);
@@ -1019,8 +1067,6 @@
               );
 
               if (Array.isArray(localMessages) && localMessages.length > 0) {
-                // Remove duplicates
-                const uniqueMessagesMap = new Map();
                 localMessages.forEach((msg) => {
                   const key =
                     msg.id ||
@@ -1047,31 +1093,31 @@
                     }
                   }
                 });
-                allMessages = Array.from(uniqueMessagesMap.values());
-
-                const limit = Number.parseInt(limitParam, 10);
-                if (!Number.isNaN(limit) && limit > 0) {
-                  allMessages = allMessages.slice(0, limit);
-                }
-                populateTopicFilter(allMessages);
-                applyFilters();
-                setStatus(
-                  `Loaded ${allMessages.length} message${
-                    allMessages.length === 1 ? "" : "s"
-                  } from inbox.`
-                );
-                return;
               }
             }
           } catch (err) {
             console.error("Error loading from localStorage:", err);
           }
 
-          // If localStorage is empty, show empty state
-          allMessages = [];
+          allMessages = Array.from(uniqueMessagesMap.values());
+          
+          const limit = Number.parseInt(limitParam, 10);
+          if (!Number.isNaN(limit) && limit > 0) {
+            allMessages = allMessages.slice(0, limit);
+          }
+          
           populateTopicFilter(allMessages);
           applyFilters();
-          setStatus("No messages found.");
+          
+          if (allMessages.length > 0) {
+            setStatus(
+              `Loaded ${allMessages.length} message${
+                allMessages.length === 1 ? "" : "s"
+              } from inbox.`
+            );
+          } else {
+            setStatus("No messages found.");
+          }
         }
 
         searchInput.addEventListener("input", () => applyFilters());
@@ -1097,6 +1143,61 @@
           document.body.removeChild(link);
           URL.revokeObjectURL(url);
         });
+
+        // Import messages from JSON file
+        const importBtn = document.getElementById("import-messages");
+        const importFile = document.getElementById("import-file");
+        
+        if (importBtn && importFile) {
+          importBtn.addEventListener("click", () => {
+            importFile.click();
+          });
+
+          importFile.addEventListener("change", async (e) => {
+            const file = e.target.files?.[0];
+            if (!file) return;
+
+            try {
+              const text = await file.text();
+              const importedMessages = JSON.parse(text);
+              
+              if (!Array.isArray(importedMessages)) {
+                setStatus("Invalid file format. Expected an array of messages.", "error");
+                return;
+              }
+
+              // Merge imported messages with existing ones
+              const existing = localStorage.getItem("contactMessages") || "[]";
+              const existingMessages = JSON.parse(existing);
+              
+              // Combine and deduplicate by id or email+timestamp
+              const merged = new Map();
+              existingMessages.forEach(msg => {
+                const key = msg.id || `${msg.email}-${msg.createdAt}`;
+                merged.set(key, msg);
+              });
+
+              importedMessages.forEach(msg => {
+                const key = msg.id || `${msg.email}-${msg.createdAt}`;
+                if (!merged.has(key)) {
+                  merged.set(key, msg);
+                }
+              });
+
+              const combined = Array.from(merged.values());
+              localStorage.setItem("contactMessages", JSON.stringify(combined));
+              
+              setStatus(`Imported ${importedMessages.length} message(s). Total: ${combined.length}`, "success");
+              fetchMessages();
+            } catch (err) {
+              console.error("Import failed:", err);
+              setStatus("Failed to import file. Make sure it's valid JSON.", "error");
+            }
+            
+            // Reset file input
+            importFile.value = "";
+          });
+        }
 
         // Auto-refresh messages every 10 seconds
         setInterval(() => {

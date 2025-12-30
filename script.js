@@ -1582,6 +1582,32 @@ document.addEventListener("DOMContentLoaded", function () {
       };
 
       let success = false;
+      
+      // ALWAYS save to localStorage so admin can see messages
+      try {
+        const messageWithTimestamp = {
+          ...payload,
+          createdAt: new Date().toISOString(),
+          id:
+            "msg-" +
+            Date.now() +
+            "-" +
+            Math.random().toString(36).substr(2, 9),
+        };
+
+        // Store in localStorage
+        const stored = localStorage.getItem("contactMessages") || "[]";
+        const messages = JSON.parse(stored);
+        messages.push(messageWithTimestamp);
+        localStorage.setItem("contactMessages", JSON.stringify(messages));
+
+        success = true;
+        console.log("Message saved to localStorage:", messageWithTimestamp);
+      } catch (err) {
+        console.warn("Local storage save failed", err);
+      }
+
+      // Also try to send to backend API
       for (const endpoint of endpoints) {
         try {
           const response = await fetch(endpoint, {
@@ -1595,37 +1621,11 @@ document.addEventListener("DOMContentLoaded", function () {
             ?.includes("application/json");
           const result = isJson ? await response.json() : {};
           if (response.ok && result && result.success) {
-            success = true;
+            console.log("Message also sent to API");
             break;
           }
         } catch (err) {
-          console.warn("Contact form endpoint failed", endpoint, err);
-        }
-      }
-
-      // Local fallback: save to localStorage for development
-      if (!success) {
-        try {
-          const messageWithTimestamp = {
-            ...payload,
-            createdAt: new Date().toISOString(),
-            id:
-              "msg-" +
-              Date.now() +
-              "-" +
-              Math.random().toString(36).substr(2, 9),
-          };
-
-          // Store in localStorage
-          const stored = localStorage.getItem("contactMessages") || "[]";
-          const messages = JSON.parse(stored);
-          messages.push(messageWithTimestamp);
-          localStorage.setItem("contactMessages", JSON.stringify(messages));
-
-          success = true;
-          console.log("Message saved locally:", messageWithTimestamp);
-        } catch (err) {
-          console.warn("Local storage fallback failed", err);
+          console.warn("Contact form API endpoint failed", endpoint, err);
         }
       }
 
@@ -1641,5 +1641,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (submitBtn) submitBtn.disabled = false;
     });
+
+    // Export customer messages
+    const exportBtn = document.getElementById("export-customer-messages");
+    if (exportBtn) {
+      exportBtn.addEventListener("click", () => {
+        try {
+          const messages = JSON.parse(localStorage.getItem("contactMessages") || "[]");
+          if (messages.length === 0) {
+            alert("No messages to export yet. Send a message first!");
+            return;
+          }
+
+          const blob = new Blob([JSON.stringify(messages, null, 2)], {
+            type: "application/json",
+          });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = `my-messages-${Date.now()}.json`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+
+          alert(`Exported ${messages.length} message(s)! Share this file with the shop admin.`);
+        } catch (err) {
+          console.error("Export failed:", err);
+          alert("Failed to export messages.");
+        }
+      });
+    }
   }
 });
