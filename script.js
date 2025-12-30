@@ -1555,6 +1555,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     contactForm.addEventListener("submit", async function (event) {
       event.preventDefault();
+      console.log("✅ Contact form submitted!");
 
       // CSRF token validation (backwards compatible)
       const submittedToken =
@@ -1580,6 +1581,7 @@ document.addEventListener("DOMContentLoaded", function () {
         message: formData.get("message") || "",
         source: "contact.html",
       };
+      console.log("📦 Payload created:", payload);
 
       let success = false;
       
@@ -1602,9 +1604,10 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("contactMessages", JSON.stringify(messages));
 
         success = true;
-        console.log("Message saved to localStorage:", messageWithTimestamp);
+        console.log("💾 Message saved to localStorage:", messageWithTimestamp);
+        console.log("📊 Total messages in localStorage:", messages.length);
       } catch (err) {
-        console.warn("Local storage save failed", err);
+        console.warn("❌ Local storage save failed", err);
       }
 
       // Also try to send to backend API
