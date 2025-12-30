@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Account - Ebou Jewelry</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
+    />
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+      :root {
+        --primary: #e50f65;
+        --accent: #ff8c42;
+        --secondary: #5d3bff;
+        --border: #f3f4f6;
+        --card: #ffffff;
+        --text: #1f2933;
+        --muted: #616e7c;
+        --shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+        --green: #00a884;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(
+          165deg,
+          #fff7fb 0%,
+          #f4f7fb 45%,
+          #ffffff 100%
+        );
+        color: var(--text);
+        min-height: 100vh;
+        padding: clamp(16px, 5vw, 48px) clamp(12px, 4vw, 32px);
+      }
+
+      .account-shell {
+        max-width: 960px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .account-header {
+        background: var(--card);
+        border-radius: 18px;
+        padding: clamp(18px, 4vw, 28px);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: var(--shadow);
+        gap: 18px;
+      }
+
+      .welcome-label {
+        margin: 0;
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+
+      .account-header h1 {
+        margin: 6px 0 0;
+        font-size: clamp(1.8rem, 4vw, 2.4rem);
+      }
+
+      .cta-button {
+        border: none;
+        background: var(--primary);
+        color: #fff;
+        font-weight: 600;
+        font-size: 0.95rem;
+        padding: 12px 20px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        box-shadow: 0 12px 24px rgba(229, 15, 101, 0.3);
+        transition: transform 0.2s ease, background 0.2s ease;
+      }
+
+      .cta-button:hover {
+        transform: translateY(-1px);
+        background: #c80d58;
+      }
+
+      .card {
+        background: var(--card);
+        border-radius: 18px;
+        padding: clamp(18px, 4vw, 28px);
+        box-shadow: var(--shadow);
+      }
+
+      .account-info {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        position: relative;
+      }
+
+      .info-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        background: rgba(229, 15, 101, 0.1);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+      }
+
+      .info-title {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+
+      .info-sub {
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .ghost-btn {
+        position: absolute;
+        right: 24px;
+        top: 24px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--muted);
+        padding: 8px 14px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      .action-buttons {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 14px;
+      }
+
+      .btn {
+        border: none;
+        border-radius: 14px;
+        padding: 14px;
+        font-size: 1rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        cursor: pointer;
+      }
+
+      .live-chat {
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .whatsapp-btn {
+        background: #fff;
+        border: 2px solid var(--green);
+        color: var(--green);
+      }
+
+      .assistance {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .assist-text .kicker {
+        margin: 0;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        color: var(--muted);
+      }
+
+      .assist-text h2 {
+        margin: 6px 0 0;
+        font-size: 1.4rem;
+      }
+
+      .assist-link {
+        border: none;
+        background: rgba(229, 15, 101, 0.05);
+        border-radius: 14px;
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--primary);
+        cursor: pointer;
+      }
+
+      .assist-link > div {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .account-list .section-heading {
+        margin-bottom: 16px;
+      }
+
+      .section-heading h2 {
+        margin: 0;
+        font-size: 1.3rem;
+      }
+
+      .section-heading p {
+        margin: 4px 0 0;
+        color: var(--muted);
+      }
+
+      .account-links {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .account-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 18px;
+        border-radius: 14px;
+        background: #f8f9fb;
+        cursor: pointer;
+        transition: background 0.2s ease;
+      }
+
+      .account-row span {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 600;
+      }
+
+      .account-row:hover {
+        background: #eef2ff;
+      }
+
+      .auth-modal,
+      .auth-backdrop {
+        position: fixed;
+        inset: 0;
+        display: none;
+      }
+
+      .auth-backdrop {
+        background: rgba(15, 23, 42, 0.55);
+        z-index: 900;
+      }
+
+      .auth-modal {
+        z-index: 999;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .auth-modal.show,
+      .auth-backdrop.show {
+        display: flex;
+      }
+
+      .auth-dialog {
+        width: 100%;
+        max-width: 440px;
+        background: #fff;
+        border-radius: 22px;
+        padding: 32px;
+        position: relative;
+        box-shadow: 0 30px 80px rgba(15, 23, 42, 0.35);
+        max-height: min(calc(100vh - 40px), 720px);
+        overflow-y: auto;
+        scrollbar-gutter: stable;
+      }
+
+      .modal-close {
+        border: none;
+        background: rgba(0, 0, 0, 0.05);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        cursor: pointer;
+      }
+
+      .auth-modal-header h2 {
+        margin: 0 0 6px;
+      }
+
+      .auth-modal-header p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .mode-toggle {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        background: #f4f5f7;
+        padding: 4px;
+        border-radius: 14px;
+        margin: 20px 0 24px;
+      }
+
+      .auth-tab {
+        border: none;
+        border-radius: 12px;
+        padding: 12px 0;
+        font-weight: 600;
+        background: transparent;
+        cursor: pointer;
+        color: var(--muted);
+      }
+
+      .auth-tab.active {
+        background: #fff;
+        color: var(--primary);
+        box-shadow: 0 6px 16px rgba(229, 15, 101, 0.18);
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      label {
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+        display: block;
+        color: var(--text);
+      }
+
+      .input-wrapper {
+        position: relative;
+      }
+
+      .input-wrapper input,
+      .input-wrapper textarea {
+        width: 100%;
+        padding: 14px 46px 14px 16px;
+        border-radius: 12px;
+        border: 1.5px solid #e2e8f0;
+        font-size: 1rem;
+      }
+
+      .input-wrapper textarea {
+        min-height: 72px;
+        resize: vertical;
+      }
+
+      .input-wrapper .field-icon {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--muted);
+      }
+
+      .error-message {
+        color: #ef4444;
+        font-size: 0.85rem;
+        min-height: 18px;
+        margin: 4px 0 0;
+      }
+
+      .form-section-label {
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--muted);
+        margin: 8px 0 0;
+      }
+
+      .primary-btn {
+        margin-top: 6px;
+        border: none;
+        border-radius: 12px;
+        background: var(--primary);
+        color: #fff;
+        font-weight: 600;
+        font-size: 1rem;
+        padding: 15px;
+        cursor: pointer;
+        box-shadow: 0 14px 28px rgba(229, 15, 101, 0.25);
+        transition: background 0.2s ease;
+      }
+
+      .primary-btn:hover {
+        background: #c80d58;
+      }
+
+      .form-feedback {
+        margin-top: 6px;
+        text-align: center;
+        font-weight: 600;
+      }
+
+      .form-feedback.success {
+        color: #00a651;
+      }
+
+      .form-feedback.error {
+        color: #ef4444;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      @media (max-width: 640px) {
+        .account-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .ghost-btn {
+          position: static;
+          align-self: flex-end;
+          margin-top: 12px;
+        }
+
+        .account-info {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .action-buttons {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .social-divider {
+        display: flex;
+        align-items: center;
+        margin: 24px 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .social-divider::before,
+      .social-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #e5e7eb;
+      }
+
+      .social-divider span {
+        padding: 0 16px;
+      }
+
+      .google-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid #dadce0;
+        border-radius: 8px;
+        background: white;
+        color: #3c4043;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-bottom: 16px;
+        text-decoration: none;
+      }
+
+      .google-btn:hover {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        border-color: #c6c9cc;
+      }
+
+      .google-btn svg {
+        width: 18px;
+        height: 18px;
+        margin-right: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="account-shell">
+      <header class="account-header">
+        <div>
+          <p class="welcome-label" id="welcome-label">Welcome</p>
+          <h1 id="welcome-title">Manage your Ebou account</h1>
+        </div>
+        <button class="cta-button" id="auth-cta">
+          <i class="fas fa-user-lock"></i>
+          <span>Login / Sign up</span>
+        </button>
+      </header>
+
+      <section class="card account-info" aria-live="polite">
+        <div class="info-icon">
+          <i class="fas fa-user-circle"></i>
+        </div>
+        <div>
+          <p class="info-title" id="account-info-title">
+            Login to experience the best items
+          </p>
+          <p class="info-sub" id="account-info-sub">
+            Save carts, track deliveries, and unlock perks.
+          </p>
+        </div>
+        <button class="ghost-btn" id="logout-btn" hidden>
+          <i class="fas fa-sign-out-alt"></i>
+          Logout
+        </button>
+      </section>
+
+      <section class="card action-buttons">
+        <button class="btn live-chat" id="live-chat-btn">
+          <i class="fas fa-comments"></i>
+          Live Chat
+        </button>
+        <button class="btn whatsapp-btn" id="whatsapp-btn">
+          <i class="fab fa-whatsapp"></i>
+          WhatsApp
+        </button>
+      </section>
+
+      <section class="card assistance">
+        <div class="assist-text">
+          <p class="kicker">Need Assistance?</p>
+          <h2>We're here to help</h2>
+        </div>
+        <button class="assist-link" id="help-link">
+          <div>
+            <i class="fas fa-headset"></i>
+            Help &amp; Support
+          </div>
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </section>
+
+      <section class="card account-list">
+        <div class="section-heading">
+          <h2>My Account</h2>
+          <p>Manage everything in one place</p>
+        </div>
+        <ul class="account-links">
+          <li class="account-row" data-action="dashboard">
+            <span><i class="fas fa-tachometer-alt"></i>Dashboard</span>
+            <i class="fas fa-chevron-right"></i>
+          </li>
+          <li class="account-row" data-action="orders">
+            <span><i class="fas fa-box"></i>Orders</span>
+            <i class="fas fa-chevron-right"></i>
+          </li>
+          <li
+            class="account-row"
+            data-action="inbox"
+            style="position: relative"
+          >
+            <span>
+              <i class="fas fa-inbox"></i>Inbox
+              <span
+                class="account-inbox-badge"
+                id="account-inbox-badge"
+                style="
+                  display: none;
+                  margin-left: 8px;
+                  background: #ef4444;
+                  color: white;
+                  font-size: 0.7rem;
+                  padding: 2px 8px;
+                  border-radius: 12px;
+                  font-weight: 700;
+                "
+                >0</span
+              >
+            </span>
+            <i class="fas fa-chevron-right"></i>
+          </li>
+          <li class="account-row" data-action="reviews">
+            <span><i class="fas fa-star"></i>Ratings &amp; Reviews</span>
+            <i class="fas fa-chevron-right"></i>
+          </li>
+          <li class="account-row" data-action="wishlist">
+            <span><i class="fas fa-heart"></i>Wishlist</span>
+            <i class="fas fa-chevron-right"></i>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <div class="auth-backdrop" id="auth-backdrop" aria-hidden="true"></div>
+    <div class="auth-modal" id="auth-modal" aria-hidden="true">
+      <div class="auth-dialog" role="dialog" aria-modal="true">
+        <button class="modal-close" id="auth-close" aria-label="Close">
+          <i class="fas fa-times"></i>
+        </button>
+        <header class="auth-modal-header">
+          <h2 id="auth-title">Sign in to continue</h2>
+          <p id="auth-subtitle">Securely access your Ebou perks.</p>
+        </header>
+
+        <div class="mode-toggle" role="tablist" aria-label="Choose mode">
+          <button
+            type="button"
+            class="auth-tab active"
+            data-mode="signin"
+            aria-selected="true"
+          >
+            Sign In
+          </button>
+          <button
+            type="button"
+            class="auth-tab"
+            data-mode="signup"
+            aria-selected="false"
+          >
+            Create Account
+          </button>
+        </div>
+
+        <form id="auth-form" novalidate>
+          <input
+            type="hidden"
+            id="customer-csrf-token"
+            name="csrf_token"
+            value=""
+          />
+          <div class="input-field">
+            <label for="email">Email address</label>
+            <div class="input-wrapper">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="name@example.com"
+                autocomplete="email"
+                required
+              />
+              <i class="fas fa-envelope field-icon" aria-hidden="true"></i>
+            </div>
+            <p class="error-message" id="email-error" role="alert"></p>
+          </div>
+
+          <div class="input-field">
+            <label for="password">Password</label>
+            <div class="input-wrapper">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter password"
+                autocomplete="current-password"
+                required
+              />
+              <i class="fas fa-lock field-icon" aria-hidden="true"></i>
+            </div>
+            <p class="error-message" id="password-error" role="alert"></p>
+          </div>
+
+          <div class="input-field" id="confirm-field">
+            <label for="confirm-password">Confirm password</label>
+            <div class="input-wrapper">
+              <input
+                type="password"
+                id="confirm-password"
+                name="confirm-password"
+                placeholder="Repeat password"
+                autocomplete="new-password"
+              />
+              <i class="fas fa-lock field-icon" aria-hidden="true"></i>
+            </div>
+            <p class="error-message" id="confirm-error" role="alert"></p>
+          </div>
+
+          <p class="form-section-label">Profile details</p>
+
+          <div class="input-field">
+            <label for="full-name">Full name</label>
+            <div class="input-wrapper">
+              <input
+                type="text"
+                id="full-name"
+                name="full-name"
+                placeholder="e.g. Ama Mensah"
+                autocomplete="name"
+              />
+              <i class="fas fa-id-card field-icon" aria-hidden="true"></i>
+            </div>
+            <p class="error-message" id="name-error" role="alert"></p>
+          </div>
+
+          <div class="input-field">
+            <label for="phone">Phone number</label>
+            <div class="input-wrapper">
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                placeholder="e.g. +233 20 000 0000"
+                autocomplete="tel"
+              />
+              <i class="fas fa-phone field-icon" aria-hidden="true"></i>
+            </div>
+            <p class="error-message" id="phone-error" role="alert"></p>
+          </div>
+
+          <div class="input-field">
+            <label for="address">Delivery address</label>
+            <div class="input-wrapper">
+              <textarea
+                id="address"
+                name="address"
+                placeholder="Street, city, region"
+                autocomplete="street-address"
+              ></textarea>
+            </div>
+            <p class="error-message" id="address-error" role="alert"></p>
+          </div>
+
+          <button type="submit" class="primary-btn" id="submit-btn">
+            Sign In
+          </button>
+
+          <div class="social-divider">
+            <span>OR</span>
+          </div>
+
+          <div
+            id="g_id_onload"
+            data-client_id="657426832412-3ne8b64cvoa200rtsepcsfaqro8lj8ns.apps.googleusercontent.com"
+            data-callback="handleCredentialResponse"
+            data-auto_prompt="false"
+          ></div>
+
+          <div
+            class="g_id_signin"
+            data-type="standard"
+            data-size="large"
+            data-theme="outline"
+            data-text="continue_with"
+            data-shape="rectangular"
+            data-logo_alignment="left"
+          ></div>
+
+          <p class="form-feedback" id="form-feedback" role="status"></p>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      // Generate CSRF token for customer authentication
+      function generateCustomerCSRFToken() {
+        return Array.from(crypto.getRandomValues(new Uint8Array(32)))
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("");
+      }
+
+      // Global constants for authentication and storage
+      const STORAGE_KEY = "ebouAuthAccounts";
+      const SESSION_KEY = "ebouAuthSession";
+      const CART_STORAGE_KEY = "siteCartV1";
+      const POST_SIGNUP_CHECKOUT_KEY = "ebouPostSignupCheckout";
+      const CHECKOUT_PAGE = "jumia-checkout.html";
+      const PROFILE_ENDPOINTS = [
+        "/api/save-profile",
+        "/.netlify/functions/save-profile",
+      ];
+
+      // Google Sign-In callback function (must be in global scope)
+      function handleCredentialResponse(response) {
+        try {
+          // Decode the JWT token to get user info
+          const responsePayload = decodeJWT(response.credential);
+
+          // Extract user information
+          const userData = {
+            email: responsePayload.email,
+            name: responsePayload.name,
+            picture: responsePayload.picture,
+            googleId: responsePayload.sub,
+          };
+
+          // Create or sign in user with Google credentials
+          signInWithGoogle(userData);
+        } catch (error) {
+          console.error("Error handling Google credential:", error);
+          alert("Google sign-in failed. Please try again.");
+        }
+      }
+
+      // Decode JWT token
+      function decodeJWT(token) {
+        const base64Url = token.split(".")[1];
+        const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+        const jsonPayload = decodeURIComponent(
+          atob(base64)
+            .split("")
+            .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+            .join("")
+        );
+        return JSON.parse(jsonPayload);
+      }
+
+      // Sign in with Google (global scope)
+      function signInWithGoogle(userData) {
+        const accounts = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+
+        // Check if account exists or create new one
+        let userAccount = accounts[userData.email];
+
+        if (!userAccount) {
+          // Create new account for Google user
+          userAccount = {
+            email: userData.email,
+            password: null, // Google users don't need passwords
+            profile: {
+              name: userData.name,
+              email: userData.email,
+              phone: "",
+              address: "",
+              profilePicture: userData.picture || "",
+            },
+            googleId: userData.googleId,
+            createdAt: new Date().toISOString(),
+            isGoogleUser: true,
+          };
+
+          // Save new account
+          accounts[userData.email] = userAccount;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(accounts));
+
+          alert("Account created successfully with Google!");
+        } else {
+          // Update existing account with Google info if not already linked
+          if (!userAccount.googleId) {
+            userAccount.googleId = userData.googleId;
+            userAccount.isGoogleUser = true;
+            userAccount.profile.profilePicture =
+              userData.picture || userAccount.profile.profilePicture;
+
+            accounts[userData.email] = userAccount;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(accounts));
+          }
+
+          alert("Welcome back!");
+        }
+
+        // Create session
+        const sessionData = {
+          email: userData.email,
+          loginTime: new Date().toISOString(),
+          csrfToken: sessionStorage.getItem("customerCSRFToken"),
+          isGoogleUser: true,
+        };
+
+        sessionStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
+
+        // Check for post-signup checkout
+        const postSignupCheckout = localStorage.getItem(
+          POST_SIGNUP_CHECKOUT_KEY
+        );
+        if (postSignupCheckout === "true") {
+          localStorage.removeItem(POST_SIGNUP_CHECKOUT_KEY);
+          setTimeout(() => {
+            window.location.href = CHECKOUT_PAGE;
+          }, 1000);
+        } else {
+          setTimeout(() => {
+            window.location.href = "customer-dashboard.html";
+          }, 1000);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // Generate and set CSRF token
+        const customerCSRFToken = generateCustomerCSRFToken();
+        sessionStorage.setItem("customerCSRFToken", customerCSRFToken);
+        document.getElementById("customer-csrf-token").value =
+          customerCSRFToken;
+
+        const welcomeLabel = document.getElementById("welcome-label");
+        const welcomeTitle = document.getElementById("welcome-title");
+        const accountInfoTitle = document.getElementById("account-info-title");
+        const accountInfoSub = document.getElementById("account-info-sub");
+        const authCta = document.getElementById("auth-cta");
+        const logoutBtn = document.getElementById("logout-btn");
+        const liveChatBtn = document.getElementById("live-chat-btn");
+        const whatsappBtn = document.getElementById("whatsapp-btn");
+        const helpLink = document.getElementById("help-link");
+        const accountRows = document.querySelectorAll(".account-row");
+
+        const authModal = document.getElementById("auth-modal");
+        const authBackdrop = document.getElementById("auth-backdrop");
+        const authClose = document.getElementById("auth-close");
+        const form = document.getElementById("auth-form");
+        const tabs = document.querySelectorAll(".auth-tab");
+
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+        const confirmInput = document.getElementById("confirm-password");
+        const confirmField = document.getElementById("confirm-field");
+        const nameInput = document.getElementById("full-name");
+        const phoneInput = document.getElementById("phone");
+        const addressInput = document.getElementById("address");
+        const submitBtn = document.getElementById("submit-btn");
+        const feedback = document.getElementById("form-feedback");
+        const emailError = document.getElementById("email-error");
+        const passwordError = document.getElementById("password-error");
+        const confirmError = document.getElementById("confirm-error");
+        const nameError = document.getElementById("name-error");
+        const phoneError = document.getElementById("phone-error");
+        const addressError = document.getElementById("address-error");
+
+        let mode = "signin";
+
+        const featureRoutes = {
+          dashboard: "customer-dashboard.html",
+          orders: "customer-orders.html",
+          inbox: "customer-inbox.html",
+          reviews: "customer-reviews.html",
+          wishlist: "customer-wishlist.html",
+        };
+
+        function setMode(nextMode) {
+          mode = nextMode;
+          tabs.forEach((tab) => {
+            const isActive = tab.dataset.mode === nextMode;
+            tab.classList.toggle("active", isActive);
+            tab.setAttribute("aria-selected", isActive ? "true" : "false");
+          });
+          confirmField.classList.toggle("hidden", nextMode !== "signup");
+          submitBtn.textContent =
+            nextMode === "signup" ? "Create account" : "Sign In";
+          feedback.textContent = "";
+          feedback.className = "form-feedback";
+          clearProfileErrors();
+          if (nextMode === "signin" && emailInput.value.trim()) {
+            preloadProfileFields(emailInput.value.trim().toLowerCase());
+          }
+        }
+
+        function openModal(defaultMode = "signin") {
+          setMode(defaultMode);
+          authModal.classList.add("show");
+          authBackdrop.classList.add("show");
+          authModal.setAttribute("aria-hidden", "false");
+          authBackdrop.setAttribute("aria-hidden", "false");
+          (defaultMode === "signup" ? nameInput : emailInput).focus();
+        }
+
+        function closeModal() {
+          authModal.classList.remove("show");
+          authBackdrop.classList.remove("show");
+          authModal.setAttribute("aria-hidden", "true");
+          authBackdrop.setAttribute("aria-hidden", "true");
+        }
+
+        function clearProfileErrors() {
+          setError(nameError, "");
+          setError(phoneError, "");
+          setError(addressError, "");
+        }
+
+        function collectProfileInputs() {
+          return {
+            name: nameInput.value.trim(),
+            phone: phoneInput.value.trim(),
+            address: addressInput.value.trim(),
+          };
+        }
+
+        function validateProfile(profile, requireAll) {
+          const errors = { name: "", phone: "", address: "" };
+          let hasError = false;
+          const needsValue = (value) => requireAll || Boolean(value);
+          if (needsValue(profile.name)) {
+            if (!profile.name) {
+              errors.name = "Full name is required.";
+              hasError = true;
+            } else if (profile.name.length < 2) {
+              errors.name = "Enter a valid full name.";
+              hasError = true;
+            }
+          }
+          if (needsValue(profile.phone)) {
+            if (!profile.phone) {
+              errors.phone = "Phone number is required.";
+              hasError = true;
+            } else if (!/^[0-9()+\s-]{7,}$/.test(profile.phone)) {
+              errors.phone = "Enter a valid phone number.";
+              hasError = true;
+            }
+          }
+          if (needsValue(profile.address)) {
+            if (!profile.address) {
+              errors.address = "Address is required.";
+              hasError = true;
+            } else if (profile.address.length < 5) {
+              errors.address = "Address looks too short.";
+              hasError = true;
+            }
+          }
+          return { errors, hasError };
+        }
+
+        function applyProfileErrors(result) {
+          setError(nameError, result.errors.name);
+          setError(phoneError, result.errors.phone);
+          setError(addressError, result.errors.address);
+        }
+
+        function setError(target, message) {
+          if (target) target.textContent = message || "";
+        }
+
+        function getAccounts() {
+          try {
+            return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+          } catch (err) {
+            console.warn("Could not parse stored accounts", err);
+            return [];
+          }
+        }
+
+        function saveAccounts(accounts) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(accounts));
+        }
+
+        function findAccount(email) {
+          return getAccounts().find(
+            (acct) => acct.email === email.toLowerCase()
+          );
+        }
+
+        async function hashPassword(value) {
+          const data = new TextEncoder().encode(value);
+          const buffer = await crypto.subtle.digest("SHA-256", data);
+          return Array.from(new Uint8Array(buffer))
+            .map((b) => b.toString(16).padStart(2, "0"))
+            .join("");
+        }
+
+        function getSession() {
+          try {
+            return JSON.parse(sessionStorage.getItem(SESSION_KEY) || "{}");
+          } catch (err) {
+            sessionStorage.removeItem(SESSION_KEY);
+            return {};
+          }
+        }
+
+        function persistProfileLocally(email, profile) {
+          const accounts = getAccounts();
+          const idx = accounts.findIndex((acct) => acct.email === email);
+          if (idx === -1) return;
+          accounts[idx] = { ...accounts[idx], profile };
+          saveAccounts(accounts);
+        }
+
+        function isProfileDifferent(existing = {}, next = {}) {
+          return (
+            (existing.name || "") !== (next.name || "") ||
+            (existing.phone || "") !== (next.phone || "") ||
+            (existing.address || "") !== (next.address || "")
+          );
+        }
+
+        function preloadProfileFields(rawEmail) {
+          if (!rawEmail) return;
+          const account = findAccount(rawEmail);
+          if (account && account.profile) {
+            nameInput.value = account.profile.name || "";
+            phoneInput.value = account.profile.phone || "";
+            addressInput.value = account.profile.address || "";
+          } else {
+            nameInput.value = "";
+            phoneInput.value = "";
+            addressInput.value = "";
+          }
+        }
+
+        function getCartSnapshot() {
+          try {
+            const raw = localStorage.getItem(CART_STORAGE_KEY);
+            return raw ? JSON.parse(raw) : {};
+          } catch (err) {
+            return {};
+          }
+        }
+
+        function cartHasPendingItems() {
+          const snapshot = getCartSnapshot();
+          return Object.values(snapshot || {}).some(
+            (entry) => Number(entry?.qty || 0) > 0
+          );
+        }
+
+        async function syncProfileStorage(payload) {
+          const body = JSON.stringify({ ...payload, cart: getCartSnapshot() });
+          for (const endpoint of PROFILE_ENDPOINTS) {
+            try {
+              const resp = await fetch(endpoint, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body,
+              });
+              if (resp.ok) return true;
+              console.warn(
+                `Profile sync endpoint ${endpoint} responded with ${resp.status}`
+              );
+            } catch (err) {
+              console.warn(`Profile sync attempt failed for ${endpoint}`, err);
+            }
+          }
+          return false;
+        }
+
+        async function handleSignup(email, password, confirmPassword) {
+          const profileValues = collectProfileInputs();
+          const profileValidation = validateProfile(profileValues, true);
+          const emailValidation = validateEmail(email);
+          const passwordValidation = validatePassword(password);
+          const confirmValidation =
+            password === confirmPassword ? "" : "Passwords do not match.";
+
+          setError(emailError, emailValidation);
+          setError(passwordError, passwordValidation);
+          setError(confirmError, confirmValidation);
+          applyProfileErrors(profileValidation);
+
+          if (
+            emailValidation ||
+            passwordValidation ||
+            confirmValidation ||
+            profileValidation.hasError
+          ) {
+            feedback.textContent = "Please fix the errors above.";
+            feedback.className = "form-feedback error";
+            return;
+          }
+
+          if (findAccount(email)) {
+            setError(emailError, "Account already exists.");
+            feedback.textContent = "Try signing in instead.";
+            feedback.className = "form-feedback error";
+            return;
+          }
+
+          const hashed = await hashPassword(password);
+          const normalizedEmail = email.toLowerCase();
+          const accounts = getAccounts();
+          accounts.push({
+            email: normalizedEmail,
+            hash: hashed,
+            createdAt: new Date().toISOString(),
+            profile: profileValues,
+          });
+          saveAccounts(accounts);
+
+          if (cartHasPendingItems()) {
+            sessionStorage.setItem(POST_SIGNUP_CHECKOUT_KEY, "1");
+          } else {
+            sessionStorage.removeItem(POST_SIGNUP_CHECKOUT_KEY);
+          }
+
+          const synced = await syncProfileStorage({
+            email: normalizedEmail,
+            ...profileValues,
+          });
+
+          // Check if should redirect to checkout after successful signup
+          const shouldRedirectToCheckout = cartHasPendingItems();
+
+          if (shouldRedirectToCheckout) {
+            feedback.textContent = synced
+              ? "Account created! Redirecting to checkout..."
+              : "Account created! Please sign in to continue checkout.";
+            feedback.className = synced
+              ? "form-feedback success"
+              : "form-feedback success";
+
+            if (synced) {
+              // Auto-signin the new account and redirect
+              setTimeout(() => {
+                window.location.href = CHECKOUT_PAGE;
+              }, 1500);
+            } else {
+              setMode("signin");
+              emailInput.focus();
+            }
+          } else {
+            feedback.textContent = synced
+              ? "Account created! Please sign in."
+              : "Account created but syncing failed. We'll retry when you sign in.";
+            feedback.className = synced
+              ? "form-feedback success"
+              : "form-feedback error";
+            setMode("signin");
+            emailInput.focus();
+          }
+        }
+
+        async function handleSignin(email, password) {
+          const profileValues = collectProfileInputs();
+          const profileValidation = validateProfile(profileValues, false);
+          const emailValidation = validateEmail(email);
+          const passwordValidation = password ? "" : "Password is required.";
+
+          setError(emailError, emailValidation);
+          setError(passwordError, passwordValidation);
+          setError(confirmError, "");
+          applyProfileErrors(profileValidation);
+
+          if (emailValidation || passwordValidation) {
+            feedback.textContent = "Please fix the errors above.";
+            feedback.className = "form-feedback error";
+            return;
+          }
+
+          const account = findAccount(email);
+          if (!account) {
+            setError(emailError, "No account found. Try signing up.");
+            feedback.textContent = "Account not found.";
+            feedback.className = "form-feedback error";
+            return;
+          }
+
+          const hashed = await hashPassword(password);
+          if (hashed !== account.hash) {
+            setError(passwordError, "Incorrect password.");
+            feedback.textContent = "Incorrect credentials.";
+            feedback.className = "form-feedback error";
+            return;
+          }
+
+          const mergedProfile = {
+            name: profileValues.name || account.profile?.name || "",
+            phone: profileValues.phone || account.profile?.phone || "",
+            address: profileValues.address || account.profile?.address || "",
+          };
+
+          if (
+            !account.profile ||
+            isProfileDifferent(account.profile, mergedProfile)
+          ) {
+            persistProfileLocally(account.email, mergedProfile);
+          }
+
+          const syncOk = await syncProfileStorage({
+            email: account.email,
+            ...mergedProfile,
+          });
+
+          sessionStorage.setItem(
+            SESSION_KEY,
+            JSON.stringify({
+              email: account.email,
+              lastLogin: new Date().toISOString(),
+              expiry: Date.now() + 4 * 60 * 60 * 1000, // 4 hours
+              lastActivity: Date.now(),
+            })
+          );
+
+          const wantsCheckout =
+            sessionStorage.getItem(POST_SIGNUP_CHECKOUT_KEY) === "1";
+          const canResumeCheckout = wantsCheckout && cartHasPendingItems();
+          if (wantsCheckout && !canResumeCheckout) {
+            sessionStorage.removeItem(POST_SIGNUP_CHECKOUT_KEY);
+          }
+
+          feedback.textContent = syncOk
+            ? "Signed in successfully."
+            : "Signed in, but profile sync failed. We'll retry automatically.";
+          feedback.className = syncOk
+            ? "form-feedback success"
+            : "form-feedback error";
+
+          updateAccountView();
+          closeModal();
+          form.reset();
+
+          if (canResumeCheckout) {
+            sessionStorage.removeItem(POST_SIGNUP_CHECKOUT_KEY);
+            window.location.href = CHECKOUT_PAGE;
+          } else if (cartHasPendingItems()) {
+            // If not from checkout but cart has items, redirect to checkout
+            window.location.href = CHECKOUT_PAGE;
+          }
+        }
+
+        function validateEmail(value) {
+          if (!value) return "Email is required.";
+          const pattern = /^(?:[a-z0-9_+.-]+)@(?:[a-z0-9.-]+)\.[a-z]{2,}$/i;
+          return pattern.test(value.trim()) ? "" : "Enter a valid email.";
+        }
+
+        function validatePassword(value) {
+          if (!value) return "Password is required.";
+          if (value.length < 8) return "Must be at least 8 characters.";
+          if (!/[A-Za-z]/.test(value) || !/[0-9]/.test(value))
+            return "Use letters and numbers.";
+          return "";
+        }
+
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+
+          // CSRF token validation (backwards compatible)
+          const submittedToken = document.getElementById(
+            "customer-csrf-token"
+          )?.value;
+          const storedToken = sessionStorage.getItem("customerCSRFToken");
+
+          // Only validate if both tokens exist
+          if (submittedToken && storedToken && submittedToken !== storedToken) {
+            feedback.textContent =
+              "Invalid security token. Please refresh the page.";
+            feedback.className = "form-feedback error";
+            return;
+          }
+
+          feedback.textContent = "";
+          feedback.className = "form-feedback";
+          const emailValue = emailInput.value.trim();
+          const passwordValue = passwordInput.value;
+          const confirmValue = confirmInput.value;
+          submitBtn.disabled = true;
+          submitBtn.textContent =
+            mode === "signup" ? "Creating account…" : "Signing in…";
+          try {
+            if (mode === "signup")
+              await handleSignup(emailValue, passwordValue, confirmValue);
+            else await handleSignin(emailValue, passwordValue);
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent =
+              mode === "signup" ? "Create account" : "Sign In";
+          }
+        });
+
+        tabs.forEach((tab) =>
+          tab.addEventListener("click", () => setMode(tab.dataset.mode))
+        );
+
+        emailInput.addEventListener("blur", () => {
+          const rawEmail = emailInput.value.trim().toLowerCase();
+          if (rawEmail) preloadProfileFields(rawEmail);
+        });
+
+        authCta.addEventListener("click", () => {
+          console.log("Auth button clicked!");
+          const session = getSession();
+          console.log("Session:", session);
+          if (session?.email) {
+            handleLogout();
+          } else {
+            console.log("Opening modal...");
+            openModal("signin");
+          }
+        });
+
+        logoutBtn.addEventListener("click", handleLogout);
+        authClose.addEventListener("click", closeModal);
+        authBackdrop.addEventListener("click", closeModal);
+
+        liveChatBtn.addEventListener("click", () => {
+          window.location.href = "contact.html#chat";
+        });
+
+        whatsappBtn.addEventListener("click", () => {
+          const session = getSession();
+          const account = session?.email ? findAccount(session.email) : null;
+          const name = account?.profile?.name || "there";
+          const message = encodeURIComponent(
+            `Hi Ebou Jewelry, this is ${name}. I need help with my order.`
+          );
+          window.open(`https://wa.me/233500000000?text=${message}`, "_blank");
+        });
+
+        helpLink.addEventListener("click", () => {
+          window.location.href = "contact.html";
+        });
+
+        accountRows.forEach((row) => {
+          row.addEventListener("click", () => {
+            const route = featureRoutes[row.dataset.action];
+            if (route) {
+              window.location.href = route;
+            } else {
+              alert("Feature coming soon!");
+            }
+          });
+        });
+
+        function handleLogout() {
+          sessionStorage.removeItem(SESSION_KEY);
+          updateAccountView();
+        }
+
+        function updateInboxBadge(customerEmail) {
+          try {
+            const messages = JSON.parse(
+              localStorage.getItem("contactMessages") || "[]"
+            );
+            const userMessages = messages.filter(
+              (msg) =>
+                msg.email &&
+                msg.email.toLowerCase() === customerEmail.toLowerCase()
+            );
+
+            // Count messages with admin replies that customer hasn't read
+            const unreadCount = userMessages.filter((msg) => {
+              if (!msg.replies || msg.replies.length === 0) return false;
+              const hasAdminReply = msg.replies.some(
+                (r) => r.sender === "admin"
+              );
+              return hasAdminReply && !msg.readByCustomer;
+            }).length;
+
+            const badge = document.getElementById("account-inbox-badge");
+            if (badge) {
+              if (unreadCount > 0) {
+                badge.textContent = unreadCount;
+                badge.style.display = "inline-block";
+              } else {
+                badge.style.display = "none";
+              }
+            }
+          } catch (err) {
+            console.error("Error updating inbox badge:", err);
+          }
+        }
+
+        function updateAccountView() {
+          const session = getSession();
+          const account = session?.email ? findAccount(session.email) : null;
+          const profile = account?.profile || {};
+          const loggedIn = Boolean(session?.email && account);
+
+          welcomeLabel.textContent = loggedIn ? "Welcome back" : "Welcome";
+          welcomeTitle.textContent = loggedIn
+            ? `Hey ${profile.name || account.email}`
+            : "Manage your Ebou account";
+          accountInfoTitle.textContent = loggedIn
+            ? `Hi ${profile.name || account.email}`
+            : "Login to experience the best items";
+          accountInfoSub.textContent = loggedIn
+            ? `Email: ${account.email}${
+                profile.phone ? ` • ${profile.phone}` : ""
+              }`
+            : "Save carts, track deliveries, and unlock perks.";
+
+          logoutBtn.hidden = !loggedIn;
+          authCta.innerHTML = loggedIn
+            ? '<i class="fas fa-sign-out-alt"></i><span>Sign out</span>'
+            : '<i class="fas fa-user-lock"></i><span>Login / Sign up</span>';
+
+          if (loggedIn) {
+            nameInput.value = profile.name || "";
+            phoneInput.value = profile.phone || "";
+            addressInput.value = profile.address || "";
+            emailInput.value = account.email || "";
+
+            // Update inbox notification badge
+            updateInboxBadge(account.email);
+          } else {
+            form.reset();
+            clearProfileErrors();
+            // Hide badge when logged out
+            const badge = document.getElementById("account-inbox-badge");
+            if (badge) badge.style.display = "none";
+          }
+        }
+
+        window.addEventListener("storage", (event) => {
+          if (event.key === SESSION_KEY || event.key === STORAGE_KEY) {
+            updateAccountView();
+          }
+        });
+
+        // Handle Google button (if present)
+        const googleBtn = document.getElementById("google-sign-in");
+        if (googleBtn) {
+          googleBtn.addEventListener("click", function () {
+            // The Google Sign-In will be handled by the g_id_onload div automatically
+            // This button is just for visual purposes - the actual sign-in is triggered by Google's library
+          });
+        }
+
+        updateAccountView();
+      });
+
+      // Feedback message function (global scope)
+      function displayFeedback(message, type) {
+        let feedback = document.getElementById("feedback-message");
+        if (!feedback) {
+          feedback = document.createElement("div");
+          feedback.id = "feedback-message";
+          feedback.style.position = "fixed";
+          feedback.style.top = "20px";
+          feedback.style.right = "20px";
+          feedback.style.zIndex = "9999";
+          feedback.style.padding = "10px 20px";
+          feedback.style.borderRadius = "5px";
+          feedback.style.color = "#fff";
+          feedback.style.fontWeight = "bold";
+          document.body.appendChild(feedback);
+        }
+        feedback.textContent = message;
+        feedback.style.backgroundColor = type === "success" ? "green" : "red";
+        feedback.style.display = "block";
+        setTimeout(() => {
+          feedback.style.display = "none";
+        }, 3000);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
+    />
+    <title>Shop by Category - Ebou Jewelry</title>
+    <link rel="stylesheet" href="./style.css" />
+    <script>
+      (function () {
+        function storageAvailable(type) {
+          try {
+            var storage = window[type],
+              x = "__storage_test__";
+            storage.setItem(x, x);
+            storage.removeItem(x);
+            return true;
+          } catch (e) {
+            return false;
+          }
+        }
+        if (
+          !storageAvailable("localStorage") &&
+          !storageAvailable("sessionStorage")
+        ) {
+          window.__SKIP_DATADOG_RUM__ = true;
+          console.warn(
+            "Datadog RUM: storage unavailable, skipping initialization"
+          );
+        }
+      })();
+    </script>
+  </head>
+  <body class="categories-page">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <header>
+      <div class="container header-container">
+        <a href="index.html" class="logo">
+          <img
+            src="./images/goldenlogo.jpg"
+            alt="Ebou Jewelry logo"
+            class="logo-img"
+          />
+          <span class="logo-text">EbouJewelry</span>
+        </a>
+
+        <nav>
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li>
+              <a href="categories.html" aria-current="page" class="active"
+                >Category</a
+              >
+            </li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+
+        <div class="header-icon">
+          <i class="fas fa-search" id="search-toggle"></i>
+          <a
+            href="jumia-login.html"
+            class="profile-link"
+            aria-label="Go to account access page"
+          >
+            <i class="fas fa-user"></i>
+          </a>
+          <div class="cart-icon" id="cart-icon">
+            <button id="open-cart" aria-label="Open cart">
+              <i
+                class="fas fa-shopping-cart cart-button-icon"
+                aria-hidden="true"
+              ></i>
+              <span class="sr-only">Cart</span>
+              <span id="cart-count" class="cart-count">0</span>
+            </button>
+            <div id="mini-cart" class="mini-cart" aria-hidden="true">
+              <div class="mini-items" id="mini-items"></div>
+            </div>
+          </div>
+          <div class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+          </div>
+        </div>
+
+        <div class="search-container" id="search-container">
+          <form action="" class="search-form">
+            <input
+              id="product-search"
+              type="search"
+              placeholder="Search products..."
+              aria-label="Search products"
+              tabindex="0"
+            />
+            <button type="submit" aria-label="Search">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+          <div
+            id="search-suggestions"
+            class="search-suggestions"
+            role="listbox"
+            aria-label="Search suggestions"
+            hidden
+          ></div>
+          <div
+            id="product-count"
+            class="product-count"
+            aria-live="polite"
+            aria-atomic="true"
+          ></div>
+        </div>
+      </div>
+    </header>
+
+    <script>
+      (function () {
+        if (window.__SKIP_DATADOG_RUM__) {
+          window.datadogRum = window.datadogRum || {
+            init: function () {
+              console.warn(
+                "datadogRum.init skipped due to storage restrictions"
+              );
+            },
+            setUser: function () {},
+            addTiming: function () {},
+            startSessionReplayRecording: function () {},
+          };
+        }
+      })();
+    </script>
+
+    <aside id="cart-drawer" class="cart-drawer" aria-hidden="true">
+      <div class="cart-drawer-header">
+        <h3>Your cart</h3>
+        <button id="cart-close" aria-label="Close cart">×</button>
+      </div>
+      <div class="cart-drawer-body">
+        <div class="cart-list" id="cart-items" role="list"></div>
+
+        <aside class="cart-summary" aria-label="Order summary">
+          <div class="summary-inner">
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <strong id="cart-subtotal">₵0.00</strong>
+            </div>
+            <div class="summary-row">
+              <span>Shipping</span>
+              <span id="cart-shipping">—</span>
+            </div>
+            <div class="summary-row total">
+              <span>Total</span>
+              <strong id="cart-total">₵0.00</strong>
+            </div>
+
+            <div class="summary-actions">
+              <button id="cart-checkout" class="btn btn-primary">
+                Checkout
+              </button>
+              <button id="cart-continue" class="btn btn-outline">
+                Continue shopping
+              </button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </aside>
+    <div id="cart-overlay" class="cart-overlay" aria-hidden="true"></div>
+
+    <main id="main-content">
+      <section class="category-hero">
+        <div class="container">
+          <p class="eyebrow">Shop by Category</p>
+          <h1>Find pieces by the vibe you love</h1>
+          <p>
+            Browse every Ebou Jewelry item grouped by category—perfect when you
+            already know the style you're after.
+          </p>
+          <div class="hero-btns">
+            <a href="shop.html" class="btn btn-outline"
+              >View featured products</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="category-toolbar"
+        aria-label="Filter products within categories"
+      >
+        <div class="container">
+          <form class="category-filter-form" id="category-filter-form">
+            <label class="sr-only" for="category-search">Search</label>
+            <div class="filter-field search-field">
+              <i class="fas fa-search" aria-hidden="true"></i>
+              <input
+                type="search"
+                id="category-search"
+                placeholder="Search products or descriptions"
+                autocomplete="off"
+              />
+            </div>
+
+            <div class="filter-field select-field">
+              <label for="price-filter">Price</label>
+              <select id="price-filter">
+                <option value="all">All</option>
+                <option value="under-3">Under ₵3</option>
+                <option value="3-5">₵3 - ₵5</option>
+                <option value="over-5">Above ₵5</option>
+              </select>
+            </div>
+
+            <div class="filter-field select-field">
+              <label for="category-filter">Category</label>
+              <select id="category-filter">
+                <option value="all">All categories</option>
+              </select>
+            </div>
+
+            <button
+              type="button"
+              id="clear-filters"
+              class="btn btn-outline btn-icon"
+            >
+              <i class="fas fa-rotate-left" aria-hidden="true"></i>
+              Reset
+            </button>
+          </form>
+
+          <p
+            id="filter-results-count"
+            class="filter-results-count"
+            role="status"
+            aria-live="polite"
+          >
+            Showing all products
+          </p>
+        </div>
+      </section>
+
+      <section class="category-summary" aria-label="Quick category filters">
+        <div class="container">
+          <div class="category-summary-grid" id="category-summary-grid"></div>
+        </div>
+      </section>
+
+      <section class="category-sections" aria-live="polite">
+        <div class="container" id="category-sections-wrapper">
+          <div class="loading-state" id="category-loading">
+            Loading product categories...
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="contact-cta" id="contact">
+      <div class="container">
+        <h2>Need help picking a piece?</h2>
+        <p>
+          Chat with our stylists on WhatsApp or Instagram and we'll help you
+          curate the perfect stack.
+        </p>
+        <div class="hero-btns">
+          <a href="https://wa.me/233548830794" class="btn btn-primary"
+            >Chat on WhatsApp</a
+          >
+          <a
+            href="https://instagram.com/rabbyebou"
+            class="btn btn-outline"
+            target="_blank"
+            >DM on Instagram</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container footer-container">
+        <p>© <span id="year"></span> Ebou Jewelry. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="./script.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const sectionsWrapper = document.getElementById(
+          "category-sections-wrapper"
+        );
+        const summaryGrid = document.getElementById("category-summary-grid");
+        const loadingState = document.getElementById("category-loading");
+        const searchInput = document.getElementById("category-search");
+        const priceFilter = document.getElementById("price-filter");
+        const categoryFilter = document.getElementById("category-filter");
+        const clearFiltersBtn = document.getElementById("clear-filters");
+        const filterResultsCount = document.getElementById(
+          "filter-results-count"
+        );
+
+        const filterState = {
+          search: "",
+          price: "all",
+          category: "all",
+        };
+
+        const priceRanges = {
+          "under-3": { min: 0, max: 3 },
+          "3-5": { min: 3, max: 5.01 },
+          "over-5": { min: 5, max: Infinity },
+        };
+
+        let allProductCards = [];
+
+        function slugify(value) {
+          return (
+            String(value || "other")
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, "-")
+              .replace(/(^-|-$)/g, "")
+              .trim() || "category"
+          );
+        }
+
+        function formatPrice(value) {
+          const number = Number(value) || 0;
+          return Number.isInteger(number)
+            ? `₵${number}`
+            : `₵${number.toFixed(2)}`;
+        }
+
+        function createProductCard(product) {
+          const card = document.createElement("div");
+          card.className = "product-card";
+          card.dataset.id = product.id;
+          card.dataset.title = (product.title || "").toLowerCase();
+          card.dataset.description = (product.description || "").toLowerCase();
+          card.dataset.price = product.price || 0;
+          card.dataset.category = product.category || "";
+
+          const displayPrice = formatPrice(product.price);
+
+          // Build discount pricing HTML if discount exists
+          let priceHTML = "";
+          let discountBadgeHTML = "";
+          if (product.originalPrice && product.discount) {
+            const displayOriginalPrice = formatPrice(product.originalPrice);
+            discountBadgeHTML = `<span class="discount-badge">-${product.discount}%</span>`;
+            priceHTML = `
+              <div class="price-wrapper">
+                <span class="price">${displayPrice}</span>
+                <span class="original-price">${displayOriginalPrice}</span>
+              </div>
+            `;
+          } else {
+            priceHTML = `<span class="price">${displayPrice}</span>`;
+          }
+
+          card.innerHTML = `
+            ${discountBadgeHTML}
+            <div class="product-img">
+              <img src="${product.img}" alt="${product.title}" loading="lazy" />
+            </div>
+            <div class="product-info">
+              <div class="product-rating" aria-hidden="true">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+                <span>(100+)</span>
+              </div>
+              <h3>${product.title}</h3>
+              <p>${product.description || ""}</p>
+              <div class="product-price">
+                ${priceHTML}
+                <button class="add-to-cart">Add to cart</button>
+              </div>
+            </div>
+          `;
+          return card;
+        }
+
+        function focusCategoryFromParam() {
+          const params = new URLSearchParams(window.location.search);
+          const requested = params.get("category");
+          if (!requested) return;
+          const target = document.getElementById(
+            `category-${slugify(requested)}`
+          );
+          if (target) {
+            target.setAttribute("tabindex", "-1");
+            target.focus({ preventScroll: true });
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+            target.classList.add("category-highlight");
+            setTimeout(() => {
+              target.classList.remove("category-highlight");
+            }, 2000);
+          }
+        }
+
+        function updateFilterCount() {
+          const visibleCards = sectionsWrapper
+            ? sectionsWrapper.querySelectorAll(
+                ".product-card:not(.product-hidden)"
+              ).length
+            : 0;
+          const total = allProductCards.length;
+          if (filterResultsCount) {
+            filterResultsCount.textContent = visibleCards
+              ? `Showing ${visibleCards} of ${total} pieces`
+              : "No products match your filters";
+          }
+        }
+
+        function applyFilters() {
+          if (!allProductCards.length) return;
+          const searchTerm = filterState.search.toLowerCase();
+
+          allProductCards.forEach((card) => {
+            const title = card.dataset.title || "";
+            const desc = card.dataset.description || "";
+            const price = Number(card.dataset.price || 0);
+            const category = card.dataset.category || "";
+
+            let matches = true;
+
+            if (
+              searchTerm &&
+              !title.includes(searchTerm) &&
+              !desc.includes(searchTerm)
+            ) {
+              matches = false;
+            }
+
+            if (
+              filterState.category !== "all" &&
+              category !== filterState.category
+            ) {
+              matches = false;
+            }
+
+            if (filterState.price !== "all") {
+              const range = priceRanges[filterState.price];
+              if (!range || price < range.min || price >= range.max) {
+                matches = false;
+              }
+            }
+
+            card.classList.toggle("product-hidden", !matches);
+          });
+
+          sectionsWrapper
+            .querySelectorAll(".category-section")
+            .forEach((section) => {
+              const visible = section.querySelectorAll(
+                ".product-card:not(.product-hidden)"
+              ).length;
+              const emptyMessage = section.querySelector(
+                ".section-empty-message"
+              );
+              section.classList.toggle("category-section-empty", visible === 0);
+              if (emptyMessage) emptyMessage.hidden = visible !== 0;
+            });
+
+          if (summaryGrid) {
+            const pills = summaryGrid.querySelectorAll(".category-pill");
+            pills.forEach((pill) => {
+              const slug = pill.dataset.category;
+              pill.classList.toggle(
+                "active",
+                slug && slug === filterState.category
+              );
+            });
+          }
+
+          updateFilterCount();
+        }
+
+        function handleFilterChange() {
+          filterState.search = searchInput?.value.trim() || "";
+          filterState.price = priceFilter?.value || "all";
+          filterState.category = categoryFilter?.value || "all";
+          applyFilters();
+        }
+
+        if (searchInput)
+          searchInput.addEventListener("input", handleFilterChange);
+        if (priceFilter)
+          priceFilter.addEventListener("change", handleFilterChange);
+        if (categoryFilter)
+          categoryFilter.addEventListener("change", handleFilterChange);
+        if (clearFiltersBtn)
+          clearFiltersBtn.addEventListener("click", () => {
+            if (searchInput) searchInput.value = "";
+            if (priceFilter) priceFilter.value = "all";
+            if (categoryFilter) categoryFilter.value = "all";
+            filterState.search = "";
+            filterState.price = "all";
+            filterState.category = "all";
+            applyFilters();
+          });
+
+        fetch("./products.json")
+          .then((response) => {
+            if (!response.ok) throw new Error("Network error");
+            return response.json();
+          })
+          .then((products) => {
+            if (loadingState) loadingState.remove();
+            if (!Array.isArray(products) || products.length === 0) {
+              sectionsWrapper.innerHTML =
+                '<p class="empty-cart-message">No products found.</p>';
+              return;
+            }
+
+            const grouped = products.reduce((acc, product) => {
+              const category = product.category || "Other";
+              if (!acc[category]) acc[category] = [];
+              acc[category].push(product);
+              return acc;
+            }, {});
+
+            const sortedCategories = Object.keys(grouped).sort((a, b) =>
+              a.localeCompare(b)
+            );
+
+            sortedCategories.forEach((category) => {
+              const slug = slugify(category);
+
+              if (summaryGrid) {
+                const pill = document.createElement("a");
+                pill.href = `#category-${slug}`;
+                pill.className = "category-pill";
+                pill.dataset.category = slug;
+                pill.textContent = `${category} (${grouped[category].length})`;
+                summaryGrid.appendChild(pill);
+              }
+
+              if (categoryFilter) {
+                const option = document.createElement("option");
+                option.value = slug;
+                option.textContent = `${category} (${grouped[category].length})`;
+                categoryFilter.appendChild(option);
+              }
+
+              const section = document.createElement("section");
+              section.className = "category-section";
+              section.id = `category-${slug}`;
+              section.dataset.category = slug;
+              section.innerHTML = `
+                <div class="category-section-header">
+                  <p class="eyebrow">${category}</p>
+                  <h2>${category} favorites</h2>
+                  <p class="section-subtitle">
+                    ${grouped[category].length} curated item${
+                grouped[category].length === 1 ? "" : "s"
+              } to shop now.
+                  </p>
+                </div>
+              `;
+
+              const grid = document.createElement("div");
+              grid.className = "products-grid";
+              grouped[category].forEach((product) => {
+                const card = createProductCard(product);
+                card.dataset.category = slug;
+                card.dataset.price = product.price;
+                card.dataset.title = (product.title || "").toLowerCase();
+                card.dataset.description = (
+                  product.description || ""
+                ).toLowerCase();
+                grid.appendChild(card);
+              });
+
+              section.appendChild(grid);
+              const emptyMessage = document.createElement("p");
+              emptyMessage.className = "section-empty-message";
+              emptyMessage.textContent = "No matches in this category.";
+              emptyMessage.hidden = true;
+              section.appendChild(emptyMessage);
+              sectionsWrapper.appendChild(section);
+            });
+
+            allProductCards = Array.from(
+              sectionsWrapper.querySelectorAll(".product-card")
+            );
+            applyFilters();
+            focusCategoryFromParam();
+          })
+          .catch(() => {
+            if (loadingState)
+              loadingState.textContent =
+                "Unable to load products right now. Please try again later.";
+          });
+
+        const yearEl = document.getElementById("year");
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+        if (summaryGrid && categoryFilter) {
+          summaryGrid.addEventListener("click", (event) => {
+            const pill = event.target.closest(".category-pill");
+            if (!pill) return;
+            const slug = pill.dataset.category;
+            if (slug) {
+              categoryFilter.value = slug;
+              filterState.category = slug;
+              applyFilters();
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

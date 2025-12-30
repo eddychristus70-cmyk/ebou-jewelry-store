@@ -1,0 +1,122 @@
+[
+  {
+    "orderId": "TEST-SUCCESS",
+    "customer": {
+      "name": "Success",
+      "email": "success@example.com",
+      "phone": "+233000001"
+    },
+    "items": [
+      {
+        "title": "Mock Item",
+        "qty": 1,
+        "price": "10.00"
+      }
+    ],
+    "subtotal": "10.00",
+    "total": "10.00",
+    "paymentRef": "MOCK_REF_SUCCESS",
+    "createdAt": "2025-11-11T21:05:30.692Z"
+  },
+  {
+    "orderId": "TEST-NOTIFY",
+    "customer": {
+      "name": "Notify",
+      "email": "notify@example.com",
+      "phone": "+233000002"
+    },
+    "items": [
+      {
+        "title": "Notify Item",
+        "qty": 1,
+        "price": "10.00"
+      }
+    ],
+    "subtotal": "10.00",
+    "total": "10.00",
+    "paymentRef": "MOCK_REF_NOTIFY",
+    "createdAt": "2025-11-11T21:05:30.708Z"
+  },
+  {
+    "orderId": "ORD-MHY58L4J",
+    "customer": {
+      "name": "Christus Chris Eddy",
+      "email": "eddychristus70@gmail.com",
+      "phone": "+233257012599",
+      "address": "14 Monrovia Rd, 14 Monrovia Rd",
+      "city": "Accra",
+      "region": "Greater Accre"
+    },
+    "items": [
+      {
+        "id": "elegant-necklace-sets",
+        "title": "Elegant Necklace Sets",
+        "price": "GHS 5.00",
+        "priceNumber": 5,
+        "img": "/images/df4ce2f9-7c33-4c4c-91b5-ed95ed49d1d7.jpg",
+        "qty": 1
+      },
+      {
+        "id": "bowknot-pearl-earring",
+        "title": "Bowknot Pearl Earring",
+        "price": "GHS 5.00",
+        "priceNumber": 5,
+        "img": "/images/4fc48099-33c6-407c-94fd-420fd9b07655.jpg",
+        "qty": 1
+      },
+      {
+        "id": "luxury-gold-geometric-line",
+        "title": "Luxury Gold Geometric Line",
+        "price": "GHS 3.00",
+        "priceNumber": 3,
+        "img": "/images/54171ced-966d-4ebb-9bb6-d910bf9e4575.jpg",
+        "qty": 1
+      }
+    ],
+    "subtotal": "",
+    "total": 23,
+    "paymentRef": "ORD-MHY58L4J-1763081558515",
+    "createdAt": "2025-11-14T00:52:59.484Z"
+  },
+  {
+    "orderId": "ORD-MHY5BX36",
+    "customer": {
+      "name": "Christus Chris Eddy",
+      "email": "eddychristus70@gmail.com",
+      "phone": "+233257012599",
+      "address": "14 Monrovia Rd, 14 Monrovia Rd",
+      "city": "Accra",
+      "region": "Greater Accre"
+    },
+    "items": [
+      {
+        "id": "bowknot-pearl-earring",
+        "title": "Bowknot Pearl Earring",
+        "price": "GHS 5.00",
+        "priceNumber": 5,
+        "img": "/images/4fc48099-33c6-407c-94fd-420fd9b07655.jpg",
+        "qty": 1
+      },
+      {
+        "id": "luxury-gold-geometric-line",
+        "title": "Luxury Gold Geometric Line",
+        "price": "GHS 3.00",
+        "priceNumber": 3,
+        "img": "/images/54171ced-966d-4ebb-9bb6-d910bf9e4575.jpg",
+        "qty": 1
+      },
+      {
+        "id": "mens-3pcs-fashion-alloy-set",
+        "title": "Men's 3pcs Fashion Alloy Jewelry Set",
+        "price": "GHS 6.00",
+        "priceNumber": 6,
+        "img": "/images/7ca64872-457d-45e1-bd44-582b4ac20d0f.jpg",
+        "qty": 1
+      }
+    ],
+    "subtotal": "",
+    "total": 24,
+    "paymentRef": "ORD-MHY5BX36-1763081713986",
+    "createdAt": "2025-11-14T00:55:26.849Z"
+  }
+]

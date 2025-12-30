@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Product page" />
+    <title>Product — Ebou Jewelry</title>
+    <link rel="stylesheet" href="./style.css" />
+    <style>
+      .product-reviews {
+        max-width: 800px;
+        margin: 3rem auto;
+      }
+
+      .review-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .review-name {
+        font-weight: 600;
+        color: var(--dark-color);
+      }
+
+      .review-date {
+        font-size: 0.875rem;
+        color: var(--gray-color);
+      }
+
+      .review-rating {
+        color: #fbbf24;
+        margin-bottom: 0.5rem;
+      }
+
+      .review-comment {
+        color: var(--dark-color);
+        line-height: 1.6;
+      }
+
+      .star-rating span {
+        transition: color 0.2s;
+      }
+
+      .star-rating span:hover,
+      .star-rating span.active {
+        color: #fbbf24;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container header-container">
+        <a href="index.html" class="logo"
+          ><i class="fas fa-ring"></i> EbouJewelry</a
+        >
+      </div>
+    </header>
+
+    <main class="container product-page">
+      <div class="product-single">
+        <div class="product-single-img">
+          <img id="product-img" src="" alt="" />
+        </div>
+        <div class="product-single-info">
+          <h1 id="product-title">Loading...</h1>
+          <p id="product-desc"></p>
+          <div class="product-single-price">
+            <div id="product-price"></div>
+            <button id="buy-now" class="btn btn-primary">Add to cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Customer Reviews Section -->
+      <div
+        class="product-reviews"
+        id="product-reviews"
+        style="margin-top: 3rem"
+      >
+        <h2
+          style="
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+          "
+        >
+          Customer Reviews
+        </h2>
+
+        <!-- Review Form -->
+        <div
+          class="review-form-card"
+          style="
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          "
+        >
+          <h3
+            style="
+              font-size: 1.125rem;
+              margin-bottom: 1rem;
+              color: var(--dark-color);
+            "
+          >
+            Write a Review
+          </h3>
+          <form id="review-form">
+            <div style="margin-bottom: 1rem">
+              <label
+                style="display: block; margin-bottom: 0.5rem; font-weight: 500"
+                >Your Name</label
+              >
+              <input
+                type="text"
+                id="review-name"
+                required
+                style="
+                  width: 100%;
+                  padding: 0.75rem;
+                  border: 1px solid #e5e7eb;
+                  border-radius: 6px;
+                  font-size: 1rem;
+                "
+              />
+            </div>
+
+            <div style="margin-bottom: 1rem">
+              <label
+                style="display: block; margin-bottom: 0.5rem; font-weight: 500"
+                >Rating</label
+              >
+              <div
+                class="star-rating"
+                id="star-rating"
+                style="font-size: 2rem; color: #d1d5db; cursor: pointer"
+              >
+                <span data-rating="1">☆</span>
+                <span data-rating="2">☆</span>
+                <span data-rating="3">☆</span>
+                <span data-rating="4">☆</span>
+                <span data-rating="5">☆</span>
+              </div>
+              <input type="hidden" id="review-rating" required />
+            </div>
+
+            <div style="margin-bottom: 1rem">
+              <label
+                style="display: block; margin-bottom: 0.5rem; font-weight: 500"
+                >Your Review</label
+              >
+              <textarea
+                id="review-comment"
+                required
+                rows="4"
+                style="
+                  width: 100%;
+                  padding: 0.75rem;
+                  border: 1px solid #e5e7eb;
+                  border-radius: 6px;
+                  font-size: 1rem;
+                  resize: vertical;
+                "
+                placeholder="Share your experience with this product..."
+              ></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%">
+              Submit Review
+            </button>
+          </form>
+          <div
+            id="review-feedback"
+            style="
+              margin-top: 1rem;
+              padding: 0.75rem;
+              border-radius: 6px;
+              display: none;
+            "
+          ></div>
+        </div>
+
+        <h3
+          style="
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+          "
+        >
+          What Our Customers Say
+        </h3>
+        <div id="reviews-container">
+          <!-- Reviews will be loaded here -->
+        </div>
+        <div
+          id="no-reviews"
+          style="
+            display: none;
+            padding: 2rem;
+            text-align: center;
+            color: var(--gray-color);
+          "
+        >
+          <p>No reviews yet. Be the first to review this product!</p>
+        </div>
+      </div>
+
+      <div id="not-found" style="display: none">
+        <h2>Product not found</h2>
+        <p>We couldn't find the product you requested.</p>
+        <a href="index.html" class="btn btn-outline">Back to shop</a>
+      </div>
+    </main>
+
+    <script>
+      // product.html client-side renderer
+      (async function () {
+        function qs(param) {
+          return new URLSearchParams(location.search).get(param);
+        }
+        const id = qs("id") || qs("slug");
+        const root = document.getElementById("not-found");
+        const imgEl = document.getElementById("product-img");
+        const titleEl = document.getElementById("product-title");
+        const descEl = document.getElementById("product-desc");
+        const priceEl = document.getElementById("product-price");
+
+        if (!id) {
+          // nothing specified
+          titleEl.textContent = "No product specified";
+          descEl.textContent = "";
+          priceEl.textContent = "";
+          return;
+        }
+
+        try {
+          const resp = await fetch("./products.json");
+          if (!resp.ok) throw new Error("products.json not found");
+          const products = await resp.json();
+          const p = products.find((x) => x.id === id);
+          if (!p) {
+            document.querySelector(".product-single").style.display = "none";
+            root.style.display = "block";
+            return;
+          }
+
+          titleEl.textContent = p.title;
+          descEl.textContent = p.description || "";
+
+          // Display price with discount if available
+          if (p.originalPrice && p.discount) {
+            priceEl.innerHTML = `
+              <div class="price-wrapper">
+                <span class="price">₵${Number(p.price)
+                  .toFixed(2)
+                  .replace(/\.00$/, "")}</span>
+                <span class="discount-badge">${p.discount}% OFF</span>
+                <span class="original-price">₵${Number(p.originalPrice)
+                  .toFixed(2)
+                  .replace(/\.00$/, "")}</span>
+              </div>
+            `;
+          } else {
+            priceEl.innerHTML = `<span class="price">₵${Number(p.price)
+              .toFixed(2)
+              .replace(/\.00$/, "")}</span>`;
+          }
+
+          imgEl.src = p.img;
+          imgEl.alt = p.title;
+
+          // Display reviews (from JSON + localStorage)
+          loadAllReviews(id);
+
+          document.title = p.title + " — Ebou Jewelry";
+          const metaDesc = document.querySelector('meta[name="description"]');
+          if (metaDesc)
+            metaDesc.setAttribute("content", p.description || p.title);
+
+          // Setup review form
+          setupReviewForm(id);
+        } catch (err) {
+          console.error(err);
+          document.querySelector(".product-single").style.display = "none";
+          root.style.display = "block";
+        }
+
+        function displayReviews(reviews) {
+          const container = document.getElementById("reviews-container");
+          const noReviews = document.getElementById("no-reviews");
+
+          if (!reviews || reviews.length === 0) {
+            noReviews.style.display = "block";
+            return;
+          }
+
+          noReviews.style.display = "none";
+          container.innerHTML = reviews
+            .map((review) => {
+              const stars =
+                "★".repeat(review.rating) + "☆".repeat(5 - review.rating);
+              const date = new Date(review.date).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              });
+
+              return `
+              <div class="review-card">
+                <div class="review-header">
+                  <span class="review-name">${review.name}</span>
+                  <span class="review-date">${date}</span>
+                </div>
+                <div class="review-rating">${stars}</div>
+                <p class="review-comment">${review.comment}</p>
+              </div>
+            `;
+            })
+            .join("");
+        }
+
+        function setupReviewForm(productId) {
+          const starRating = document.getElementById("star-rating");
+          const ratingInput = document.getElementById("review-rating");
+          const form = document.getElementById("review-form");
+          const feedback = document.getElementById("review-feedback");
+
+          // Star rating interaction
+          starRating.querySelectorAll("span").forEach((star) => {
+            star.addEventListener("click", function () {
+              const rating = parseInt(this.dataset.rating);
+              ratingInput.value = rating;
+
+              // Update star display
+              starRating.querySelectorAll("span").forEach((s, index) => {
+                if (index < rating) {
+                  s.textContent = "★";
+                  s.classList.add("active");
+                } else {
+                  s.textContent = "☆";
+                  s.classList.remove("active");
+                }
+              });
+            });
+
+            // Hover effect
+            star.addEventListener("mouseenter", function () {
+              const rating = parseInt(this.dataset.rating);
+              starRating.querySelectorAll("span").forEach((s, index) => {
+                s.textContent = index < rating ? "★" : "☆";
+              });
+            });
+          });
+
+          starRating.addEventListener("mouseleave", function () {
+            const currentRating = parseInt(ratingInput.value) || 0;
+            starRating.querySelectorAll("span").forEach((s, index) => {
+              s.textContent = index < currentRating ? "★" : "☆";
+            });
+          });
+
+          // Form submission
+          form.addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById("review-name").value.trim();
+            const rating = parseInt(ratingInput.value);
+            const comment = document
+              .getElementById("review-comment")
+              .value.trim();
+
+            if (!rating) {
+              showFeedback("Please select a rating!", "error");
+              return;
+            }
+
+            const review = {
+              productId: productId,
+              name: name,
+              rating: rating,
+              comment: comment,
+              date: new Date().toISOString(),
+            };
+
+            // Save to localStorage
+            const reviews = JSON.parse(
+              localStorage.getItem("productReviews") || "[]"
+            );
+            reviews.push(review);
+            localStorage.setItem("productReviews", JSON.stringify(reviews));
+
+            // Show success message
+            showFeedback(
+              "Thank you for your review! It has been submitted.",
+              "success"
+            );
+
+            // Reset form
+            form.reset();
+            ratingInput.value = "";
+            starRating.querySelectorAll("span").forEach((s) => {
+              s.textContent = "☆";
+              s.classList.remove("active");
+            });
+
+            // Reload reviews to show the new one
+            loadAllReviews(productId);
+          });
+        }
+
+        function showFeedback(message, type) {
+          const feedback = document.getElementById("review-feedback");
+          feedback.textContent = message;
+          feedback.style.display = "block";
+          feedback.style.backgroundColor =
+            type === "success" ? "#d1fae5" : "#fee2e2";
+          feedback.style.color = type === "success" ? "#065f46" : "#991b1b";
+
+          setTimeout(() => {
+            feedback.style.display = "none";
+          }, 5000);
+        }
+
+        async function loadAllReviews(productId) {
+          try {
+            // Load reviews from products.json
+            const resp = await fetch("./products.json");
+            const products = await resp.json();
+            const product = products.find((p) => p.id === productId);
+            const jsonReviews = product?.reviews || [];
+
+            // Load reviews from localStorage
+            const localReviews = JSON.parse(
+              localStorage.getItem("productReviews") || "[]"
+            );
+            const productLocalReviews = localReviews.filter(
+              (r) => r.productId === productId
+            );
+
+            // Combine both
+            const allReviews = [...jsonReviews, ...productLocalReviews];
+
+            displayReviews(allReviews);
+          } catch (err) {
+            console.error("Error loading reviews:", err);
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>

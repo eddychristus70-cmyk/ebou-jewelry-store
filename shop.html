@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shop - Ebou Jewelry</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <script>
+      (function () {
+        function storageAvailable(type) {
+          try {
+            var storage = window[type],
+              x = "__storage_test__";
+            storage.setItem(x, x);
+            storage.removeItem(x);
+            return true;
+          } catch (e) {
+            return false;
+          }
+        }
+        if (
+          !storageAvailable("localStorage") &&
+          !storageAvailable("sessionStorage")
+        ) {
+          window.__SKIP_DATADOG_RUM__ = true;
+          console.warn("Datadog RUM: storage unavailable, skipping");
+        }
+      })();
+    </script>
+  </head>
+  <body class="shop-page">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <header>
+      <div class="container header-container">
+        <a href="index.html" class="logo">
+          <img
+            src="./images/goldenlogo.jpg"
+            alt="Ebou Jewelry logo"
+            class="logo-img"
+          />
+          <span class="logo-text">EbouJewelry</span>
+        </a>
+
+        <nav>
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="categories.html">Category</a></li>
+            <li>
+              <a href="shop.html" aria-current="page" class="active">Shop</a>
+            </li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+
+        <div class="header-icon">
+          <i class="fas fa-search" id="search-toggle"></i>
+          <a
+            href="jumia-login.html"
+            class="profile-link"
+            aria-label="Go to account access page"
+          >
+            <i class="fas fa-user"></i>
+          </a>
+          <div class="cart-icon" id="cart-icon">
+            <button id="open-cart" aria-label="Open cart">
+              <i
+                class="fas fa-shopping-cart cart-button-icon"
+                aria-hidden="true"
+              ></i>
+              <span class="sr-only">Cart</span>
+              <span id="cart-count" class="cart-count">0</span>
+            </button>
+            <div id="mini-cart" class="mini-cart" aria-hidden="true">
+              <div class="mini-items" id="mini-items"></div>
+            </div>
+          </div>
+          <div class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+          </div>
+        </div>
+
+        <div class="search-container" id="search-container">
+          <form action="" class="search-form">
+            <input
+              id="product-search"
+              type="search"
+              placeholder="Search products..."
+              aria-label="Search products"
+              tabindex="0"
+            />
+            <button type="submit" aria-label="Search">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+          <div
+            id="search-suggestions"
+            class="search-suggestions"
+            role="listbox"
+            aria-label="Search suggestions"
+            hidden
+          ></div>
+          <div
+            id="product-count"
+            class="product-count"
+            aria-live="polite"
+            aria-atomic="true"
+          ></div>
+        </div>
+      </div>
+    </header>
+
+    <script>
+      (function () {
+        if (window.__SKIP_DATADOG_RUM__) {
+          window.datadogRum = window.datadogRum || {
+            init: function () {
+              console.warn("datadogRum.init skipped");
+            },
+            setUser: function () {},
+            addTiming: function () {},
+            startSessionReplayRecording: function () {},
+          };
+        }
+      })();
+    </script>
+
+    <aside id="cart-drawer" class="cart-drawer" aria-hidden="true">
+      <div class="cart-drawer-header">
+        <h3>Your cart</h3>
+        <button id="cart-close" aria-label="Close cart">×</button>
+      </div>
+      <div class="cart-drawer-body">
+        <div class="cart-list" id="cart-items" role="list"></div>
+
+        <aside class="cart-summary" aria-label="Order summary">
+          <div class="summary-inner">
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <strong id="cart-subtotal">₵0.00</strong>
+            </div>
+            <div class="summary-row">
+              <span>Shipping</span>
+              <span id="cart-shipping">—</span>
+            </div>
+            <div class="summary-row total">
+              <span>Total</span>
+              <strong id="cart-total">₵0.00</strong>
+            </div>
+
+            <div class="summary-actions">
+              <button id="cart-checkout" class="btn btn-primary">
+                Checkout
+              </button>
+              <button id="cart-continue" class="btn btn-outline">
+                Continue shopping
+              </button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </aside>
+    <div id="cart-overlay" class="cart-overlay" aria-hidden="true"></div>
+
+    <main id="main-content">
+      <section class="hero">
+        <div class="hero-content">
+          <p class="eyebrow">Curated Collection</p>
+          <h1>Shop every featured piece in one place</h1>
+          <p>
+            Discover our most-loved earrings, bracelets, necklaces, and watch
+            sets — all ready to add to your cart.
+          </p>
+          <div class="hero-btns">
+            <a href="#shop-products" class="btn btn-primary">Browse products</a>
+            <a href="categories.html" class="btn btn-outline"
+              >Shop by category</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <section class="shop-intro">
+        <div class="container">
+          <div class="shop-intro-card">
+            <div>
+              <h2>Featured lineup</h2>
+              <p>
+                These are the exact products highlighted on the homepage and
+                social feeds. Filter them using the site-wide search box or
+                scroll the full grid below.
+              </p>
+            </div>
+            <div class="shop-meta">
+              <div>
+                <span class="meta-label">Products</span>
+                <strong id="product-count-display">40 curated items</strong>
+              </div>
+              <div>
+                <span class="meta-label">Ready to ship</span>
+                <strong>1-3 business days</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="featured-products" id="shop-products">
+        <div class="container">
+          <h2 class="section-title">All Featured Products</h2>
+          <p class="section-subtitle">
+            Scroll through the complete featured catalog. Use the search bar in
+            the header to quickly filter by name, category, or tag.
+          </p>
+          <div class="products-grid">
+            <div
+              class="product-card"
+              data-id="elegant-necklace-sets"
+              data-tags="necklace,butterfly,gold,set"
+            >
+              <span class="product-badge">Sale</span>
+              <div class="product-img">
+                <img
+                  src="./images/df4ce2f9-7c33-4c4c-91b5-ed95ed49d1d7.jpg"
+                  alt="Elegant necklace set"
+                />
+              </div>
+              <div class="product-info">
+                <div class="product-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span>(124)</span>
+                </div>
+                <h3>Elegant Necklace Sets</h3>
+                <p>White & golden butterfly clavicle set.</p>
+                <div class="product-price">
+                  <div class="price-wrapper">
+                    <span class="price">₵50</span>
+                    <span class="discount-badge">-15%</span>
+                    <span class="original-price">₵8</span>
+                  </div>
+                  <button class="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product-card"
+              data-id="bowknot-pearl-earring"
+              data-tags="earring,pearl,bowknot,women"
+            >
+              <span class="product-badge">Sale</span>
+              <div class="product-img">
+                <img
+                  src="./images/4fc48099-33c6-407c-94fd-420fd9b07655.jpg"
+                  alt="Bowknot pearl earring"
+                />
+              </div>
+              <div class="product-info">
+                <div class="product-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span>(126)</span>
+                </div>
+                <h3>Bowknot Pearl Earring</h3>
+                <p>Fashionable bowknot pearl earring.</p>
+                <div class="product-price">
+                  <div class="price-wrapper">
+                    <span class="price">₵350</span>
+                    <span class="discount-badge">-15%</span>
+                    <span class="original-price">₵50</span>
+                  </div>
+                  <button class="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product-card"
+              data-id="luxury-gold-geometric-line"
+              data-tags="necklace,gold,geometric,set"
+            >
+              <span class="product-badge">Sale</span>
+              <div class="product-img">
+                <img
+                  src="./images/54171ced-966d-4ebb-9bb6-d910bf9e4575.jpg"
+                  alt="Luxury gold geometric set"
+                />
+              </div>
+              <div class="product-info">
+                <div class="product-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span>(121)</span>
+                </div>
+                <h3>Luxury Gold Geometric Line</h3>
+                <p>Wide bangle bracelet and ring set.</p>
+                <div class="product-price">
+                  <div class="price-wrapper">
+                    <span class="price">₵35</span>
+                    <span class="discount-badge">-15%</span>
+                    <span class="original-price">₵60</span>
+                  </div>
+                  <button class="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product-card"
+              data-id="mens-3pcs-fashion-alloy-set"
+              data-tags="men,set,alloy,pendant"
+            >
+              <span class="product-badge">Sale</span>
+              <div class="product-img">
+                <img
+                  src="./images/7ca64872-457d-45e1-bd44-582b4ac20d0f.jpg"
+                  alt="Men's fashion alloy set"
+                />
+              </div>
+              <div class="product-info">
+                <div class="product-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span>(120)</span>
+                </div>
+                <h3>Men's 3pcs Fashion Alloy Set</h3>
+                <p>Black color cross pendant & accessories.</p>
+                <div class="product-price">
+                  <div class="price-wrapper">
+                    <span class="price">₵60</span>
+                    <span class="discount-badge">-15%</span>
+                    <span class="original-price">₵10</span>
+                  </div>
+                  <button class="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product-card"
+              data-id="womens-3pcs-bracelets"
+              data-tags="bracelet,women,bangle,set"
+            >
+              <span class="product-badge">Sale</span>
+              <div class="product-img">
+                <img
+                  src="./images/057c3a89-9fb5-4e65-9b1a-b9e22c2813ee.jpg"
+                  alt="Women's bracelets"
+                />
+              </div>
+              <div class="product-info">
+                <div class="product-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span>(129)</span>
+                </div>
+                <h3>3pcs Women's Fashionable Bracelets</h3>
+                <p>Heart cuff, lucky chain, and bangle trio.</p>
+                <div class="product-price">
+                  <div class="price-wrapper">
+                    <span class="price">₵100</span>
+                    <span class="discount-badge">-15%</span>
+                    <span class="original-price">₵120</span>
+                  </div>
+                  <button class="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product-card"
+              data-id="golden-love-bold-earring"
+              data-tags="earring,heart,gold,women"
+            >
+              <span class="product-badge">Sale</span>
+              <div class="product-img">
+                <img
+                  src="./images/golden-earring-1.jpg"
+                  alt="Golden love earring"
+                />
+              </div>
+              <div class="product-info">
+                <div class="product-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span>(110)</span>
+                </div>
+                <h3>Golden Love Bold Earring</h3>
+                <p>Chunky heart-shaped gold earrings.</p>
+                <div class="product-price">
+                  <div class="price-wrapper">
+                    <span class="price">₵30</span>
+                    <span class="discount-badge">-15%</span>
+                    <span class="original-price">₵450</span>
+                  </div>
+                  <button class="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product-card"
+              data-id="mini-starfish-necklace"
+              data-tags="necklace,starfish,zircon,pendant"
+            >
+              <span class="product-badge">Sale</span>
+              <div class="product-img">
+                <img
+                  src="./images/golden-necklace-1.jpg"
+                  alt="Mini starfish necklace"
+                />
+              </div>
+              <div class="product-info">
+                <div class="product-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span>(126)</span>
+                </div>
+                <h3>Mini Starfish Necklace</h3>
+                <p>Zircon pendant on a stainless chain.</p>
+                <div class="product-price">
+                  <div class="price-wrapper">
+                    <span class="price">₵50</span>
+                    <span class="discount-badge">-15%</span>
+                    <span class="original-price">₵70</span>
+                  </div>
+                  <button class="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product-card"
+              data-id="mens-quartz-watch-set"
+              data-tags="watch,men,quartz,accessory"
+            >
+              <span class="product-badge">Sale</span>
+              <div class="product-img">
+                <img
+                  src="./images/black watch set.jpg"
+                  alt="Men's quartz watch set"
+                />
+              </div>
+              <div class="product-info">
+                <div class="product-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span>(160)</span>
+                </div>
+                <h3>Men's Quartz Watch Set</h3>
+                <p>Watch, bracelet, necklace, and ring combo.</p>
+                <div class="product-price">
+                  <div class="price-wrapper">
+                    <span class="price">₵230</span>
+                    <span class="discount-badge">-15%</span>
+                    <span class="original-price">₵250</span>
+                  </div>
+                  <button class="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product-card"
+              data-id="spring-flower-petal-earring"
+              data-tags="earring,floral,petal,romantic"
+            >
+              <span class="product-badge">Sale</span>
+              <div class="product-img">
+                <img
+                  src="./images/lady-earring-1.jpg"
+                  alt="Spring flower petal earring"
+                />
+              </div>
+              <div class="product-info">
+                <div class="product-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span>(126)</span>
+                </div>
+                <h3>Spring Flower Petal Earring</h3>
+                <p>Romantic rose petal dangle earrings.</p>
+                <div class="product-price">
+                  <div class="price-wrapper">
+                    <span class="price">₵350</span>
+                    <span class="discount-badge">-15%</span>
+                    <span class="original-price">₵50</span>
+                  </div>
+                  <button class="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product-card"
+              data-id="mens-black-clover-bracelet"
+              data-tags="bracelet,men,clover,sterling"
+            >
+              <span class="product-badge">Sale</span>
+              <div class="product-img">
+                <img
+                  src="./images/58da3b8a-4d58-426f-a4b9-1756cec0995c.jpg"
+                  alt="Men's black clover bracelet"
+                />
+              </div>
+              <div class="product-info">
+                <div class="product-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span>(116)</span>
+                </div>
+                <h3>Men's Black Clover Bracelet</h3>
+                <p>Sterling silver bracelet with anti-tarnish finish.</p>
+                <div class="product-price">
+                  <div class="price-wrapper">
+                    <span class="price">₵50</span>
+                    <span class="discount-badge">-15%</span>
+                    <span class="original-price">₵750</span>
+                  </div>
+                  <button class="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product-card"
+              data-id="golden-necklace-bangle"
+              data-tags="necklace,bangle,set,gold"
+            >
+              <span class="product-badge">Sale</span>
+              <div class="product-img">
+                <img
+                  src="./images/64c834a9-315d-4dab-bbd7-66629cd06c65.jpg"
+                  alt="Golden necklace and bangle set"
+                />
+              </div>
+              <div class="product-info">
+                <div class="product-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span>(141)</span>
+                </div>
+                <h3>Golden Necklace & Bangle Set</h3>
+                <p>Elegant choker with matching cuff bangle.</p>
+                <div class="product-price">
+                  <div class="price-wrapper">
+                    <span class="price">₵850</span>
+                    <span class="discount-badge">-15%</span>
+                    <span class="original-price">₵100</span>
+                  </div>
+                  <button class="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product-card"
+              data-id="golden-wings-earrings"
+              data-tags="earring,wing,gold,adorable"
+            >
+              <span class="product-badge">Sale</span>
+              <div class="product-img">
+                <img
+                  src="./images/golden-earring-2.jpg"
+                  alt="Golden wings earring"
+                />
+              </div>
+              <div class="product-info">
+                <div class="product-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span>(136)</span>
+                </div>
+                <h3>Golden Wings Earrings</h3>
+                <p>Butterfly-inspired wings for daily wear.</p>
+                <div class="product-price">
+                  <div class="price-wrapper">
+                    <span class="price">₵250</span>
+                    <span class="discount-badge">-15%</span>
+                    <span class="original-price">₵40</span>
+                  </div>
+                  <button class="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product-card"
+              data-id="golden-drop-chain-necklace"
+              data-tags="necklace,drop,teardrop,dainty"
+            >
+              <span class="product-badge">Sale</span>
+              <div class="product-img">
+                <img
+                  src="./images/f0a54c5b-159d-4145-ac86-ceaaaa4d3599.jpg"
+                  alt="Golden drop chain necklace"
+                />
+              </div>
+              <div class="product-info">
+                <div class="product-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span>(144)</span>
+                </div>
+                <h3>Golden Drop Chain Necklace</h3>
+                <p>Dainty teardrop pendant necklace.</p>
+                <div class="product-price">
+                  <div class="price-wrapper">
+                    <span class="price">₵550</span>
+                    <span class="discount-badge">-15%</span>
+                    <span class="original-price">₵750</span>
+                  </div>
+                  <button class="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product-card"
+              data-id="silver-bangle-bracelet"
+              data-tags="bracelet,silver,bangle,romantic"
+            >
+              <span class="product-badge">Sale</span>
+              <div class="product-img">
+                <img
+                  src="./images/lady-earring-2.jpg"
+                  alt="Silver bangle bracelet"
+                />
+              </div>
+              <div class="product-info">
+                <div class="product-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span>(126)</span>
+                </div>
+                <h3>Silver Bangle Bracelet</h3>
+                <p>Sterling silver bangle, cute & romantic.</p>
+                <div class="product-price">
+                  <div class="price-wrapper">
+                    <span class="price">₵50</span>
+                    <span class="discount-badge">-15%</span>
+                    <span class="original-price">₵750</span>
+                  </div>
+                  <button class="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product-card"
+              data-id="chunky-gold-vortex-stud"
+              data-tags="earring,stud,gold,chunky"
+            >
+              <span class="product-badge">Sale</span>
+              <div class="product-img">
+                <img
+                  src="./images/golden-earring-3.jpg"
+                  alt="Chunky gold vortex stud"
+                />
+              </div>
+              <div class="product-info">
+                <div class="product-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span>(126)</span>
+                </div>
+                <h3>Chunky Gold Vortex Stud</h3>
+                <p>Retro spiral glossy dangle/stud earring.</p>
+                <div class="product-price">
+                  <div class="price-wrapper">
+                    <span class="price">₵30</span>
+                    <span class="discount-badge">-15%</span>
+                    <span class="original-price">₵450</span>
+                  </div>
+                  <button class="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product-card"
+              data-id="bow-necklace-gold"
+              data-tags="necklace,bow,gold,dainty"
+            >
+              <span class="product-badge">Sale</span>
+              <div class="product-img">
+                <img src="./images/golden-necklace-2.jpg" alt="Bow necklace" />
+              </div>
+              <div class="product-info">
+                <div class="product-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span>(165)</span>
+                </div>
+                <h3>Bow Necklace</h3>
+                <p>Charm necklace with dainty choker chain.</p>
+                <div class="product-price">
+                  <div class="price-wrapper">
+                    <span class="price">₵50</span>
+                    <span class="discount-badge">-15%</span>
+                    <span class="original-price">₵70</span>
+                  </div>
+                  <button class="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product-card"
+              data-id="golden-water-drop"
+              data-tags="earring,water-drop,teardrop,gold"
+            >
+              <span class="product-badge">Sale</span>
+              <div class="product-img">
+                <img
+                  src="./images/golden-earring-5jpg.jpg"
+                  alt="Golden water drop earring"
+                />
+              </div>
+              <div class="product-info">
+                <div class="product-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span>(126)</span>
+                </div>
+                <h3>Golden Water Drop Stud</h3>
+                <p>Lightweight tear drop inspired studs.</p>
+                <div class="product-price">
+                  <div class="price-wrapper">
+                    <span class="price">₵30</span>
+                    <span class="discount-badge">-15%</span>
+                    <span class="original-price">₵450</span>
+                  </div>
+                  <button class="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product-card"
+              data-id="dior-vintage-necklace"
+              data-tags="necklace,dior,vintage,gold"
+            >
+              <span class="product-badge">Sale</span>
+              <div class="product-img">
+                <img
+                  src="./images/golden-necklace-3.jpg"
+                  alt="Dior vintage necklace"
+                />
+              </div>
+              <div class="product-info">
+                <div class="product-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span>(175)</span>
+                </div>
+                <h3>Christian Dior Vintage Necklace</h3>
+                <p>Repurposed designer zipper pull pendant.</p>
+                <div class="product-price">
+                  <div class="price-wrapper">
+                    <span class="price">₵550</span>
+                    <span class="discount-badge">-15%</span>
+                    <span class="original-price">₵750</span>
+                  </div>
+                  <button class="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product-card"
+              data-id="black-white-earring"
+              data-tags="earring,black,white,fashion"
+            >
+              <span class="product-badge">Sale</span>
+              <div class="product-img">
+                <img
+                  src="./images/lady-earring-4.jpg"
+                  alt="Black and white earring"
+                />
+              </div>
+              <div class="product-info">
+                <div class="product-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span>(175)</span>
+                </div>
+                <h3>Black & White Statement Earrings</h3>
+                <p>Monochrome finish for modern outfits.</p>
+                <div class="product-price">
+                  <div class="price-wrapper">
+                    <span class="price">₵350</span>
+                    <span class="discount-badge">-15%</span>
+                    <span class="original-price">₵50</span>
+                  </div>
+                  <button class="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="product-card"
+              data-id="dior-vintage-necklace-2"
+              data-tags="necklace,dior,vintage,gold"
+            >
+              <span class="product-badge">Sale</span>
+              <div class="product-img">
+                <img
+                  src="./images/golden-necklace-3.jpg"
+                  alt="Dior necklace variant"
+                />
+              </div>
+              <div class="product-info">
+                <div class="product-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span>(175)</span>
+                </div>
+                <h3>Dior Vintage Necklace (Variant)</h3>
+                <p>Alternate listing for the Dior gold pendant.</p>
+                <div class="product-price">
+                  <div class="price-wrapper">
+                    <span class="price">₵550</span>
+                    <span class="discount-badge">-15%</span>
+                    <span class="original-price">₵750</span>
+                  </div>
+                  <button class="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // Dynamically load all products from products.json
+      (function () {
+        const productsGrid = document.querySelector(".products-grid");
+        if (!productsGrid) return;
+
+        fetch("./products.json")
+          .then((response) => response.json())
+          .then((products) => {
+            // Clear existing hardcoded products
+            productsGrid.innerHTML = "";
+
+            // Create product cards for all products
+            products.forEach((product) => {
+              const card = createProductCard(product);
+              productsGrid.appendChild(card);
+            });
+
+            // Update product count
+            const countDisplay = document.getElementById(
+              "product-count-display"
+            );
+            if (countDisplay) {
+              countDisplay.textContent = `${products.length} curated items`;
+            }
+          })
+          .catch((error) => {
+            console.error("Error loading products:", error);
+          });
+
+        function createProductCard(product) {
+          const card = document.createElement("div");
+          card.className = "product-card";
+          card.dataset.id = product.id;
+          card.dataset.tags = product.category
+            ? product.category.toLowerCase()
+            : "";
+
+          const price = formatPrice(product.price);
+          let priceHTML = "";
+          let discountBadgeHTML = "";
+
+          if (product.originalPrice && product.discount) {
+            const originalPrice = formatPrice(product.originalPrice);
+            discountBadgeHTML = `<span class="discount-badge">-${product.discount}%</span>`;
+            priceHTML = `
+              <div class="price-wrapper">
+                <span class="price">${price}</span>
+                <span class="original-price">${originalPrice}</span>
+              </div>
+            `;
+          } else {
+            priceHTML = `<span class="price">${price}</span>`;
+          }
+
+          card.innerHTML = `
+            <span class="product-badge">Sale</span>
+            ${discountBadgeHTML}
+            <div class="product-img">
+              <img src="${product.img}" alt="${product.title}" loading="lazy" />
+            </div>
+            <div class="product-info">
+              <div class="product-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+                <span>(${Math.floor(Math.random() * 80) + 100})</span>
+              </div>
+              <h3>${product.title}</h3>
+              <p>${product.description || ""}</p>
+              <div class="product-price">
+                ${priceHTML}
+                <button class="add-to-cart">Add to cart</button>
+              </div>
+            </div>
+          `;
+
+          return card;
+        }
+
+        function formatPrice(value) {
+          const num = Number(value) || 0;
+          return Number.isInteger(num) ? `₵${num}` : `₵${num.toFixed(2)}`;
+        }
+      })();
+    </script>
+    <script src="script.js"></script>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>About Ebou Jewelry</h3>
+            <p>
+              Discover exquisite handcrafted jewelry that tells your unique
+              story. Quality craftsmanship meets timeless elegance.
+            </p>
+            <div class="social-links">
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Twitter"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a
+                href="https://pinterest.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Pinterest"
+                ><i class="fab fa-pinterest-p"></i
+              ></a>
+            </div>
+          </div>
+
+          <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul class="footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="shop.html">Shop</a></li>
+              <li><a href="categories.html">Categories</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-section">
+            <h3>Newsletter</h3>
+            <p>Subscribe to get special offers and updates!</p>
+            <form class="newsletter-form" id="newsletterForm">
+              <div class="newsletter-input-wrapper">
+                <input
+                  type="email"
+                  id="newsletterEmail"
+                  placeholder="Enter your email"
+                  required
+                  aria-label="Email address for newsletter"
+                />
+                <button type="submit" aria-label="Subscribe to newsletter">
+                  <i class="fas fa-paper-plane"></i>
+                </button>
+              </div>
+              <span class="newsletter-message" id="newsletterMessage"></span>
+            </form>
+          </div>
+
+          <div class="footer-section">
+            <h3>Contact Info</h3>
+            <ul class="footer-contact">
+              <li><i class="fas fa-map-marker-alt"></i> Kasoa Second, Ghana</li>
+              <li>
+                <i class="fas fa-phone"></i>
+                <a href="tel:+233548830794" class="contact-link"
+                  >+233 54 883 0794</a
+                >
+              </li>
+              <li>
+                <i class="fas fa-envelope"></i>
+                <a href="mailto:info@eboujewelry.com" class="contact-link"
+                  >info@eboujewelry.com</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2025 Ebou Jewelry. All rights reserved.</p>
+          <div class="footer-bottom-links">
+            <a href="#">Privacy Policy</a>
+            <span>|</span>
+            <a href="#">Terms & Conditions</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll to Top Button -->
+      <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
+        <i class="fas fa-chevron-up"></i>
+      </button>
+    </footer>
+  </body>
+</html>

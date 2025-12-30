@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Ebou Jewelry</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <script>
+      (function () {
+        function storageAvailable(type) {
+          try {
+            var storage = window[type],
+              x = "__storage_test__";
+            storage.setItem(x, x);
+            storage.removeItem(x);
+            return true;
+          } catch (e) {
+            return false;
+          }
+        }
+        if (
+          !storageAvailable("localStorage") &&
+          !storageAvailable("sessionStorage")
+        ) {
+          window.__SKIP_DATADOG_RUM__ = true;
+          console.warn("Datadog RUM: storage unavailable, skipping");
+        }
+      })();
+    </script>
+  </head>
+  <body class="contact-page">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <header>
+      <div class="container header-container">
+        <a href="index.html" class="logo">
+          <img
+            src="./images/goldenlogo.jpg"
+            alt="Ebou Jewelry logo"
+            class="logo-img"
+          />
+          <span class="logo-text">EbouJewelry</span>
+        </a>
+
+        <nav>
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="categories.html">Category</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li>
+              <a href="contact.html" aria-current="page" class="active"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </nav>
+
+        <div class="header-icon">
+          <i class="fas fa-search" id="search-toggle"></i>
+          <a
+            href="jumia-login.html"
+            class="profile-link"
+            aria-label="Go to account access page"
+          >
+            <i class="fas fa-user"></i>
+          </a>
+          <div class="cart-icon" id="cart-icon">
+            <button id="open-cart" aria-label="Open cart">
+              <i
+                class="fas fa-shopping-cart cart-button-icon"
+                aria-hidden="true"
+              ></i>
+              <span class="sr-only">Cart</span>
+              <span id="cart-count" class="cart-count">0</span>
+            </button>
+            <div id="mini-cart" class="mini-cart" aria-hidden="true">
+              <div class="mini-items" id="mini-items"></div>
+            </div>
+          </div>
+          <div class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+          </div>
+        </div>
+
+        <div class="search-container" id="search-container">
+          <form action="" class="search-form">
+            <input
+              id="product-search"
+              type="search"
+              placeholder="Search products..."
+              aria-label="Search products"
+              tabindex="0"
+            />
+            <button type="submit" aria-label="Search">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+          <div
+            id="search-suggestions"
+            class="search-suggestions"
+            role="listbox"
+            aria-label="Search suggestions"
+            hidden
+          ></div>
+          <div
+            id="product-count"
+            class="product-count"
+            aria-live="polite"
+            aria-atomic="true"
+          ></div>
+        </div>
+      </div>
+    </header>
+
+    <script>
+      (function () {
+        if (window.__SKIP_DATADOG_RUM__) {
+          window.datadogRum = window.datadogRum || {
+            init: function () {
+              console.warn("datadogRum.init skipped");
+            },
+            setUser: function () {},
+            addTiming: function () {},
+            startSessionReplayRecording: function () {},
+          };
+        }
+      })();
+    </script>
+
+    <aside id="cart-drawer" class="cart-drawer" aria-hidden="true">
+      <div class="cart-drawer-header">
+        <h3>Your cart</h3>
+        <button id="cart-close" aria-label="Close cart">×</button>
+      </div>
+      <div class="cart-drawer-body">
+        <div class="cart-list" id="cart-items" role="list"></div>
+
+        <aside class="cart-summary" aria-label="Order summary">
+          <div class="summary-inner">
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <strong id="cart-subtotal">₵0.00</strong>
+            </div>
+            <div class="summary-row">
+              <span>Shipping</span>
+              <span id="cart-shipping">—</span>
+            </div>
+            <div class="summary-row total">
+              <span>Total</span>
+              <strong id="cart-total">₵0.00</strong>
+            </div>
+
+            <div class="summary-actions">
+              <button id="cart-checkout" class="btn btn-primary">
+                Checkout
+              </button>
+              <button id="cart-continue" class="btn btn-outline">
+                Continue shopping
+              </button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </aside>
+    <div id="cart-overlay" class="cart-overlay" aria-hidden="true"></div>
+
+    <main id="main-content">
+      <section class="hero contact-hero">
+        <div class="hero-content">
+          <p class="eyebrow">Say hello</p>
+          <h1>We are always one message away</h1>
+          <p>
+            Reach out about styling advice, bulk orders, delivery questions, or
+            wholesale requests. The Ebou Jewelry team replies within 12 hours.
+          </p>
+          <div class="hero-btns">
+            <a href="https://wa.me/233548830794" class="btn btn-primary"
+              >Chat on WhatsApp</a
+            >
+            <a href="#contact-form" class="btn btn-outline">Send a message</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact-panels">
+        <div class="container">
+          <div class="contact-grid">
+            <article class="contact-card">
+              <div class="contact-card-icon">
+                <i class="fas fa-phone"></i>
+              </div>
+              <h3>Talk to us</h3>
+              <p>Monday to Saturday · 9:00 AM — 7:00 PM GMT</p>
+              <a href="tel:+233548830794" class="contact-link"
+                >+233 54 883 0794</a
+              >
+            </article>
+
+            <article class="contact-card">
+              <div class="contact-card-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <h3>Email + collaborations</h3>
+              <p>Wholesale, press, or partnership requests.</p>
+              <a href="mailto:eboujewelry@gmail.com" class="contact-link"
+                >eboujewelry@gmail.com</a
+              >
+            </article>
+
+            <article class="contact-card">
+              <div class="contact-card-icon">
+                <i class="fas fa-location-dot"></i>
+              </div>
+              <h3>Studio pickup</h3>
+              <p>second, Kasoa — visits by appointment only.</p>
+              <span class="contact-link">16 Kwame Ave, GA-123-4567</span>
+            </article>
+
+            <article class="contact-card">
+              <div class="contact-card-icon">
+                <i class="fas fa-comment-dots"></i>
+              </div>
+              <h3>Socials</h3>
+              <p>DMs are open for quick questions and styling help.</p>
+              <div class="contact-socials">
+                <a href="https://instagram.com/rabbyebou" target="_blank"
+                  ><i class="fab fa-instagram"></i> Instagram</a
+                >
+                <a
+                  href="https://tiktok.com/@theproductspalace92"
+                  target="_blank"
+                  ><i class="fab fa-tiktok"></i> TikTok</a
+                >
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact-form-section" id="contact-form">
+        <div class="container contact-form-wrapper">
+          <div class="contact-form-copy">
+            <p class="eyebrow">Send a note</p>
+            <h2>Tell us about your request</h2>
+            <p>
+              Share as many details as possible—desired delivery date, product
+              names, quantities, or references. We will follow up with next
+              steps.
+            </p>
+            <ul class="contact-highlights">
+              <li>Replies within 12 hours on business days</li>
+              <li>Virtual styling sessions for special events</li>
+              <li>Bulk and bridal discounts available</li>
+            </ul>
+          </div>
+
+          <form
+            class="contact-form"
+            id="contact-support-form"
+            action=""
+            method="post"
+            novalidate
+          >
+            <input
+              type="hidden"
+              id="contact-csrf-token"
+              name="csrf_token"
+              value=""
+            />
+            <div class="form-row">
+              <label for="full-name">Full name</label>
+              <input type="text" id="full-name" name="full-name" required />
+            </div>
+            <div class="form-row">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+            <div class="form-row">
+              <label for="phone">Phone/WhatsApp</label>
+              <input type="tel" id="phone" name="phone" />
+            </div>
+            <div class="form-row">
+              <label for="topic">Topic</label>
+              <select id="topic" name="topic" required>
+                <option value="">Select one</option>
+                <option value="order">Order update</option>
+                <option value="styling">Styling help</option>
+                <option value="bulk">Bulk / wholesale</option>
+                <option value="collab">Collaboration</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="message">Message</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="5"
+                placeholder="Include product names, dates, or other context"
+                required
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send message</button>
+            <p
+              id="contact-status"
+              class="form-status"
+              role="status"
+              aria-live="polite"
+            ></p>
+          </form>
+        </div>
+      </section>
+
+      <section class="contact-faqs">
+        <div class="container contact-faqs-wrapper">
+          <div class="faq-card">
+            <h3>How fast do you deliver?</h3>
+            <p>
+              Local orders go out within 1-3 business days. Express riders are
+              available within Accra and nationwide courier shipping is offered.
+            </p>
+          </div>
+          <div class="faq-card">
+            <h3>Do you accept returns?</h3>
+            <p>
+              We accept exchanges within 7 days for unworn items with original
+              packaging. Contact us for personalized assistance.
+            </p>
+          </div>
+          <div class="faq-card">
+            <h3>Need a rush gift?</h3>
+            <p>
+              Let us know the date and we will prioritize production, gift
+              wrapping, and dispatch. Same-day pickup is available for select
+              styles.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>About Ebou Jewelry</h3>
+            <p>
+              Discover exquisite handcrafted jewelry that tells your unique
+              story. Quality craftsmanship meets timeless elegance.
+            </p>
+            <div class="social-links">
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Twitter"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a
+                href="https://pinterest.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Pinterest"
+                ><i class="fab fa-pinterest-p"></i
+              ></a>
+            </div>
+          </div>
+
+          <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul class="footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="shop.html">Shop</a></li>
+              <li><a href="categories.html">Categories</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-section">
+            <h3>Newsletter</h3>
+            <p>Subscribe to get special offers and updates!</p>
+            <form class="newsletter-form" id="newsletterForm">
+              <div class="newsletter-input-wrapper">
+                <input
+                  type="email"
+                  id="newsletterEmail"
+                  placeholder="Enter your email"
+                  required
+                  aria-label="Email address for newsletter"
+                />
+                <button type="submit" aria-label="Subscribe to newsletter">
+                  <i class="fas fa-paper-plane"></i>
+                </button>
+              </div>
+              <span class="newsletter-message" id="newsletterMessage"></span>
+            </form>
+          </div>
+
+          <div class="footer-section">
+            <h3>Contact Info</h3>
+            <ul class="footer-contact">
+              <li><i class="fas fa-map-marker-alt"></i> Kasoa Second, Ghana</li>
+              <li>
+                <i class="fas fa-phone"></i>
+                <a href="tel:+233548830794" class="contact-link"
+                  >+233 54 883 0794</a
+                >
+              </li>
+              <li>
+                <i class="fas fa-envelope"></i>
+                <a href="mailto:info@eboujewelry.com" class="contact-link"
+                  >info@eboujewelry.com</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2025 Ebou Jewelry. All rights reserved.</p>
+          <div class="footer-bottom-links">
+            <a href="#">Privacy Policy</a>
+            <span>|</span>
+            <a href="#">Terms & Conditions</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll to Top Button -->
+      <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
+        <i class="fas fa-chevron-up"></i>
+      </button>
+    </footer>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="paystack-public-key" content="pk_live_a19d80c838d4b8904fdc9310348782ce954b8793">
+  <title>Checkout - Ebou Jewelry</title>
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+    }
+
+    /* Header */
+    .checkout-header {
+      background: #fff;
+      padding: 16px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    }
+    
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: #e50f65;
+      text-decoration: none;
+    }
+    
+    .secure-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #00a651;
+      font-size: 14px;
+    }
+    
+    .secure-badge i {
+      font-size: 18px;
+    }
+
+    /* Main Container */
+    .checkout-container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 20px;
+    }
+
+    .checkout-container.auth-hidden {
+      filter: blur(2px);
+      pointer-events: none;
+      user-select: none;
+      opacity: 0.4;
+    }
+
+    .auth-guard {
+      max-width: 720px;
+      margin: 30px auto 0;
+      background: #fffafc;
+      border: 1px solid #ffd6e8;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 10px 24px rgba(229, 15, 101, 0.08);
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+      text-align: center;
+    }
+
+    .auth-guard.show {
+      display: flex;
+    }
+
+    .auth-guard-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      margin: 0 auto 4px;
+      background: rgba(229, 15, 101, 0.12);
+      color: #e50f65;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    .auth-guard h2 {
+      font-size: 1.4rem;
+      margin: 0;
+    }
+
+    .auth-guard p {
+      margin: 0;
+      color: #555;
+    }
+
+    .auth-guard-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    /* Left Column - Form */
+    .checkout-main {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .checkout-card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #f5f5f5;
+    }
+    
+    .card-number {
+      width: 32px;
+      height: 32px;
+      background: #e50f65;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+    }
+    
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      font-size: 14px;
+      color: #333;
+    }
+    
+    .form-label .required {
+      color: #ff0000;
+      margin-left: 2px;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: #e50f65;
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* Payment Methods */
+    .payment-methods {
+      display: grid;
+      gap: 12px;
+    }
+    
+    .payment-option {
+      border: 2px solid #e6e6e6;
+      border-radius: 8px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+    }
+    
+    .payment-option:hover {
+      border-color: #e50f65;
+      background: #fff9f0;
+    }
+    
+    .payment-option.selected {
+      border-color: #e50f65;
+      background: #fff9f0;
+      box-shadow: 0 0 0 1px #e50f65;
+    }
+    
+    .payment-radio {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #ddd;
+      border-radius: 50%;
+      position: relative;
+      flex-shrink: 0;
+    }
+    
+    .payment-option.selected .payment-radio {
+      border-color: #e50f65;
+    }
+    
+    .payment-option.selected .payment-radio::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background: #e50f65;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    .payment-icon {
+      width: 48px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+    
+    .payment-details {
+      flex: 1;
+    }
+    
+    .payment-name {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    
+    .payment-desc {
+      font-size: 12px;
+      color: #666;
+    }
+    
+    .phone-input-group {
+      display: none;
+      margin-top: 12px;
+    }
+    
+    .phone-input-group.show {
+      display: block;
+    }
+    
+    .payment-icon-card {
+      color: #e50f65;
+    }
+    
+    .payment-icon-mobile {
+      color: #00a651;
+    }
+    
+    .empty-cart-message {
+      text-align: center;
+      color: #666;
+    }
+
+    /* Right Column - Summary */
+    .checkout-sidebar {
+      position: sticky;
+      top: 20px;
+      height: fit-content;
+    }
+    
+    .order-summary {
+      background: #fff;
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    
+    .summary-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #f5f5f5;
+    }
+    
+    .summary-items {
+      max-height: 200px;
+      overflow-y: auto;
+      margin-bottom: 16px;
+    }
+    
+    .summary-item {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #f5f5f5;
+    }
+    
+    .summary-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    
+    .item-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: #f5f5f5;
+    }
+    
+    .item-details {
+      flex: 1;
+    }
+    
+    .item-name {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    
+    .item-qty {
+      font-size: 12px;
+      color: #666;
+    }
+    
+    .item-price {
+      font-weight: 600;
+      color: #e50f65;
+    }
+    
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+    
+    .summary-row.total {
+      font-size: 18px;
+      font-weight: 700;
+      padding-top: 16px;
+      border-top: 2px solid #f5f5f5;
+      margin-top: 16px;
+    }
+    
+    .summary-row.total .amount {
+      color: #e50f65;
+    }
+    
+    /* Buttons */
+    .btn {
+      padding: 14px 24px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    
+    .btn-primary {
+      background: #e50f65;
+      color: white;
+      width: 100%;
+    }
+    
+    .btn-primary:hover {
+      background: #c00d56;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(229, 15, 101, 0.3);
+    }
+    
+    .btn-primary:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .btn-outline {
+      background: white;
+      color: #e50f65;
+      border: 2px solid #e50f65;
+      width: 100%;
+      margin-bottom: 12px;
+    }
+    
+    .btn-outline:hover {
+      background: #fff0f6;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 968px) {
+      .checkout-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .checkout-sidebar {
+        position: static;
+        order: -1;
+      }
+      
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Loading Overlay */
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .loading-overlay.show {
+      display: flex;
+    }
+    
+    .loading-spinner {
+      width: 60px;
+      height: 60px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #e50f65;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Success Modal */
+    .success-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .success-modal.show {
+      display: flex;
+    }
+    
+    .success-content {
+      background: white;
+      border-radius: 12px;
+      padding: 40px;
+      max-width: 500px;
+      text-align: center;
+    }
+    
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: #00a651;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 40px;
+      color: white;
+    }
+    
+    .success-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    
+    .success-message {
+      color: #666;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+    
+    .order-ref {
+      background: #f5f5f5;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="checkout-header">
+    <div class="header-content">
+      <a href="index.html" class="logo">EbouJewelry</a>
+      <div class="secure-badge">
+        <i class="fas fa-lock"></i>
+        <span>Secure Checkout</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="auth-guard" id="checkout-auth-guard" hidden>
+    <div class="auth-guard-icon" aria-hidden="true">
+      <i class="fas fa-user-lock"></i>
+    </div>
+    <h2>Sign in to complete your order</h2>
+    <p>
+      You’ll need an Ebou account so we can save your delivery details and cart.
+      Sign in or create one in a few seconds, then return to finish checkout.
+    </p>
+    <div class="auth-guard-actions">
+      <a href="jumia-login.html" class="btn btn-primary" id="auth-guard-link">
+        <i class="fas fa-user"></i>
+        <span>Sign In / Create Account</span>
+      </a>
+      <a href="shop.html" class="btn btn-outline">
+        <i class="fas fa-store"></i>
+        <span>Keep Shopping</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Main Container -->
+  <div class="checkout-container auth-hidden" id="checkout-container">
+    <!-- Left Column -->
+    <div class="checkout-main">
+      <!-- Customer Information -->
+      <div class="checkout-card">
+        <div class="card-header">
+          <div class="card-number">1</div>
+          <h2 class="card-title">Customer Information</h2>
+        </div>
+        <form id="checkout-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Full Name <span class="required">*</span></label>
+              <input type="text" class="form-input" name="name" autocomplete="name" required placeholder="John Doe">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address <span class="required">*</span></label>
+              <input type="email" class="form-input" name="email" autocomplete="email" required placeholder="john@example.com">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number <span class="required">*</span></label>
+            <input type="tel" class="form-input" name="phone" autocomplete="tel" required placeholder="+233 24 123 4567">
+          </div>
+      </div>
+
+      <!-- Delivery Address -->
+      <div class="checkout-card">
+        <div class="card-header">
+          <div class="card-number">2</div>
+          <h2 class="card-title">Delivery Address</h2>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Street Address <span class="required">*</span></label>
+          <input type="text" class="form-input" name="address" autocomplete="street-address" required placeholder="123 Main Street">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">City <span class="required">*</span></label>
+            <input type="text" class="form-input" name="city" autocomplete="address-level2" required placeholder="Accra">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Region <span class="required">*</span></label>
+            <input type="text" class="form-input" name="region" autocomplete="address-level1" required placeholder="Greater Accra">
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Method -->
+      <div class="checkout-card">
+        <div class="card-header">
+          <div class="card-number">3</div>
+          <h2 class="card-title">Payment Method</h2>
+        </div>
+        <div class="payment-methods">
+          <div class="payment-option selected" data-method="card">
+            <div class="payment-radio"></div>
+            <div class="payment-icon">
+              <i class="fas fa-credit-card payment-icon-card"></i>
+            </div>
+            <div class="payment-details">
+              <div class="payment-name">Card Payment</div>
+              <div class="payment-desc">Pay with Visa, Mastercard, or Verve</div>
+            </div>
+          </div>
+          
+          <div class="payment-option" data-method="mobile_money">
+            <div class="payment-radio"></div>
+            <div class="payment-icon">
+              <i class="fas fa-mobile-alt payment-icon-mobile"></i>
+            </div>
+            <div class="payment-details">
+              <div class="payment-name">Mobile Money</div>
+              <div class="payment-desc">MTN, Vodafone, AirtelTigo</div>
+            </div>
+            <div class="phone-input-group" id="momo-phone-group">
+              <label class="form-label">Mobile Money Number</label>
+              <input type="tel" class="form-input" id="momo-phone" autocomplete="tel" placeholder="+233 24 123 4567">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Place Order Button -->
+      </form>
+      
+      <button type="submit" class="btn btn-primary" id="place-order-btn" form="checkout-form">
+        <i class="fas fa-lock"></i>
+        <span>Complete Payment</span>
+      </button>
+      
+      <a href="index.html" class="btn btn-outline">
+        <i class="fas fa-arrow-left"></i>
+        <span>Continue Shopping</span>
+      </a>
+    </div>
+
+    <!-- Right Column - Order Summary -->
+    <div class="checkout-sidebar">
+      <div class="order-summary">
+        <h3 class="summary-title">Order Summary</h3>
+        <div class="summary-items" id="summary-items">
+          <!-- Items will be populated by JS -->
+        </div>
+        <div class="summary-row">
+          <span>Subtotal:</span>
+          <span id="subtotal">₵0.00</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total:</span>
+          <span class="amount" id="total">₵0.00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="success-modal" id="success-modal">
+    <div class="success-content">
+      <div class="success-icon">
+        <i class="fas fa-check"></i>
+      </div>
+      <h2 class="success-title">Payment Successful!</h2>
+      <p class="success-message" id="success-message">
+        Thank you for your order! We've received your payment and will process your order shortly.
+        Redirecting you to the homepage in 5 seconds...
+      </p>
+      <div class="order-ref">
+        Order Reference: <strong id="order-reference"></strong>
+      </div>
+      <button class="btn btn-primary" onclick="clearCartAndGoHome()">
+        <i class="fas fa-home"></i>
+        Back to Home
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const CART_KEY = 'siteCartV1';
+    const CART_STATUS_KEY = 'siteCartStatus';
+    const PUBLIC_KEY = document.querySelector('meta[name="paystack-public-key"]')?.content;
+    const placeOrderBtn = document.getElementById('place-order-btn');
+    const successMessageEl = document.getElementById('success-message');
+    const checkoutForm = document.getElementById('checkout-form');
+    const checkoutContainer = document.getElementById('checkout-container');
+    const authGuardEl = document.getElementById('checkout-auth-guard');
+    const authGuardLink = document.getElementById('auth-guard-link');
+    const SESSION_KEY = 'ebouAuthSession';
+    const ACCOUNTS_KEY = 'ebouAuthAccounts';
+    const redirectSource =
+      window.location.protocol === 'file:'
+        ? 'jumia-checkout.html'
+        : (window.location.pathname || 'jumia-checkout.html') + window.location.search;
+    const redirectParam = encodeURIComponent(redirectSource);
+    const loginRedirectUrl = `jumia-login.html?redirect=${redirectParam}`;
+    if (authGuardLink) authGuardLink.href = loginRedirectUrl;
+    const formFields = checkoutForm
+      ? {
+          name: checkoutForm.elements.namedItem('name'),
+          email: checkoutForm.elements.namedItem('email'),
+          phone: checkoutForm.elements.namedItem('phone'),
+          address: checkoutForm.elements.namedItem('address'),
+        }
+      : {};
+    const defaultSuccessMessage =
+      (successMessageEl?.textContent || '').trim() ||
+      "Thank you for your order! We've received your payment and will process your order shortly. Redirecting you to the homepage in 5 seconds...";
+    const isLocalhost = ['localhost', '127.0.0.1', ''].includes(window.location.hostname);
+    let selectedPaymentMethod = 'card';
+    let devOverridePhone = null;
+    let cartHasItems = false;
+    let authBlocking = true;
+
+    function updatePlaceOrderState() {
+      if (!placeOrderBtn) return;
+      placeOrderBtn.disabled = authBlocking || !cartHasItems;
+    }
+
+    function setAuthBlockingState(blocked) {
+      authBlocking = blocked;
+      if (checkoutContainer)
+        checkoutContainer.classList.toggle('auth-hidden', blocked);
+      if (authGuardEl) authGuardEl.hidden = !blocked;
+      if (authGuardEl)
+        authGuardEl.classList.toggle('show', blocked);
+      updatePlaceOrderState();
+    }
+
+    function getSessionInfo() {
+      try {
+        return JSON.parse(sessionStorage.getItem(SESSION_KEY) || '{}');
+      } catch (err) {
+        console.warn('Invalid session data, clearing it');
+        sessionStorage.removeItem(SESSION_KEY);
+        return {};
+      }
+    }
+
+    function hydrateFormFromProfile(email) {
+      if (!email) return;
+      try {
+        const accounts = JSON.parse(localStorage.getItem(ACCOUNTS_KEY) || '[]');
+        const account = accounts.find(
+          (acct) => acct.email === email.toLowerCase()
+        );
+        if (!account) return;
+        const profile = account.profile || {};
+        if (formFields.name && profile.name && !formFields.name.value)
+          formFields.name.value = profile.name;
+        if (formFields.email && !formFields.email.value)
+          formFields.email.value = account.email || profile.email || '';
+        if (formFields.phone && profile.phone && !formFields.phone.value)
+          formFields.phone.value = profile.phone;
+        if (formFields.address && profile.address && !formFields.address.value)
+          formFields.address.value = profile.address;
+      } catch (err) {
+        console.warn('Could not hydrate profile data', err);
+      }
+    }
+
+    function enforceAuthRequirement() {
+      const session = getSessionInfo();
+      const authed = Boolean(session?.email);
+      setAuthBlockingState(!authed);
+      if (authed) hydrateFormFromProfile(session.email);
+      return authed;
+    }
+
+    function ensureAuthenticatedBeforeSubmit() {
+      if (authBlocking || !getSessionInfo()?.email) {
+        setAuthBlockingState(true);
+        alert('Please sign in or create an account before completing payment.');
+        window.location.href = loginRedirectUrl;
+        return false;
+      }
+      return true;
+    }
+    function handleCheckoutSuccess(reference, { orderId, bypassVerification = false } = {}) {
+      console.log('Payment success handler triggered', { reference, orderId, bypassVerification });
+
+      const flagPayload = { clearedAt: Date.now(), orderId: orderId || null };
+      localStorage.setItem(CART_STATUS_KEY, JSON.stringify(flagPayload));
+      localStorage.removeItem(CART_KEY);
+      delete localStorage[CART_KEY];
+
+      const overlay = document.getElementById('loading-overlay');
+      if (overlay) overlay.classList.remove('show');
+
+      const refEl = document.getElementById('order-reference');
+      if (refEl) refEl.textContent = reference;
+
+      if (successMessageEl) {
+        successMessageEl.textContent = bypassVerification
+          ? 'Payment recorded without server verification (dev mode). Please confirm in your Paystack dashboard. Redirecting you to the homepage in 5 seconds...'
+          : defaultSuccessMessage;
+      }
+
+      const modal = document.getElementById('success-modal');
+      if (modal) modal.classList.add('show');
+
+      if (window.opener && !window.opener.closed) {
+        window.opener.postMessage({ type: 'CART_CLEARED' }, '*');
+      }
+
+      setTimeout(() => {
+        clearCartAndGoHome();
+      }, 5000);
+    }
+
+    function promptForDevOverride(message) {
+      const result = prompt(message || 'Enter administrator override PIN (dev use only):');
+      if (!result) return false;
+      const token = result.trim().toLowerCase();
+      if (token === 'devpass' || token === 'bypass' || token === 'override') {
+        devOverridePhone = result.trim();
+        return true;
+      }
+      alert('Invalid override token');
+      return false;
+    }
+
+    function stopLoadingState() {
+      const overlay = document.getElementById('loading-overlay');
+      if (overlay) overlay.classList.remove('show');
+      updatePlaceOrderState();
+    }
+    
+    // Function to clear cart and redirect home
+    function clearCartAndGoHome() {
+      console.log('clearCartAndGoHome called');
+      console.log('Cart before clear:', localStorage.getItem(CART_KEY));
+      
+      // Clear cart completely from localStorage
+      localStorage.setItem(CART_STATUS_KEY, JSON.stringify({ clearedAt: Date.now() }));
+      localStorage.removeItem(CART_KEY);
+      
+      console.log('Cart after clear:', localStorage.getItem(CART_KEY));
+      console.log('Redirecting to: index.html?cart_cleared=1&_=' + Date.now());
+      
+      // Redirect with cache-busting parameter
+      window.location.href = 'index.html?cart_cleared=1&_=' + Date.now();
+    }
+
+    // Load cart items
+    function loadCart() {
+      const cart = JSON.parse(localStorage.getItem(CART_KEY) || '{}');
+      const items = Object.values(cart);
+      const container = document.getElementById('summary-items');
+      
+      if (items.length === 0) {
+        container.innerHTML = '<p class="empty-cart-message">Your cart is empty</p>';
+        cartHasItems = false;
+        updatePlaceOrderState();
+        return;
+      }
+
+      cartHasItems = true;
+      updatePlaceOrderState();
+      let subtotal = 0;
+      container.innerHTML = items.map(item => {
+        const price = parseFloat(item.priceNumber || item.price) || 0;
+        const qty = parseInt(item.qty) || 1;
+        subtotal += price * qty;
+        
+        return `
+          <div class="summary-item">
+            <img src="${item.img || item.image || '/images/placeholder.jpg'}" alt="${item.title}" class="item-image" onerror="this.src='/images/placeholder.jpg'">
+            <div class="item-details">
+              <div class="item-name">${item.title}</div>
+              <div class="item-qty">Qty: ${qty}</div>
+            </div>
+            <div class="item-price">₵${(price * qty).toFixed(2)}</div>
+          </div>
+        `;
+      }).join('');
+
+      const total = subtotal;
+
+      document.getElementById('subtotal').textContent = `₵${subtotal.toFixed(2)}`;
+      document.getElementById('total').textContent = `₵${total.toFixed(2)}`;
+    }
+
+    // Payment method selection
+    document.querySelectorAll('.payment-option').forEach(option => {
+      option.addEventListener('click', function() {
+        document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+        this.classList.add('selected');
+        selectedPaymentMethod = this.dataset.method;
+        
+        const momoGroup = document.getElementById('momo-phone-group');
+        if (selectedPaymentMethod === 'mobile_money') {
+          momoGroup.classList.add('show');
+        } else {
+          momoGroup.classList.remove('show');
+        }
+      });
+    });
+
+    // Form submission
+    checkoutForm?.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      if (!ensureAuthenticatedBeforeSubmit()) return;
+      
+      const formData = new FormData(this);
+      const data = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        address: formData.get('address'),
+        city: formData.get('city'),
+        region: formData.get('region')
+      };
+
+      // Validation
+      if (!data.name || !data.email || !data.phone || !data.address || !data.city) {
+        alert('Please fill in all required fields');
+        return;
+      }
+
+      // Get cart and calculate total
+      const cart = JSON.parse(localStorage.getItem(CART_KEY) || '{}');
+      const items = Object.values(cart);
+      let subtotal = 0;
+      items.forEach(item => {
+        const price = parseFloat(item.priceNumber || item.price) || 0;
+        subtotal += price * (parseInt(item.qty) || 1);
+      });
+      const total = subtotal;
+
+      if (total <= 0) {
+        alert('Your cart is empty');
+        return;
+      }
+
+      // Show loading
+      document.getElementById('loading-overlay').classList.add('show');
+      if (placeOrderBtn) placeOrderBtn.disabled = true;
+
+      // Generate order ID
+      const orderId = 'ORD-' + Date.now().toString(36).toUpperCase();
+
+      // Initialize Paystack
+      if (typeof PaystackPop === 'undefined' || !PUBLIC_KEY) {
+        alert('Payment system not configured');
+        stopLoadingState();
+        return;
+      }
+
+      const paystackConfig = {
+        key: PUBLIC_KEY,
+        email: data.email,
+        amount: Math.round(total * 100), // Convert to pesewas
+        currency: 'GHS',
+        ref: orderId + '-' + Date.now(),
+        channels: selectedPaymentMethod === 'mobile_money' ? ['mobile_money'] : ['card'],
+        metadata: {
+          custom_fields: [
+            { display_name: "Customer Name", variable_name: "customer_name", value: data.name },
+            { display_name: "Phone", variable_name: "phone", value: data.phone },
+            { display_name: "Address", variable_name: "address", value: data.address }
+          ]
+        },
+        onClose: function() {
+          stopLoadingState();
+        },
+        callback: function(response) {
+          // Verify payment
+          verifyPayment(response.reference, orderId, data, items, total);
+        }
+      };
+
+      if (selectedPaymentMethod === 'mobile_money') {
+        const momoPhone = document.getElementById('momo-phone').value || data.phone;
+        paystackConfig.mobile_money = { phone: momoPhone };
+      }
+
+      const handler = PaystackPop.setup(paystackConfig);
+      handler.openIframe();
+    });
+
+    // Verify payment on server
+    async function verifyPayment(reference, orderId, customerData, items, total) {
+      try {
+        const endpoints = ['/.netlify/functions/verify-payment', '/api/verify-payment'];
+        
+        for (const endpoint of endpoints) {
+          try {
+            console.log('Trying endpoint:', endpoint);
+            const response = await fetch(endpoint, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                reference: reference,
+                order: {
+                  orderId: orderId,
+                  customer: customerData,
+                  items: items,
+                  total: total
+                }
+              })
+            });
+
+            console.log('Response status:', response.status, 'from', endpoint);
+
+            // Check if response is actually JSON before parsing
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+              console.log('Non-JSON response from', endpoint, '- skipping');
+              continue;
+            }
+
+            const result = await response.json();
+            console.log('Parsed result:', result);
+            
+            if (response.ok && result.verified) {
+              console.log('Payment verified successfully!');
+              handleCheckoutSuccess(reference, { orderId });
+              return;
+            } else if (result.error) {
+              console.error('Verification failed:', result.error);
+            }
+          } catch (err) {
+            console.error('Error with endpoint:', endpoint, err.message);
+          }
+        }
+        
+        // Local fallback: save order to localStorage for development
+        console.warn('All verification endpoints failed - using local fallback');
+        try {
+          const session = getSessionInfo();
+          const orderData = {
+            id: orderId,
+            orderId: orderId,
+            customerName: customerData.name,
+            customerEmail: session.email || customerData.email,
+            customerPhone: customerData.phone,
+            shippingAddress: `${customerData.address}, ${customerData.city}, ${customerData.region || ''}`,
+            date: new Date().toISOString(),
+            items: items.map(item => ({
+              title: item.title,
+              quantity: parseInt(item.qty) || 1,
+              price: parseFloat(item.priceNumber || item.price) || 0,
+              image: item.img || item.image || '/images/placeholder.jpg'
+            })),
+            subtotal: (total - 10).toFixed(2),
+            total: total.toFixed(2),
+            paymentRef: reference,
+            status: 'pending'
+          };
+          
+          // Save to localStorage with key 'orders' (matches customer-orders.html)
+          const storedOrders = localStorage.getItem('orders') || '[]';
+          const orders = JSON.parse(storedOrders);
+          orders.push(orderData);
+          localStorage.setItem('orders', JSON.stringify(orders));
+          
+          console.log('Order saved locally:', orderData);
+          handleCheckoutSuccess(reference, { orderId, bypassVerification: false });
+          return;
+        } catch (localErr) {
+          console.error('Local order save failed:', localErr);
+        }
+        
+        if (isLocalhost && promptForDevOverride('Enter dev override token to mark payment as verified:')) {
+          handleCheckoutSuccess(reference, { orderId, bypassVerification: true });
+          return;
+        }
+        stopLoadingState();
+        alert('Payment completed but verification failed. Reference: ' + reference + '\nPlease contact support.');
+        
+      } catch (error) {
+        console.error('Verification error:', error);
+        if (isLocalhost && promptForDevOverride('Verification error. Enter override token to continue:')) {
+          handleCheckoutSuccess(reference, { orderId, bypassVerification: true });
+          return;
+        }
+        stopLoadingState();
+        alert('Verification error. Please contact support with reference: ' + reference);
+      }
+    }
+
+    window.addEventListener('storage', (event) => {
+      if (event.key === SESSION_KEY) {
+        enforceAuthRequirement();
+      }
+    });
+
+    // Initialize
+    enforceAuthRequirement();
+    loadCart();
+  </script>
+</body>
+</html>

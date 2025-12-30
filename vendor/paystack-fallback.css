@@ -1,0 +1,35 @@
+/* Lightweight fallback styles for Paystack buttons/assets when paystack.com CSS is unreachable.
+   This is intentionally tiny and only covers common button classes used by Paystack-hosted widgets.
+*/
+.paystack-button,
+.paystack-btn,
+.paystack-submit,
+.ps-button,
+.paystack-widget-button {
+  display: inline-block !important;
+  padding: 8px 14px !important;
+  background: #00aaff !important;
+  color: #fff !important;
+  border-radius: 6px !important;
+  border: none !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+}
+
+/* Generic small helpers in case some widget HTML is inserted inline */
+.paystack-container {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial;
+}
+
+.paystack-note {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Make fallback rules have low specificity but visible effect */
+button.paystack-button:hover,
+.paystack-button:hover {
+  filter: brightness(0.95);
+}

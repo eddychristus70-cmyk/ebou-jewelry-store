@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Vendor Dashboard — Ebou Jewelry</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #e50f65;
+        --secondary: #fa6de8;
+        --success: #1eb981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --dark: #1f2937;
+        --light: #f9fafb;
+        --border: #e5e7eb;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        padding: 20px;
+        color: var(--dark);
+      }
+
+      .dashboard-container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .dashboard-header {
+        background: white;
+        border-radius: 12px;
+        padding: 24px 32px;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .admin-nav {
+        display: flex;
+        gap: 16px;
+        font-weight: 600;
+      }
+
+      .admin-nav a {
+        color: var(--dark);
+        padding: 6px 10px;
+        border-radius: 8px;
+        text-decoration: none;
+      }
+
+      .admin-nav a.active {
+        background: rgba(229, 15, 101, 0.12);
+        color: var(--primary);
+      }
+
+      .dashboard-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .dashboard-title h1 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--dark);
+        margin: 0;
+      }
+
+      .dashboard-title i {
+        color: var(--primary);
+        font-size: 1.5rem;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+
+      .stat-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border-left: 4px solid var(--primary);
+      }
+
+      .stat-card.success {
+        border-left-color: var(--success);
+      }
+
+      .stat-card.warning {
+        border-left-color: var(--warning);
+      }
+
+      .stat-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 8px;
+      }
+
+      .stat-label {
+        font-size: 0.875rem;
+        color: #6b7280;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .stat-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+      }
+
+      .stat-card .stat-icon {
+        background: rgba(229, 15, 101, 0.1);
+        color: var(--primary);
+      }
+
+      .stat-card.success .stat-icon {
+        background: rgba(30, 185, 129, 0.1);
+        color: var(--success);
+      }
+
+      .stat-card.warning .stat-icon {
+        background: rgba(245, 158, 11, 0.1);
+        color: var(--warning);
+      }
+
+      .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--dark);
+        margin-bottom: 4px;
+      }
+
+      .stat-change {
+        font-size: 0.875rem;
+        color: #6b7280;
+      }
+
+      .controls-bar {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      .controls-row {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .search-box {
+        flex: 1;
+        min-width: 250px;
+        position: relative;
+      }
+
+      .search-box input {
+        width: 100%;
+        padding: 10px 16px 10px 40px;
+        border: 2px solid var(--border);
+        border-radius: 8px;
+        font-size: 0.95rem;
+        transition: all 0.2s;
+      }
+
+      .search-box input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(229, 15, 101, 0.1);
+      }
+
+      .search-box i {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #9ca3af;
+      }
+
+      .filter-group {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .filter-btn,
+      .action-btn {
+        padding: 10px 18px;
+        border: 2px solid var(--border);
+        border-radius: 8px;
+        background: white;
+        font-size: 0.95rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .filter-btn:hover,
+      .action-btn:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+      }
+
+      .filter-btn.active {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+
+      .action-btn.primary {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+
+      .action-btn.primary:hover {
+        background: #c50d56;
+      }
+
+      .orders-container {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+      }
+
+      .order-card {
+        border-bottom: 1px solid var(--border);
+        padding: 24px;
+        transition: background 0.2s;
+      }
+
+      .order-card:hover {
+        background: #f9fafb;
+      }
+
+      .order-card:last-child {
+        border-bottom: none;
+      }
+
+      .order-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .order-id {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--dark);
+      }
+
+      .order-id i {
+        color: var(--primary);
+        font-size: 0.9rem;
+      }
+
+      .order-badge {
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .order-badge.success {
+        background: rgba(30, 185, 129, 0.1);
+        color: var(--success);
+      }
+
+      .order-badge.warning {
+        background: rgba(245, 158, 11, 0.1);
+        color: var(--warning);
+      }
+
+      .order-badge.danger {
+        background: rgba(239, 68, 68, 0.1);
+        color: var(--danger);
+      }
+
+      .order-badge.info {
+        background: rgba(59, 130, 246, 0.1);
+        color: #3b82f6;
+      }
+
+      .order-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid var(--border);
+        flex-wrap: wrap;
+      }
+
+      .status-btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s;
+      }
+
+      .status-btn.approve {
+        background: var(--success);
+        color: white;
+      }
+
+      .status-btn.approve:hover {
+        background: #17a172;
+      }
+
+      .status-btn.ship {
+        background: #3b82f6;
+        color: white;
+      }
+
+      .status-btn.ship:hover {
+        background: #2563eb;
+      }
+
+      .status-btn.complete {
+        background: #8b5cf6;
+        color: white;
+      }
+
+      .status-btn.complete:hover {
+        background: #7c3aed;
+      }
+
+      .status-btn.cancel {
+        background: var(--danger);
+        color: white;
+      }
+
+      .status-btn.cancel:hover {
+        background: #dc2626;
+      }
+
+      .status-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .order-meta {
+        display: flex;
+        gap: 24px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+      }
+
+      .order-customer {
+        margin-bottom: 20px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .customer-name {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        margin-bottom: 8px;
+        color: var(--dark);
+      }
+
+      .customer-name i {
+        color: var(--primary);
+      }
+
+      .customer-contact {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin-left: 26px;
+      }
+
+      .customer-contact span {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .customer-contact i {
+        font-size: 0.75rem;
+      }
+
+      .order-items {
+        margin-bottom: 16px;
+      }
+
+      .items-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: var(--dark);
+      }
+
+      .items-header i {
+        color: var(--primary);
+      }
+
+      .items-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .item-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 12px;
+        background: #f9fafb;
+        border-radius: 6px;
+        gap: 12px;
+      }
+
+      .item-name {
+        flex: 1;
+        font-weight: 500;
+        color: var(--dark);
+      }
+
+      .item-quantity {
+        background: var(--primary);
+        color: white;
+        padding: 2px 10px;
+        border-radius: 12px;
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+
+      .item-price {
+        font-weight: 600;
+        color: var(--primary);
+        min-width: 70px;
+        text-align: right;
+      }
+
+      .order-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 16px;
+        border-top: 2px solid var(--border);
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .order-total {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .order-total span:first-child {
+        font-size: 0.875rem;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .total-amount {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .order-reference {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.875rem;
+        color: #6b7280;
+        background: #f9fafb;
+        padding: 6px 12px;
+        border-radius: 6px;
+      }
+
+      .order-reference i {
+        color: var(--primary);
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #9ca3af;
+      }
+
+      .empty-state i {
+        font-size: 4rem;
+        margin-bottom: 16px;
+        color: #d1d5db;
+      }
+
+      .empty-state h3 {
+        font-size: 1.25rem;
+        color: #6b7280;
+        margin-bottom: 8px;
+      }
+
+      .locked-view {
+        background: white;
+        border-radius: 12px;
+        padding: 48px;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        max-width: 500px;
+        margin: 100px auto;
+      }
+
+      .locked-view i {
+        font-size: 3rem;
+        color: var(--danger);
+        margin-bottom: 20px;
+      }
+
+      .locked-view h2 {
+        margin-bottom: 12px;
+        color: var(--dark);
+      }
+
+      .locked-view p {
+        color: #6b7280;
+        margin-bottom: 8px;
+      }
+
+      @media (max-width: 768px) {
+        .dashboard-header {
+          padding: 20px;
+        }
+
+        .dashboard-title h1 {
+          font-size: 1.5rem;
+        }
+
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .order-body {
+          grid-template-columns: 1fr;
+        }
+
+        .order-total-section {
+          align-items: flex-start;
+        }
+
+        .controls-row {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .search-box {
+          width: 100%;
+        }
+
+        .filter-group {
+          width: 100%;
+          flex-wrap: wrap;
+        }
+
+        .customer-info {
+          flex-direction: column;
+          gap: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="locked" style="display: none">
+      <div class="locked-view">
+        <i class="fas fa-lock"></i>
+        <h2>Admin Access Required</h2>
+        <p>This vendor dashboard is protected.</p>
+        <p style="margin-top: 16px; font-size: 0.875rem">
+          Add <code>?pw=devpass</code> to the URL or enter the password when
+          prompted.
+        </p>
+      </div>
+    </div>
+
+    <div id="content" class="dashboard-container" style="display: none">
+      <div class="dashboard-header">
+        <div class="dashboard-title">
+          <i class="fas fa-chart-line"></i>
+          <h1>Vendor Dashboard</h1>
+        </div>
+        <nav class="admin-nav">
+          <a href="orders.html" class="active">Orders</a>
+          <a href="messages.html" style="position: relative">
+            Messages
+            <span
+              class="admin-messages-badge"
+              id="admin-messages-badge"
+              style="
+                display: none;
+                position: absolute;
+                top: -6px;
+                right: -10px;
+                background: #ef4444;
+                color: white;
+                font-size: 0.7rem;
+                padding: 3px 7px;
+                border-radius: 12px;
+                font-weight: 700;
+                min-width: 18px;
+                text-align: center;
+              "
+              >0</span
+            >
+          </a>
+          <button
+            onclick="logout()"
+            style="
+              background: #ef4444;
+              color: white;
+              border: none;
+              padding: 8px 16px;
+              border-radius: 8px;
+              cursor: pointer;
+              font-weight: 600;
+              display: flex;
+              align-items: center;
+              gap: 6px;
+            "
+          >
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </nav>
+        <div class="meta-item">
+          <i class="fas fa-sync-alt"></i>
+          <span id="status">Loading...</span>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-card-header">
+            <span class="stat-label">Total Orders</span>
+            <div class="stat-icon">
+              <i class="fas fa-shopping-bag"></i>
+            </div>
+          </div>
+          <div class="stat-value" id="stat-total">0</div>
+          <div class="stat-change">All time</div>
+        </div>
+
+        <div class="stat-card success">
+          <div class="stat-card-header">
+            <span class="stat-label">Paid Orders</span>
+            <div class="stat-icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
+          </div>
+          <div class="stat-value" id="stat-paid">0</div>
+          <div class="stat-change">Successfully completed</div>
+        </div>
+
+        <div class="stat-card warning">
+          <div class="stat-card-header">
+            <span class="stat-label">Pending</span>
+            <div class="stat-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+          </div>
+          <div class="stat-value" id="stat-pending">0</div>
+          <div class="stat-change">Awaiting payment</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card-header">
+            <span class="stat-label">Revenue</span>
+            <div class="stat-icon">
+              <i class="fas fa-wallet"></i>
+            </div>
+          </div>
+          <div class="stat-value" id="stat-revenue">₵0.00</div>
+          <div class="stat-change">Total collected</div>
+        </div>
+      </div>
+
+      <div class="controls-bar">
+        <div class="controls-row">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input
+              id="q"
+              type="search"
+              placeholder="Search by order ID, customer name, email, or phone..."
+            />
+          </div>
+          <div class="filter-group">
+            <button class="filter-btn active" data-filter="all">
+              <i class="fas fa-list"></i>
+              All
+            </button>
+            <button class="filter-btn" data-filter="paid">
+              <i class="fas fa-check"></i>
+              Paid
+            </button>
+            <button class="filter-btn" data-filter="pending">
+              <i class="fas fa-clock"></i>
+              Pending
+            </button>
+          </div>
+          <button id="refresh" class="action-btn">
+            <i class="fas fa-sync-alt"></i>
+            Refresh
+          </button>
+          <button id="export" class="action-btn primary">
+            <i class="fas fa-download"></i>
+            Export CSV
+          </button>
+        </div>
+      </div>
+
+      <div class="orders-container" id="orders-list">
+        <div class="empty-state">
+          <i class="fas fa-inbox"></i>
+          <h3>No orders yet</h3>
+          <p>Orders will appear here once customers make purchases.</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Generate CSRF token for order management actions
+      function generateOrderCSRFToken() {
+        return Array.from(crypto.getRandomValues(new Uint8Array(32)))
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("");
+      }
+
+      const orderCSRFToken = generateOrderCSRFToken();
+      sessionStorage.setItem("orderCSRFToken", orderCSRFToken);
+
+      const PW = "devpass";
+      let allOrders = [];
+      let currentFilter = "all";
+
+      function checkAuth() {
+        const url = new URL(window.location.href);
+        const pw = url.searchParams.get("pw");
+        if (pw === PW) return true;
+        const entered = prompt("Enter admin password:");
+        return entered === PW;
+      }
+
+      function formatDate(timestamp) {
+        if (!timestamp) return { date: "N/A", time: "N/A" };
+        const d = new Date(timestamp);
+        const date = d.toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        });
+        const time = d.toLocaleTimeString("en-GB", {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+        return { date, time };
+      }
+
+      function formatCurrency(amount) {
+        // Handle different price formats and extract numeric value
+        if (!amount) return "₵0.00";
+
+        let numericValue;
+        if (typeof amount === "string") {
+          // Remove currency symbols and extract number
+          numericValue = parseFloat(amount.replace(/[₵$£€,]/g, ""));
+        } else {
+          numericValue = parseFloat(amount);
+        }
+
+        // Return 0.00 if still not a valid number
+        return `₵${(isNaN(numericValue) ? 0 : numericValue).toFixed(2)}`;
+      }
+
+      function renderOrderCard(order) {
+        const { date, time } = formatDate(order.updatedAt || order.createdAt);
+
+        // Enhanced status handling
+        const status = order.status || "pending";
+        const statusConfig = {
+          pending: { class: "warning", icon: "fa-clock", text: "Pending" },
+          paid: { class: "success", icon: "fa-check-circle", text: "Paid" },
+          approved: {
+            class: "success",
+            icon: "fa-thumbs-up",
+            text: "Approved",
+          },
+          processing: { class: "info", icon: "fa-cog", text: "Processing" },
+          shipped: { class: "info", icon: "fa-shipping-fast", text: "Shipped" },
+          delivered: {
+            class: "success",
+            icon: "fa-box-check",
+            text: "Delivered",
+          },
+          cancelled: {
+            class: "danger",
+            icon: "fa-times-circle",
+            text: "Cancelled",
+          },
+        };
+
+        const statusInfo = statusConfig[status] || statusConfig.pending;
+        const statusClass = statusInfo.class;
+        const statusIcon = statusInfo.icon;
+        const statusText = statusInfo.text;
+
+        const itemsHTML = (order.items || [])
+          .map(
+            (item) => `
+          <div class="item-row">
+            <span class="item-name">${
+              item.name || item.title || "Product"
+            }</span>
+            <span class="item-quantity">×${
+              item.quantity || item.qty || 1
+            }</span>
+            <span class="item-price">${formatCurrency(item.price || 0)}</span>
+          </div>
+        `
+          )
+          .join("");
+
+        return `
+        <div class="order-card" data-order-id="${order.orderId}">
+          <div class="order-card-header">
+            <div class="order-id">
+              <i class="fas fa-hashtag"></i>
+              <span>${order.orderId || "N/A"}</span>
+            </div>
+            <span class="order-badge ${statusClass}">
+              <i class="fas ${statusIcon}"></i>
+              ${statusText}
+            </span>
+          </div>
+
+          <div class="order-meta">
+            <div class="meta-item">
+              <i class="fas fa-calendar"></i>
+              <span>${date}</span>
+            </div>
+            <div class="meta-item">
+              <i class="fas fa-clock"></i>
+              <span>${time}</span>
+            </div>
+          </div>
+
+          <div class="order-customer">
+            <div class="customer-name">
+              <i class="fas fa-user"></i>
+              <span>${order.customer?.name || "Anonymous"}</span>
+            </div>
+            <div class="customer-contact">
+              ${
+                order.customer?.email
+                  ? `<span><i class="fas fa-envelope"></i> ${order.customer.email}</span>`
+                  : ""
+              }
+              ${
+                order.customer?.phone
+                  ? `<span><i class="fas fa-phone"></i> ${order.customer.phone}</span>`
+                  : ""
+              }
+            </div>
+          </div>
+
+          <div class="order-items">
+            <div class="items-header">
+              <i class="fas fa-shopping-bag"></i>
+              <span>Items (${order.items?.length || 0})</span>
+            </div>
+            <div class="items-list">
+              ${itemsHTML}
+            </div>
+          </div>
+
+          <div class="order-footer">
+            <div class="order-total">
+              <span>Total</span>
+              <span class="total-amount">${formatCurrency(order.total)}</span>
+            </div>
+            ${
+              order.paymentRef || order.reference
+                ? `<div class="order-reference"><i class="fas fa-receipt"></i> ${
+                    order.paymentRef || order.reference
+                  }</div>`
+                : ""
+            }
+          </div>
+          
+          <div class="order-actions">
+            ${
+              status === "pending" || status === "paid"
+                ? `
+              <button class="status-btn approve" data-action="approve" data-order-id="${order.orderId}" data-csrf="${orderCSRFToken}">
+                <i class="fas fa-check"></i> Approve Order
+              </button>
+            `
+                : ""
+            }
+            ${
+              status === "approved" || status === "processing"
+                ? `
+              <button class="status-btn ship" data-action="ship" data-order-id="${order.orderId}" data-csrf="${orderCSRFToken}">
+                <i class="fas fa-shipping-fast"></i> Mark as Shipped
+              </button>
+            `
+                : ""
+            }
+            ${
+              status === "shipped"
+                ? `
+              <button class="status-btn complete" data-action="complete" data-order-id="${order.orderId}" data-csrf="${orderCSRFToken}">
+                <i class="fas fa-box-check"></i> Mark as Delivered
+              </button>
+            `
+                : ""
+            }
+            ${
+              status !== "cancelled" && status !== "delivered"
+                ? `
+              <button class="status-btn cancel" data-action="cancel" data-order-id="${order.orderId}" data-csrf="${orderCSRFToken}">
+                <i class="fas fa-times"></i> Cancel Order
+              </button>
+            `
+                : ""
+            }
+          </div>
+        </div>
+      `;
+      }
+
+      function renderOrders(orders) {
+        const container = document.getElementById("orders-list");
+        if (!orders || orders.length === 0) {
+          container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-inbox"></i>
+            <h3>No orders found</h3>
+            <p>Try adjusting your search or filter criteria.</p>
+          </div>
+        `;
+          return;
+        }
+
+        container.innerHTML = orders.map(renderOrderCard).join("");
+      }
+
+      function updateStats(orders) {
+        const total = orders.length;
+        // Count all paid and post-paid statuses (paid, approved, processing, shipped, delivered)
+        const paidStatuses = [
+          "paid",
+          "approved",
+          "processing",
+          "shipped",
+          "delivered",
+        ];
+        const paid = orders.filter((o) =>
+          paidStatuses.includes(o.status)
+        ).length;
+        const pending = orders.filter((o) => o.status === "pending").length;
+        const revenue = orders
+          .filter((o) => paidStatuses.includes(o.status))
+          .reduce((sum, o) => sum + parseFloat(o.total || 0), 0);
+
+        document.getElementById("stat-total").textContent = total;
+        document.getElementById("stat-paid").textContent = paid;
+        document.getElementById("stat-pending").textContent = pending;
+        document.getElementById("stat-revenue").textContent =
+          formatCurrency(revenue);
+      }
+
+      function filterOrders() {
+        const query = document.getElementById("q").value.toLowerCase();
+        let filtered = allOrders;
+
+        if (currentFilter !== "all") {
+          if (currentFilter === "paid") {
+            // Include all paid and post-paid statuses
+            const paidStatuses = [
+              "paid",
+              "approved",
+              "processing",
+              "shipped",
+              "delivered",
+            ];
+            filtered = filtered.filter((o) => paidStatuses.includes(o.status));
+          } else {
+            filtered = filtered.filter((o) => o.status === currentFilter);
+          }
+        }
+
+        if (query) {
+          filtered = filtered.filter(
+            (o) =>
+              (o.orderId || "").toLowerCase().includes(query) ||
+              (o.customer?.name || "").toLowerCase().includes(query) ||
+              (o.customer?.email || "").toLowerCase().includes(query) ||
+              (o.customer?.phone || "").toLowerCase().includes(query)
+          );
+        }
+
+        renderOrders(filtered);
+      }
+
+      async function loadOrders() {
+        document.getElementById("status").innerHTML =
+          '<i class="fas fa-spinner fa-spin"></i> Loading...';
+        try {
+          let data = [];
+          try {
+            const res = await fetch("/.netlify/functions/orders");
+            if (res.ok) {
+              const payload = await res.json();
+              data = Array.isArray(payload) ? payload : payload.orders || [];
+            }
+          } catch {
+            const res = await fetch("../orders.json");
+            const payload = await res.json();
+            data = Array.isArray(payload) ? payload : [];
+          }
+
+          // Also load orders from localStorage (local development fallback)
+          try {
+            const localStored = localStorage.getItem("orders");
+            if (localStored) {
+              const localOrders = JSON.parse(localStored);
+              if (Array.isArray(localOrders) && localOrders.length > 0) {
+                data = [...data, ...localOrders];
+                console.log(
+                  "Loaded",
+                  localOrders.length,
+                  "orders from localStorage"
+                );
+              }
+            }
+          } catch (err) {
+            console.warn("Could not load localStorage orders", err);
+          }
+
+          allOrders = data.sort(
+            (a, b) =>
+              new Date(b.updatedAt || b.createdAt) -
+              new Date(a.updatedAt || a.createdAt)
+          );
+
+          updateStats(allOrders);
+          filterOrders();
+
+          const lastUpdate = new Date().toLocaleTimeString("en-GB");
+          document.getElementById(
+            "status"
+          ).innerHTML = `<i class="fas fa-check-circle"></i> Updated at ${lastUpdate}`;
+        } catch (err) {
+          console.error(err);
+          document.getElementById("status").innerHTML =
+            '<i class="fas fa-exclamation-circle"></i> Error loading orders';
+        }
+      }
+
+      function exportCSV() {
+        if (!allOrders.length) {
+          alert("No orders to export");
+          return;
+        }
+
+        const headers = [
+          "Order ID",
+          "Status",
+          "Customer Name",
+          "Email",
+          "Phone",
+          "Items",
+          "Total",
+          "Reference",
+          "Date",
+          "Time",
+        ];
+
+        const rows = allOrders.map((o) => {
+          const { date, time } = formatDate(o.updatedAt || o.createdAt);
+          const items = (o.items || [])
+            .map((i) => `${i.name || i.title}(${i.quantity || i.qty})`)
+            .join("; ");
+          return [
+            o.orderId || "",
+            o.status || "",
+            o.customer?.name || "",
+            o.customer?.email || "",
+            o.customer?.phone || "",
+            items,
+            o.total || "",
+            o.paymentRef || o.reference || "",
+            date,
+            time,
+          ];
+        });
+
+        const csv = [headers, ...rows]
+          .map((row) =>
+            row.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(",")
+          )
+          .join("\n");
+        const blob = new Blob([csv], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `orders-${Date.now()}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        if (!checkAuth()) {
+          document.getElementById("locked").style.display = "flex";
+          return;
+        }
+
+        document.getElementById("content").style.display = "block";
+
+        document.getElementById("q").addEventListener("input", filterOrders);
+        document
+          .getElementById("refresh")
+          .addEventListener("click", loadOrders);
+        document.getElementById("export").addEventListener("click", exportCSV);
+
+        document.querySelectorAll(".filter-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            document
+              .querySelectorAll(".filter-btn")
+              .forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+            currentFilter = btn.dataset.filter;
+            filterOrders();
+          });
+        });
+
+        // Handle status change buttons
+        document.addEventListener("click", function (e) {
+          const btn = e.target.closest(".status-btn");
+          if (!btn) return;
+
+          // CSRF token validation (backwards compatible)
+          const submittedToken = btn.dataset.csrf;
+          const storedToken = sessionStorage.getItem("orderCSRFToken");
+
+          // Only validate if both tokens exist
+          if (submittedToken && storedToken && submittedToken !== storedToken) {
+            alert("Invalid security token. Please refresh the page.");
+            return;
+          }
+
+          const action = btn.dataset.action;
+          const orderId = btn.dataset.orderId;
+
+          if (!orderId) return;
+
+          const actionMap = {
+            approve: {
+              status: "approved",
+              message: "Order approved successfully!",
+            },
+            ship: { status: "shipped", message: "Order marked as shipped!" },
+            complete: {
+              status: "delivered",
+              message: "Order marked as delivered!",
+            },
+            cancel: { status: "cancelled", message: "Order cancelled." },
+          };
+
+          const actionConfig = actionMap[action];
+          if (!actionConfig) return;
+
+          // Confirm cancellation
+          if (action === "cancel") {
+            if (!confirm("Are you sure you want to cancel this order?")) {
+              return;
+            }
+          }
+
+          updateOrderStatus(orderId, actionConfig.status, actionConfig.message);
+        });
+
+        function updateOrderStatus(orderId, newStatus, message) {
+          // Find and update order in allOrders
+          const orderIndex = allOrders.findIndex((o) => o.orderId === orderId);
+          if (orderIndex === -1) {
+            alert("Order not found");
+            return;
+          }
+
+          allOrders[orderIndex].status = newStatus;
+          allOrders[orderIndex].updatedAt = new Date().toISOString();
+
+          // Update localStorage if order is stored there
+          try {
+            const localStored = localStorage.getItem("orders");
+            if (localStored) {
+              const localOrders = JSON.parse(localStored);
+              const localIndex = localOrders.findIndex(
+                (o) => o.orderId === orderId || o.id === orderId
+              );
+              if (localIndex !== -1) {
+                localOrders[localIndex].status = newStatus;
+                localOrders[localIndex].updatedAt = new Date().toISOString();
+                localStorage.setItem("orders", JSON.stringify(localOrders));
+                console.log(
+                  "Order status updated in localStorage:",
+                  orderId,
+                  newStatus
+                );
+              }
+            }
+          } catch (err) {
+            console.warn("Could not update localStorage order", err);
+          }
+
+          // Re-render
+          updateStats(allOrders);
+          filterOrders();
+
+          // Show success message
+          const statusEl = document.getElementById("status");
+          statusEl.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+          statusEl.style.color = "var(--success)";
+
+          setTimeout(() => {
+            const lastUpdate = new Date().toLocaleTimeString("en-GB");
+            statusEl.innerHTML = `<i class="fas fa-check-circle"></i> Updated at ${lastUpdate}`;
+            statusEl.style.color = "";
+          }, 3000);
+        }
+
+        loadOrders();
+
+        // Count unread messages for admin
+        function updateAdminMessagesBadge() {
+          try {
+            const contactMessages = JSON.parse(
+              localStorage.getItem("contactMessages") || "[]"
+            );
+            // Count messages that haven't been read by admin or have new customer replies
+            const unreadCount = contactMessages.filter((msg) => {
+              // New message not read by admin
+              if (!msg.readByAdmin) return true;
+              // Has customer replies after admin last read
+              if (msg.replies && msg.replies.length > 0) {
+                const hasNewCustomerReply = msg.replies.some(
+                  (r) =>
+                    r.sender === "customer" &&
+                    new Date(r.date) > new Date(msg.adminLastRead || 0)
+                );
+                return hasNewCustomerReply;
+              }
+              return false;
+            }).length;
+
+            if (unreadCount > 0) {
+              const badge = document.getElementById("admin-messages-badge");
+              if (badge) {
+                badge.textContent = unreadCount;
+                badge.style.display = "block";
+              }
+            }
+          } catch (err) {
+            console.error("Error counting admin messages:", err);
+          }
+        }
+
+        updateAdminMessagesBadge();
+        // Update badge every 10 seconds
+        setInterval(updateAdminMessagesBadge, 10000);
+
+        loadOrders();
+      });
+
+      // Session Check - Protect Page
+      function checkAuthentication() {
+        const session = JSON.parse(
+          localStorage.getItem("adminSession") || "{}"
+        );
+
+        // Check if session exists and is valid
+        if (
+          !session.isLoggedIn ||
+          !session.expiry ||
+          session.expiry < Date.now()
+        ) {
+          // Session invalid or expired
+          localStorage.removeItem("adminSession");
+          window.location.href = "login.html";
+          return false;
+        }
+
+        // Check for inactivity timeout (30 minutes)
+        const inactivityLimit = 30 * 60 * 1000;
+        if (
+          session.lastActivity &&
+          Date.now() - session.lastActivity > inactivityLimit
+        ) {
+          localStorage.removeItem("adminSession");
+          alert("Session expired due to inactivity. Please log in again.");
+          window.location.href = "login.html";
+          return false;
+        }
+
+        // Update last activity timestamp
+        session.lastActivity = Date.now();
+        localStorage.setItem("adminSession", JSON.stringify(session));
+
+        return true;
+      }
+
+      // Logout Function
+      function logout() {
+        if (confirm("Are you sure you want to logout?")) {
+          localStorage.removeItem("adminSession");
+          window.location.href = "login.html";
+        }
+      }
+
+      // Run authentication check on page load
+      if (!checkAuthentication()) {
+        // Will redirect to login if not authenticated
+      }
+    </script>
+  </body>
+</html>

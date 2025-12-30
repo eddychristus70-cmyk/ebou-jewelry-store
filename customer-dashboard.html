@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Dashboard - Ebou Jewelry</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #e50f65;
+        --secondary: #fa6de8;
+        --success: #1eb981;
+        --warning: #f59e0b;
+        --info: #3b82f6;
+        --dark: #1f2937;
+        --light: #f9fafb;
+        --border: #e5e7eb;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        color: var(--dark);
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .page-header {
+        background: white;
+        border-radius: 16px;
+        padding: 32px;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .page-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .page-title h1 {
+        font-size: 2rem;
+        color: var(--dark);
+      }
+
+      .page-title i {
+        color: var(--primary);
+        font-size: 1.8rem;
+      }
+
+      .user-info {
+        text-align: right;
+      }
+
+      .user-email {
+        font-weight: 600;
+        color: var(--dark);
+      }
+
+      .user-since {
+        font-size: 0.9rem;
+        color: #6b7280;
+      }
+
+      .logout-btn {
+        padding: 8px 16px;
+        background: white;
+        border: 2px solid #dc2626;
+        color: #dc2626;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 8px;
+        transition: all 0.2s;
+      }
+
+      .logout-btn:hover {
+        background: #dc2626;
+        color: white;
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 24px;
+        margin-bottom: 32px;
+      }
+
+      .dashboard-card {
+        background: white;
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .dashboard-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      }
+
+      .card-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .card-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: white;
+      }
+
+      .icon-primary {
+        background: var(--primary);
+      }
+      .icon-success {
+        background: var(--success);
+      }
+      .icon-info {
+        background: var(--info);
+      }
+      .icon-warning {
+        background: var(--warning);
+      }
+
+      .card-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+
+      .card-subtitle {
+        font-size: 0.9rem;
+        color: #6b7280;
+      }
+
+      .card-content {
+        margin-bottom: 20px;
+      }
+
+      .stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #c80d58;
+      }
+
+      .btn-outline {
+        background: white;
+        color: var(--primary);
+        border: 2px solid var(--primary);
+      }
+
+      .btn-outline:hover {
+        background: var(--primary);
+        color: white;
+      }
+
+      .wishlist-items,
+      .recent-reviews {
+        max-height: 200px;
+        overflow-y: auto;
+      }
+
+      .wishlist-item,
+      .review-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        margin-bottom: 8px;
+      }
+
+      .item-image {
+        width: 48px;
+        height: 48px;
+        border-radius: 8px;
+        background: var(--light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #9ca3af;
+      }
+
+      .item-details {
+        flex: 1;
+      }
+
+      .item-name {
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .item-price {
+        color: var(--primary);
+        font-weight: 600;
+      }
+
+      .item-rating {
+        color: #fbbf24;
+      }
+
+      .remove-btn {
+        padding: 4px 8px;
+        background: #fee2e2;
+        color: #dc2626;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.8rem;
+      }
+
+      .remove-btn:hover {
+        background: #fecaca;
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: #6b7280;
+      }
+
+      .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 16px;
+        color: #d1d5db;
+      }
+
+      @media (max-width: 768px) {
+        .header-content {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .user-info {
+          text-align: center;
+        }
+
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Page Header -->
+      <div class="page-header">
+        <div class="header-content">
+          <div class="page-title">
+            <i class="fas fa-tachometer-alt"></i>
+            <div>
+              <h1>My Dashboard</h1>
+              <p class="card-subtitle">Welcome back to Ebou Jewelry</p>
+            </div>
+          </div>
+          <div class="user-info">
+            <div class="user-email" id="user-email">Loading...</div>
+            <div class="user-since">Member since 2025</div>
+            <button
+              onclick="loadDashboardData(); console.log('Manual refresh triggered');"
+              style="
+                padding: 6px 12px;
+                margin-right: 8px;
+                background: #10b981;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 0.85rem;
+              "
+            >
+              <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+            <a href="#" class="logout-btn" onclick="logout()">
+              <i class="fas fa-sign-out-alt"></i>
+              Logout
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Grid -->
+      <div class="dashboard-grid">
+        <!-- Orders Card -->
+        <div class="dashboard-card">
+          <div class="card-header">
+            <div class="card-icon icon-primary">
+              <i class="fas fa-shopping-bag"></i>
+            </div>
+            <div>
+              <div class="card-title">My Orders</div>
+              <div class="card-subtitle">Track your purchases</div>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="stat-number" id="orders-count">0</div>
+            <p>Total Orders</p>
+          </div>
+          <a href="customer-orders.html" class="btn btn-primary">
+            <i class="fas fa-eye"></i>
+            View Orders
+          </a>
+        </div>
+
+        <!-- Messages Card -->
+        <div class="dashboard-card">
+          <div class="card-header">
+            <div class="card-icon icon-info">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div>
+              <div class="card-title">
+                Messages
+                <span
+                  class="notification-badge"
+                  id="messages-badge"
+                  style="
+                    display: none;
+                    margin-left: 8px;
+                    background: #ef4444;
+                    color: white;
+                    font-size: 0.75rem;
+                    padding: 2px 8px;
+                    border-radius: 12px;
+                    font-weight: 700;
+                  "
+                  >0</span
+                >
+              </div>
+              <div class="card-subtitle">Customer support inbox</div>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="stat-number" id="messages-count">0</div>
+            <p>Unread Messages</p>
+          </div>
+          <a
+            href="customer-inbox.html"
+            class="btn btn-primary"
+            style="position: relative"
+          >
+            <i class="fas fa-inbox"></i>
+            View Inbox
+            <span
+              class="inbox-notification-badge"
+              id="inbox-badge"
+              style="
+                display: none;
+                position: absolute;
+                top: -8px;
+                right: -8px;
+                background: #ef4444;
+                color: white;
+                font-size: 0.7rem;
+                padding: 3px 7px;
+                border-radius: 12px;
+                font-weight: 700;
+                min-width: 20px;
+                text-align: center;
+              "
+              >0</span
+            >
+          </a>
+        </div>
+
+        <!-- Wishlist Card -->
+        <div class="dashboard-card">
+          <div class="card-header">
+            <div class="card-icon icon-warning">
+              <i class="fas fa-heart"></i>
+            </div>
+            <div>
+              <div class="card-title">My Wishlist</div>
+              <div class="card-subtitle">Saved items</div>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="stat-number" id="wishlist-count">0</div>
+            <p>Saved Items</p>
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap">
+            <button class="btn btn-outline" onclick="toggleWishlistView()">
+              <i class="fas fa-eye"></i>
+              <span id="wishlist-toggle-text">View Wishlist</span>
+            </button>
+            <button
+              class="btn btn-primary"
+              onclick="addSampleWishlistItem()"
+              style="font-size: 0.85rem; padding: 8px 12px"
+            >
+              <i class="fas fa-plus"></i>
+              Add Sample
+            </button>
+          </div>
+        </div>
+
+        <!-- Reviews Card -->
+        <div class="dashboard-card">
+          <div class="card-header">
+            <div class="card-icon icon-success">
+              <i class="fas fa-star"></i>
+            </div>
+            <div>
+              <div class="card-title">My Reviews</div>
+              <div class="card-subtitle">Rate your purchases</div>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="stat-number" id="reviews-count">0</div>
+            <p>Reviews Written</p>
+          </div>
+          <button class="btn btn-outline" onclick="toggleReviewsView()">
+            <i class="fas fa-edit"></i>
+            <span id="reviews-toggle-text">Write Review</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Wishlist Section (Hidden by default) -->
+      <div id="wishlist-section" class="dashboard-card" style="display: none">
+        <div class="card-header">
+          <div class="card-icon icon-warning">
+            <i class="fas fa-heart"></i>
+          </div>
+          <div>
+            <div class="card-title">My Wishlist</div>
+            <div class="card-subtitle">Items you've saved for later</div>
+          </div>
+        </div>
+        <div class="wishlist-items" id="wishlist-items">
+          <!-- Wishlist items will be loaded here -->
+        </div>
+      </div>
+
+      <!-- Reviews Section (Hidden by default) -->
+      <div id="reviews-section" class="dashboard-card" style="display: none">
+        <div class="card-header">
+          <div class="card-icon icon-success">
+            <i class="fas fa-star"></i>
+          </div>
+          <div>
+            <div class="card-title">Product Reviews</div>
+            <div class="card-subtitle">
+              Share your experience with other customers
+            </div>
+          </div>
+        </div>
+
+        <!-- Write Review Form -->
+        <div id="write-review-form" style="margin-bottom: 24px">
+          <h3 style="margin-bottom: 16px">Write a Review</h3>
+          <form onsubmit="submitReview(event)">
+            <div style="margin-bottom: 16px">
+              <label
+                style="display: block; margin-bottom: 4px; font-weight: 600"
+                >Product Name</label
+              >
+              <input
+                type="text"
+                id="review-product"
+                placeholder="Enter product name"
+                required
+                style="
+                  width: 100%;
+                  padding: 8px 12px;
+                  border: 1px solid var(--border);
+                  border-radius: 6px;
+                "
+              />
+            </div>
+            <div style="margin-bottom: 16px">
+              <label
+                style="display: block; margin-bottom: 4px; font-weight: 600"
+                >Rating</label
+              >
+              <div class="rating-input" id="rating-input">
+                <i class="fas fa-star" data-rating="1"></i>
+                <i class="fas fa-star" data-rating="2"></i>
+                <i class="fas fa-star" data-rating="3"></i>
+                <i class="fas fa-star" data-rating="4"></i>
+                <i class="fas fa-star" data-rating="5"></i>
+              </div>
+            </div>
+            <div style="margin-bottom: 16px">
+              <label
+                style="display: block; margin-bottom: 4px; font-weight: 600"
+                >Review</label
+              >
+              <textarea
+                id="review-text"
+                placeholder="Share your experience..."
+                required
+                style="
+                  width: 100%;
+                  padding: 12px;
+                  border: 1px solid var(--border);
+                  border-radius: 6px;
+                  min-height: 100px;
+                  resize: vertical;
+                "
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-paper-plane"></i>
+              Submit Review
+            </button>
+          </form>
+        </div>
+
+        <!-- Existing Reviews -->
+        <div class="recent-reviews" id="recent-reviews">
+          <!-- Reviews will be loaded here -->
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const SESSION_KEY = "ebouAuthSession";
+      let sessionData = {};
+      let customerEmail = "";
+      let selectedRating = 0;
+      let allProducts = []; // Store all products from products.json
+
+      // Initialize page
+      document.addEventListener("DOMContentLoaded", function () {
+        checkAuthentication();
+        loadProducts();
+        setupRatingInput();
+        handleHashNavigation();
+      });
+
+      // Load products from products.json
+      async function loadProducts() {
+        try {
+          const response = await fetch("products.json");
+          if (response.ok) {
+            allProducts = await response.json();
+          }
+        } catch (error) {
+          console.error("Error loading products:", error);
+        }
+        loadDashboardData();
+
+        // Auto-refresh dashboard every 10 seconds to update message badges
+        setInterval(() => {
+          loadDashboardData();
+        }, 10000);
+
+        // Listen for storage changes (when messages are updated in another tab)
+        window.addEventListener("storage", (e) => {
+          if (e.key === "contactMessages") {
+            console.log("Messages updated in storage, refreshing badges");
+            loadDashboardData();
+          }
+        });
+      }
+
+      // Handle hash navigation (e.g., #wishlist, #reviews)
+      function handleHashNavigation() {
+        const hash = window.location.hash.substring(1); // Remove the #
+
+        if (hash === "wishlist") {
+          toggleWishlistView();
+          // Scroll to wishlist section
+          setTimeout(() => {
+            document
+              .getElementById("wishlist-section")
+              ?.scrollIntoView({ behavior: "smooth" });
+          }, 100);
+        } else if (hash === "reviews") {
+          toggleReviewsView();
+          // Scroll to reviews section
+          setTimeout(() => {
+            document
+              .getElementById("reviews-section")
+              ?.scrollIntoView({ behavior: "smooth" });
+          }, 100);
+        }
+      }
+
+      // Check if user is logged in
+      function checkAuthentication() {
+        sessionData = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "{}");
+        customerEmail = sessionData.email || "";
+
+        // Check session expiry
+        if (sessionData.expiry && Date.now() > sessionData.expiry) {
+          sessionStorage.removeItem(SESSION_KEY);
+          customerEmail = "";
+        }
+
+        // Check inactivity (30 minutes)
+        const inactivityLimit = 30 * 60 * 1000;
+        if (
+          sessionData.lastActivity &&
+          Date.now() - sessionData.lastActivity > inactivityLimit
+        ) {
+          sessionStorage.removeItem(SESSION_KEY);
+          customerEmail = "";
+        }
+
+        if (!customerEmail) {
+          // Show login required message
+          document.body.innerHTML = `
+            <div style="display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+              <div style="background: white; padding: 40px; border-radius: 16px; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08); text-align: center; max-width: 400px;">
+                <i class="fas fa-user-lock" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
+                <h2>Login Required</h2>
+                <p style="margin-bottom: 24px; color: #6b7280;">Please log in to access your dashboard</p>
+                <a href="jumia-login.html" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px;">
+                  <i class="fas fa-sign-in-alt"></i>
+                  Go to Login
+                </a>
+              </div>
+            </div>
+          `;
+          return;
+        }
+
+        // Update last activity
+        sessionData.lastActivity = Date.now();
+        sessionStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
+
+        document.getElementById("user-email").textContent = customerEmail;
+      }
+
+      // Load dashboard statistics
+      function loadDashboardData() {
+        // Load orders count
+        const orders = JSON.parse(localStorage.getItem("orders") || "[]");
+        const userOrders = orders.filter(
+          (order) =>
+            order.customerEmail &&
+            order.customerEmail.toLowerCase() === customerEmail.toLowerCase()
+        );
+        document.getElementById("orders-count").textContent = userOrders.length;
+
+        // Load messages count
+        const messages = JSON.parse(
+          localStorage.getItem("contactMessages") || "[]"
+        );
+        const userMessages = messages.filter(
+          (msg) =>
+            msg.email && msg.email.toLowerCase() === customerEmail.toLowerCase()
+        );
+
+        console.log("Total user messages:", userMessages.length);
+        console.log("User messages:", userMessages);
+
+        // Count ALL messages with admin replies (regardless of readByCustomer flag)
+        let unreadCount = 0;
+        userMessages.forEach((msg) => {
+          console.log(
+            "Checking message:",
+            msg.id || msg.email,
+            "replies:",
+            msg.replies
+          );
+          if (msg.replies && msg.replies.length > 0) {
+            console.log(
+              "Full replies array:",
+              JSON.stringify(msg.replies, null, 2)
+            );
+            const adminReplies = msg.replies.filter(
+              (r) => r.sender === "admin"
+            );
+            console.log("Admin replies found:", adminReplies.length);
+            const hasAdminReply = adminReplies.length > 0;
+            console.log(
+              "Has admin reply:",
+              hasAdminReply,
+              "readByCustomer:",
+              msg.readByCustomer
+            );
+
+            // Count as unread if there are admin replies AND customer hasn't read
+            // OR if there are NEW admin replies after the last time customer read
+            if (hasAdminReply) {
+              if (!msg.readByCustomer) {
+                console.log(
+                  "✓ Message has never been read - counts as unread!"
+                );
+                unreadCount++;
+              } else if (msg.lastReadTime) {
+                // Check if there are admin replies AFTER the last read time
+                const newAdminReplies = adminReplies.filter(
+                  (r) => new Date(r.date) > new Date(msg.lastReadTime)
+                );
+                if (newAdminReplies.length > 0) {
+                  console.log(
+                    "✓ Found",
+                    newAdminReplies.length,
+                    "NEW admin replies since last read!"
+                  );
+                  unreadCount++;
+                } else {
+                  console.log("✗ All admin replies were read already");
+                }
+              } else {
+                // Has been read but no lastReadTime recorded
+                // This is an old message from before we tracked read times
+                // Check if the MOST RECENT reply is from admin (within last 24 hours = likely new)
+                const mostRecentReply = adminReplies[adminReplies.length - 1];
+                const replyAge = Date.now() - new Date(mostRecentReply.date);
+                const oneDayInMs = 24 * 60 * 60 * 1000;
+
+                if (replyAge < oneDayInMs) {
+                  console.log(
+                    "⚠ Message has recent admin reply (within 24h) - showing badge!"
+                  );
+                  unreadCount++;
+                } else {
+                  console.log(
+                    "⚠ Message was read but no timestamp - admin reply is old, not counting"
+                  );
+                }
+              }
+            }
+          } else {
+            console.log("No replies on this message");
+          }
+        });
+
+        console.log("=== FINAL UNREAD COUNT:", unreadCount, "===");
+
+        document.getElementById("messages-count").textContent = unreadCount;
+
+        // ALWAYS try to show/hide badges based on count
+        const messagesBadge = document.getElementById("messages-badge");
+        const inboxBadge = document.getElementById("inbox-badge");
+
+        console.log("messagesBadge element:", messagesBadge);
+        console.log("inboxBadge element:", inboxBadge);
+
+        if (unreadCount > 0) {
+          console.log("Showing badges for", unreadCount, "unread messages");
+          if (messagesBadge) {
+            messagesBadge.textContent = unreadCount;
+            messagesBadge.style.display = "inline-block";
+            console.log(
+              "Messages badge display set to:",
+              messagesBadge.style.display
+            );
+          }
+          if (inboxBadge) {
+            inboxBadge.textContent = unreadCount;
+            inboxBadge.style.display = "block";
+            console.log(
+              "Inbox badge display set to:",
+              inboxBadge.style.display
+            );
+          }
+        } else {
+          console.log("No unread messages, hiding badges");
+          if (messagesBadge) {
+            messagesBadge.style.display = "none";
+          }
+          if (inboxBadge) {
+            inboxBadge.style.display = "none";
+          }
+        }
+
+        // Load wishlist count
+        const wishlist = JSON.parse(
+          localStorage.getItem(`wishlist_${customerEmail}`) || "[]"
+        );
+        const countElement = document.getElementById("wishlist-count");
+        countElement.textContent = wishlist.length;
+
+        // Add visual feedback when items exist
+        if (wishlist.length > 0) {
+          countElement.style.color = "var(--success)";
+        } else {
+          countElement.style.color = "var(--primary)";
+        }
+
+        // Load reviews count
+        const reviews = JSON.parse(
+          localStorage.getItem(`reviews_${customerEmail}`) || "[]"
+        );
+        document.getElementById("reviews-count").textContent = reviews.length;
+
+        // Load actual wishlist and reviews
+        loadWishlist();
+        loadReviews();
+      }
+
+      // Toggle wishlist view
+      function toggleWishlistView() {
+        const section = document.getElementById("wishlist-section");
+        const toggleText = document.getElementById("wishlist-toggle-text");
+
+        if (section.style.display === "none") {
+          section.style.display = "block";
+          toggleText.textContent = "Hide Wishlist";
+        } else {
+          section.style.display = "none";
+          toggleText.textContent = "View Wishlist";
+        }
+      }
+
+      // Toggle reviews view
+      function toggleReviewsView() {
+        const section = document.getElementById("reviews-section");
+        const toggleText = document.getElementById("reviews-toggle-text");
+
+        if (section.style.display === "none") {
+          section.style.display = "block";
+          toggleText.textContent = "Hide Reviews";
+        } else {
+          section.style.display = "none";
+          toggleText.textContent = "Write Review";
+        }
+      }
+
+      // Load wishlist items
+      function loadWishlist() {
+        const wishlist = JSON.parse(
+          localStorage.getItem(`wishlist_${customerEmail}`) || "[]"
+        );
+        const container = document.getElementById("wishlist-items");
+
+        // Auto-show wishlist section if there are items
+        if (wishlist.length > 0) {
+          const wishlistSection = document.getElementById("wishlist-section");
+          const toggleText = document.getElementById("wishlist-toggle-text");
+
+          if (wishlistSection) {
+            wishlistSection.style.display = "block";
+          }
+          if (toggleText) {
+            toggleText.textContent = "Hide Wishlist";
+          }
+        }
+
+        if (wishlist.length === 0) {
+          container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-heart"></i>
+                        <h3>No items in wishlist</h3>
+                        <p>Use the "Add Sample" button above to add some jewelry items!</p>
+                    </div>
+                `;
+          return;
+        }
+        container.innerHTML = wishlist
+          .map(
+            (item, index) => `
+                <div class="wishlist-item">
+                    <div class="item-image">
+                        ${
+                          item.img
+                            ? `<img src="${item.img}" alt="${
+                                item.name || "Product"
+                              }" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">`
+                            : '<i class="fas fa-gem"></i>'
+                        }
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">${
+                          item.name || "Jewelry Item"
+                        }</div>
+                        <div class="item-price">₵${item.price || "99.99"}</div>
+                    </div>
+                    <button class="remove-btn" onclick="removeFromWishlist(${index})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `
+          )
+          .join("");
+      }
+
+      // Remove item from wishlist
+      function removeFromWishlist(index) {
+        const wishlist = JSON.parse(
+          localStorage.getItem(`wishlist_${customerEmail}`) || "[]"
+        );
+        wishlist.splice(index, 1);
+        localStorage.setItem(
+          `wishlist_${customerEmail}`,
+          JSON.stringify(wishlist)
+        );
+
+        loadDashboardData();
+        loadWishlist();
+      }
+
+      // Setup rating input
+      function setupRatingInput() {
+        const stars = document.querySelectorAll(".rating-input i");
+
+        stars.forEach((star, index) => {
+          star.addEventListener("click", function () {
+            selectedRating = parseInt(this.dataset.rating);
+            updateStarDisplay();
+          });
+
+          star.addEventListener("mouseenter", function () {
+            const rating = parseInt(this.dataset.rating);
+            highlightStars(rating);
+          });
+        });
+
+        document
+          .getElementById("rating-input")
+          .addEventListener("mouseleave", function () {
+            updateStarDisplay();
+          });
+      }
+
+      function highlightStars(rating) {
+        const stars = document.querySelectorAll(".rating-input i");
+        stars.forEach((star, index) => {
+          if (index < rating) {
+            star.style.color = "#fbbf24";
+          } else {
+            star.style.color = "#d1d5db";
+          }
+        });
+      }
+
+      function updateStarDisplay() {
+        highlightStars(selectedRating);
+      }
+
+      // Submit review
+      function submitReview(event) {
+        event.preventDefault();
+
+        const product = document.getElementById("review-product").value.trim();
+        const reviewText = document.getElementById("review-text").value.trim();
+
+        if (!product || !reviewText || selectedRating === 0) {
+          alert("Please fill in all fields and select a rating");
+          return;
+        }
+
+        const review = {
+          id: Date.now(),
+          product: product,
+          rating: selectedRating,
+          text: reviewText,
+          date: new Date().toISOString(),
+          customerEmail: customerEmail,
+        };
+
+        const reviews = JSON.parse(
+          localStorage.getItem(`reviews_${customerEmail}`) || "[]"
+        );
+        reviews.unshift(review);
+        localStorage.setItem(
+          `reviews_${customerEmail}`,
+          JSON.stringify(reviews)
+        );
+
+        // Reset form
+        document.getElementById("review-product").value = "";
+        document.getElementById("review-text").value = "";
+        selectedRating = 0;
+        updateStarDisplay();
+
+        alert("Review submitted successfully!");
+        loadDashboardData();
+        loadReviews();
+      }
+
+      // Load reviews
+      function loadReviews() {
+        const reviews = JSON.parse(
+          localStorage.getItem(`reviews_${customerEmail}`) || "[]"
+        );
+        const container = document.getElementById("recent-reviews");
+
+        if (reviews.length === 0) {
+          container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-star"></i>
+                        <h3>No reviews yet</h3>
+                        <p>Write your first product review above!</p>
+                    </div>
+                `;
+          return;
+        }
+
+        container.innerHTML = reviews
+          .map(
+            (review) => `
+                <div class="review-item">
+                    <div class="item-image">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">${review.product}</div>
+                        <div class="item-rating">
+                            ${"★".repeat(review.rating)}${"☆".repeat(
+              5 - review.rating
+            )}
+                        </div>
+                        <div style="font-size: 0.85rem; color: #6b7280; margin-top: 4px;">
+                            ${review.text.substring(0, 100)}${
+              review.text.length > 100 ? "..." : ""
+            }
+                        </div>
+                        <div style="font-size: 0.8rem; color: #9ca3af; margin-top: 4px;">
+                            ${new Date(review.date).toLocaleDateString()}
+                        </div>
+                    </div>
+                </div>
+            `
+          )
+          .join("");
+      }
+
+      // Logout function
+      function logout() {
+        if (confirm("Are you sure you want to logout?")) {
+          sessionStorage.removeItem(SESSION_KEY);
+          window.location.href = "jumia-login.html";
+        }
+      }
+
+      // Add sample wishlist item (for demo)
+      function addSampleWishlistItem() {
+        if (!customerEmail) {
+          alert("Please log in first to add items to wishlist");
+          return;
+        }
+
+        const wishlist = JSON.parse(
+          localStorage.getItem(`wishlist_${customerEmail}`) || "[]"
+        );
+
+        // Check if products are loaded
+        if (allProducts.length === 0) {
+          alert("Products not loaded yet. Please try again.");
+          return;
+        }
+
+        // Filter out products already in wishlist
+        const availableProducts = allProducts.filter(
+          (product) => !wishlist.some((existing) => existing.id === product.id)
+        );
+
+        if (availableProducts.length === 0) {
+          alert("All products are already in your wishlist!");
+          return;
+        }
+
+        // Randomly select a product
+        const randomProduct =
+          availableProducts[
+            Math.floor(Math.random() * availableProducts.length)
+          ];
+
+        // Create wishlist item from product data
+        const wishlistItem = {
+          id: randomProduct.id,
+          name: randomProduct.title,
+          price: randomProduct.price.toFixed(2),
+          category: randomProduct.category || "Jewelry",
+          img: randomProduct.img,
+          dateAdded: new Date().toISOString(),
+        };
+
+        wishlist.push(wishlistItem);
+        localStorage.setItem(
+          `wishlist_${customerEmail}`,
+          JSON.stringify(wishlist)
+        );
+
+        loadDashboardData();
+        loadWishlist();
+
+        // Show which item was added
+        alert(`Added "${wishlistItem.name}" to your wishlist!`);
+      }
+
+      // Debug function to force show wishlist
+      function forceShowWishlist() {
+        const wishlist = JSON.parse(
+          localStorage.getItem(`wishlist_${customerEmail}`) || "[]"
+        );
+        const section = document.getElementById("wishlist-section");
+
+        alert(`Debug Info:
+Customer Email: ${customerEmail}
+Wishlist Items: ${wishlist.length}
+Section Found: ${section ? "Yes" : "No"}
+LocalStorage Key: wishlist_${customerEmail}`);
+
+        if (section) {
+          section.style.display = "block";
+          loadWishlist();
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,788 @@
+[
+  {
+    "id": "elegant-necklace-sets",
+    "title": "Elegant Necklace Sets",
+    "price": 135,
+    "originalPrice": 150,
+    "discount": 15,
+    "img": "/images/df4ce2f9-7c33-4c4c-91b5-ed95ed49d1d7.jpg",
+    "description": "White & Golden Butterfly Clavicle — a delicate, timeless necklace set.",
+    "category": "Necklace",
+    "reviews": [
+      {
+        "name": "Ama K.",
+        "rating": 5,
+        "comment": "Absolutely beautiful! The butterfly design is so delicate and elegant.",
+        "date": "2025-11-15"
+      },
+      {
+        "name": "Abena M.",
+        "rating": 5,
+        "comment": "Perfect for special occasions. Great quality for the price!",
+        "date": "2025-11-10"
+      }
+    ]
+  },
+  {
+    "id": "bowknot-pearl-earring",
+    "title": "Bowknot Pearl Earring",
+    "price": 35,
+    "originalPrice": 50,
+    "discount": 15,
+    "img": "/images/4fc48099-33c6-407c-94fd-420fd9b07655.jpg",
+    "description": "Fashionable bowknot pearl earring for women & girls.",
+    "category": "Earring",
+    "reviews": [
+      {
+        "name": "Efua G.",
+        "rating": 5,
+        "comment": "So cute! I wear them to work every day. Very comfortable.",
+        "date": "2025-11-20"
+      },
+      {
+        "name": "Akosua B.",
+        "rating": 4,
+        "comment": "Beautiful earrings, exactly as shown in the picture.",
+        "date": "2025-11-08"
+      }
+    ]
+  },
+  {
+    "id": "luxury-gold-geometric-line",
+    "title": "Luxury Gold Geometric Line",
+    "price": 85,
+    "originalPrice": 100,
+    "discount": 15,
+    "img": "/images/54171ced-966d-4ebb-9bb6-d910bf9e4575.jpg",
+    "description": "Jewelry set including wide bangle bracelet and ring.",
+    "category": "Bangle",
+    "reviews": [
+      {
+        "name": "Yaa A.",
+        "rating": 5,
+        "comment": "Love the geometric design! Very modern and stylish.",
+        "date": "2025-11-18"
+      }
+    ]
+  },
+  {
+    "id": "mens-3pcs-fashion-alloy-set",
+    "title": "Men's 3pcs Fashion Alloy Jewelry Set",
+    "price": 135,
+    "originalPrice": 150,
+    "discount": 15,
+    "img": "/images/7ca64872-457d-45e1-bd44-582b4ac20d0f.jpg",
+    "description": "Fashion punk black color cross pendant set.",
+    "category": "Necklace",
+    "reviews": [
+      {
+        "name": "Kwame D.",
+        "rating": 5,
+        "comment": "Great quality! My boyfriend loves it.",
+        "date": "2025-11-12"
+      },
+      {
+        "name": "Kofi S.",
+        "rating": 4,
+        "comment": "Nice set, good value for money.",
+        "date": "2025-11-05"
+      }
+    ]
+  },
+  {
+    "id": "womens-3pcs-bracelets",
+    "title": "3pcs Women's Fashionable Bracelets",
+    "price": 100,
+    "originalPrice": 120,
+    "discount": 15,
+    "img": "/images/057c3a89-9fb5-4e65-9b1a-b9e22c2813ee.jpg",
+    "description": "Bracelet includes heart shaped cuff design, lucky 8 shaped chain & bangle.",
+    "category": "Bracelet",
+    "reviews": [
+      {
+        "name": "Adjoa T.",
+        "rating": 5,
+        "comment": "All three pieces are beautiful. Can wear them separately or together!",
+        "date": "2025-11-22"
+      }
+    ]
+  },
+  {
+    "id": "golden-love-bold-earring",
+    "title": "Golden Love Bold Earring",
+    "price": 30,
+    "originalPrice": 45,
+    "discount": 15,
+    "img": "/images/golden-earring-1.jpg",
+    "description": "Chunky heart-shaped golden earrings for a bold look.",
+    "category": "Earring",
+    "reviews": [
+      {
+        "name": "Nana F.",
+        "rating": 5,
+        "comment": "These are statement pieces! I get compliments every time I wear them.",
+        "date": "2025-11-25"
+      },
+      {
+        "name": "Esi L.",
+        "rating": 5,
+        "comment": "Perfect size and weight. Love the bold look!",
+        "date": "2025-11-14"
+      }
+    ]
+  },
+  {
+    "id": "mini-starfish-necklace",
+    "title": "Mini Starfish Necklace",
+    "price": 50,
+    "originalPrice": 70,
+    "discount": 15,
+    "img": "/images/golden-necklace-1.jpg",
+    "description": "Fashionable zircon pendant necklace — stainless steel.",
+    "category": "Necklace",
+    "reviews": [
+      {
+        "name": "Akua P.",
+        "rating": 5,
+        "comment": "So pretty and delicate! Perfect for everyday wear.",
+        "date": "2025-11-19"
+      }
+    ]
+  },
+  {
+    "id": "mens-quartz-watch-set",
+    "title": "Men's Quartz Watch Set",
+    "price": 230,
+    "originalPrice": 250,
+    "discount": 15,
+    "img": "/images/black watch set.jpg",
+    "description": "Round dial, electronic drive and hand display. Includes matching accessories.",
+    "category": "Watch",
+    "reviews": [
+      {
+        "name": "Kwesi R.",
+        "rating": 5,
+        "comment": "Excellent set! Watch keeps time perfectly and accessories match well.",
+        "date": "2025-11-16"
+      },
+      {
+        "name": "Kojo M.",
+        "rating": 4,
+        "comment": "Good quality for the price. Very satisfied!",
+        "date": "2025-11-09"
+      }
+    ]
+  },
+  {
+    "id": "spring-flower-petal-earring",
+    "title": "Spring Flower Petal Earring",
+    "price": 35,
+    "originalPrice": 50,
+    "discount": 15,
+    "img": "/images/lady-earring-1.jpg",
+    "description": "Romantic leaf rose petals dangle earring for women & girls.",
+    "category": "Earring",
+    "reviews": [
+      {
+        "name": "Adwoa J.",
+        "rating": 5,
+        "comment": "These earrings are gorgeous! Very feminine and romantic.",
+        "date": "2025-11-21"
+      }
+    ]
+  },
+  {
+    "id": "mens-black-clover-bracelet",
+    "title": "Men's Black Clover Bracelet",
+    "price": 50,
+    "originalPrice": 75,
+    "discount": 15,
+    "img": "/images/58da3b8a-4d58-426f-a4b9-1756cec0995c.jpg",
+    "description": "Solid sterling silver anti-tarnish white gold coating round cut bracelet.",
+    "category": "Bracelet",
+    "reviews": [
+      {
+        "name": "Yaw K.",
+        "rating": 5,
+        "comment": "Sturdy and stylish! Great quality silver.",
+        "date": "2025-11-17"
+      }
+    ]
+  },
+  {
+    "id": "golden-necklace-bangle",
+    "title": "Golden Necklace & Bangle Chic Jewelry Set",
+    "price": 85,
+    "originalPrice": 100,
+    "discount": 15,
+    "img": "/images/64c834a9-315d-4dab-bbd7-66629cd06c65.jpg",
+    "description": "Necklace and bangle set — exquisite choker and cuff bangle.",
+    "category": "Bangle",
+    "reviews": [
+      {
+        "name": "Afua W.",
+        "rating": 5,
+        "comment": "Both pieces are beautiful! Perfect match.",
+        "date": "2025-11-23"
+      },
+      {
+        "name": "Ama D.",
+        "rating": 4,
+        "comment": "Love this set! Wear it to every event.",
+        "date": "2025-11-11"
+      }
+    ]
+  },
+  {
+    "id": "golden-wings-earrings",
+    "title": "Golden Wings Earrings",
+    "price": 25,
+    "originalPrice": 40,
+    "discount": 15,
+    "img": "/images/golden-earring-2.jpg",
+    "description": "Pretty golden butterfly wings earrings for women and girls.",
+    "category": "Earring",
+    "reviews": [
+      {
+        "name": "Serwaa N.",
+        "rating": 5,
+        "comment": "So cute and lightweight! Perfect for daily wear.",
+        "date": "2025-11-24"
+      }
+    ]
+  },
+  {
+    "id": "golden-drop-chain-necklace",
+    "title": "Golden Drop Chain Necklace",
+    "price": 55,
+    "originalPrice": 75,
+    "discount": 15,
+    "img": "/images/f0a54c5b-159d-4145-ac86-ceaaaa4d3599.jpg",
+    "description": "Shaped dainty drop dangle necklace with simple teardrop pendant.",
+    "category": "Necklace",
+    "reviews": [
+      {
+        "name": "Maame S.",
+        "rating": 5,
+        "comment": "Very delicate and elegant. Perfect for layering!",
+        "date": "2025-11-13"
+      }
+    ]
+  },
+  {
+    "id": "silver-bangle-bracelet",
+    "title": "Silver Bangle Bracelet For Women",
+    "price": 50,
+    "originalPrice": 75,
+    "discount": 15,
+    "img": "/images/lady-earring-2.jpg",
+    "description": "Sterling silver bangle — cute and romantic bracelet for women.",
+    "category": "Bracelet",
+    "reviews": [
+      {
+        "name": "Abena H.",
+        "rating": 5,
+        "comment": "Beautiful silver bracelet! Doesn't tarnish easily.",
+        "date": "2025-11-07"
+      },
+      {
+        "name": "Yaa P.",
+        "rating": 4,
+        "comment": "Good quality, worth the price.",
+        "date": "2025-11-02"
+      }
+    ]
+  },
+  {
+    "id": "chunky-gold-vortex-stud-earring",
+    "title": "Chunky Gold Vortex Stud Earring",
+    "price": 30,
+    "originalPrice": 45,
+    "discount": 15,
+    "img": "/images/golden-earring-3.jpg",
+    "description": "Retro spiral glossy dangle/ stud earring for a bold look.",
+    "category": "Earring",
+    "reviews": [
+      {
+        "name": "Kukua V.",
+        "rating": 5,
+        "comment": "Love the retro vibe! These are so unique.",
+        "date": "2025-11-26"
+      }
+    ]
+  },
+  {
+    "id": "bow-necklace-gold",
+    "title": "Bow Necklace Gold Necklace For Women",
+    "price": 50,
+    "originalPrice": 70,
+    "discount": 15,
+    "img": "/images/golden-necklace-2.jpg",
+    "description": "Pendant charm dainty choker chain necklace.",
+    "category": "Necklace",
+    "reviews": [
+      {
+        "name": "Afia K.",
+        "rating": 5,
+        "comment": "The bow pendant is adorable! Very dainty and pretty.",
+        "date": "2025-11-06"
+      }
+    ]
+  },
+  {
+    "id": "golden-water-drop",
+    "title": "Golden Elegant Water Drop Stud Earring",
+    "price": 30,
+    "originalPrice": 45,
+    "discount": 15,
+    "img": "/images/golden-earring-5jpg.jpg",
+    "description": "Elegant water drop stud earring — tear drop style, lightweight.",
+    "category": "Earring",
+    "reviews": [
+      {
+        "name": "Ekua M.",
+        "rating": 5,
+        "comment": "Very lightweight and comfortable. Wear them all day!",
+        "date": "2025-11-04"
+      }
+    ]
+  },
+  {
+    "id": "dior-vintage-necklace",
+    "title": "Christian Dior Logo Vintage Necklace Gold",
+    "price": 55,
+    "originalPrice": 75,
+    "discount": 15,
+    "img": "/images/golden-necklace-3.jpg",
+    "description": "Fashionable repurposed authentic designer zipper pull gold plated necklace.",
+    "category": "Necklace",
+    "reviews": [
+      {
+        "name": "Akosua F.",
+        "rating": 5,
+        "comment": "Absolutely love this! The Dior logo is so elegant.",
+        "date": "2025-11-27"
+      },
+      {
+        "name": "Esi T.",
+        "rating": 5,
+        "comment": "Amazing quality! Looks just like authentic Dior.",
+        "date": "2025-11-03"
+      }
+    ]
+  },
+  {
+    "id": "black-white-earring",
+    "title": "Fashionable Black White Earring",
+    "price": 35,
+    "originalPrice": 50,
+    "discount": 15,
+    "img": "/images/lady-earring-4.jpg",
+    "description": "Stylish black and white earrings for modern outfits.",
+    "category": "Earring",
+    "reviews": [
+      {
+        "name": "Adjoa R.",
+        "rating": 4,
+        "comment": "Unique color combo! Goes with everything.",
+        "date": "2025-11-01"
+      }
+    ]
+  },
+  {
+    "id": "dior-vintage-necklace-2",
+    "title": "Christian Dior Logo Vintage Necklace (Variant)",
+    "price": 55,
+    "originalPrice": 75,
+    "discount": 15,
+    "img": "/images/golden-necklace-3.jpg",
+    "description": "Alternate listing for Dior vintage necklace.",
+    "category": "Necklace",
+    "reviews": [
+      {
+        "name": "Nana B.",
+        "rating": 5,
+        "comment": "Great alternative! Same quality as the original.",
+        "date": "2025-11-28"
+      }
+    ]
+  },
+  {
+    "id": "golden-tennis-bracelet",
+    "title": "Golden Tennis Bracelet",
+    "price": 60,
+    "originalPrice": 80,
+    "discount": 15,
+    "img": "/images/goldentennisbracelet.jpg",
+    "description": "Gold plated stainless steel snake chain bracelet.",
+    "category": "Bracelet",
+    "reviews": [
+      {
+        "name": "Ama Y.",
+        "rating": 5,
+        "comment": "Beautiful tennis bracelet! Looks expensive.",
+        "date": "2025-11-29"
+      },
+      {
+        "name": "Efua C.",
+        "rating": 5,
+        "comment": "Love it! Perfect fit and great shine.",
+        "date": "2025-11-12"
+      }
+    ]
+  },
+  {
+    "id": "bow-pearl-earring-women",
+    "title": "Bow Pearl Earring for Women",
+    "price": 35,
+    "originalPrice": 50,
+    "discount": 15,
+    "img": "/images/Bowpearlearingforwomen.jpg",
+    "description": "Elegant rose gold earrings finished with a delicate bow.",
+    "category": "Earring",
+    "reviews": [
+      {
+        "name": "Akua S.",
+        "rating": 5,
+        "comment": "The rose gold is gorgeous! So feminine and elegant.",
+        "date": "2025-11-16"
+      }
+    ]
+  },
+  {
+    "id": "gold-interlocking-circle-bracelet",
+    "title": "Gold Interlocking Circle Bracelet",
+    "price": 50,
+    "originalPrice": 75,
+    "discount": 15,
+    "img": "/images/Goldinterlockingcirclebracelet.jpg",
+    "description": "Fashionable interlocking gold charm circle bracelet.",
+    "category": "Bracelet",
+    "reviews": [
+      {
+        "name": "Adwoa P.",
+        "rating": 5,
+        "comment": "The interlocking design is so pretty! Very unique.",
+        "date": "2025-11-10"
+      }
+    ]
+  },
+  {
+    "id": "titanium-steel-gold-bracelet",
+    "title": "Titanium Steel Gold Bracelet",
+    "price": 130,
+    "originalPrice": 150,
+    "discount": 15,
+    "img": "/images/Titaniumsteelgoldbracelet.jpg",
+    "description": "Elegant classic style bracelet crafted from stainless steel with gold tones.",
+    "category": "Bracelet",
+    "reviews": [
+      {
+        "name": "Serwaa O.",
+        "rating": 4,
+        "comment": "Sturdy and well-made. Doesn't scratch easily.",
+        "date": "2025-11-08"
+      }
+    ]
+  },
+  {
+    "id": "silver-crystal-wedding-set",
+    "title": "Silver Crystal Wedding Jewelry Set",
+    "price": 230,
+    "originalPrice": 250,
+    "discount": 15,
+    "img": "/images/Silvercrystalweddingjewelryset.jpg",
+    "description": "Bridal necklace and earring set with sparkling crystal details.",
+    "category": "Jewelry Set",
+    "reviews": [
+      {
+        "name": "Yaa L.",
+        "rating": 5,
+        "comment": "Perfect for my wedding! The crystals sparkle beautifully.",
+        "date": "2025-11-30"
+      },
+      {
+        "name": "Abena J.",
+        "rating": 5,
+        "comment": "Stunning set! Wore it at my sister's wedding.",
+        "date": "2025-11-05"
+      }
+    ]
+  },
+  {
+    "id": "four-leaf-flower-bracelet",
+    "title": "Light Luxury Four-Leaf Flower Bracelet",
+    "price": 80,
+    "originalPrice": 100,
+    "discount": 15,
+    "img": "/images/Lightluxuryfour-leaffowerbracelet.jpg",
+    "description": "Refined zircon four-leaf flower bracelet with a versatile design.",
+    "category": "Bracelet",
+    "reviews": [
+      {
+        "name": "Maame D.",
+        "rating": 5,
+        "comment": "The four-leaf design is so delicate and beautiful!",
+        "date": "2025-11-15"
+      }
+    ]
+  },
+  {
+    "id": "flower-necklace-earring-set",
+    "title": "Flower Necklace & Earring Set",
+    "price": 80,
+    "originalPrice": 100,
+    "discount": 15,
+    "img": "/images/Flowernecklace&earringset.jpg",
+    "description": "Gold plated jewelry set featuring matching flower necklace and earrings.",
+    "category": "Jewelry Set",
+    "reviews": [
+      {
+        "name": "Afua N.",
+        "rating": 5,
+        "comment": "Love this matching set! Perfect for special events.",
+        "date": "2025-11-18"
+      }
+    ]
+  },
+  {
+    "id": "rylos-tennis-bracelet",
+    "title": "Rylos Tennis Bracelet",
+    "price": 80,
+    "originalPrice": 100,
+    "discount": 15,
+    "img": "/images/Rylostennisbracelet.jpg",
+    "description": "Yellow gold plated tennis bracelet with gemstones and diamonds.",
+    "category": "Bracelet",
+    "reviews": [
+      {
+        "name": "Ekua H.",
+        "rating": 5,
+        "comment": "Absolutely gorgeous! The gemstones sparkle so much.",
+        "date": "2025-11-22"
+      },
+      {
+        "name": "Kukua A.",
+        "rating": 5,
+        "comment": "Best tennis bracelet I own! Highly recommend.",
+        "date": "2025-11-11"
+      }
+    ]
+  },
+  {
+    "id": "light-luxury-fine-chains",
+    "title": "Light Luxury Fine Chains Necklaces",
+    "price": 50,
+    "originalPrice": 70,
+    "discount": 15,
+    "img": "/images/lightluxuryfinechainsnecklaces.jpg",
+    "description": "Diamond-inlaid fine chain necklace with a little waist charm accent.",
+    "category": "Necklace",
+    "reviews": [
+      {
+        "name": "Afia W.",
+        "rating": 5,
+        "comment": "So delicate and refined! Love the waist charm detail.",
+        "date": "2025-11-20"
+      }
+    ]
+  },
+  {
+    "id": "ysl-logo-vintage-necklace",
+    "title": "Yves Saint Laurent YSL Logo Vintage Necklace",
+    "price": 50,
+    "originalPrice": 70,
+    "discount": 15,
+    "img": "/images/YvessaintlaurentYSLlogovintagenecklace.jpg",
+    "description": "Luxury YSL logo necklace that pairs classic French elegance with shine.",
+    "category": "Necklace",
+    "reviews": [
+      {
+        "name": "Esi K.",
+        "rating": 5,
+        "comment": "The YSL logo is perfect! Looks authentic and luxurious.",
+        "date": "2025-11-26"
+      },
+      {
+        "name": "Akosua M.",
+        "rating": 5,
+        "comment": "Love this! Classic and elegant.",
+        "date": "2025-11-09"
+      }
+    ]
+  },
+  {
+    "id": "bow-zircon-necklace",
+    "title": "Stainless Steel Bow Zircon Necklace",
+    "price": 50,
+    "originalPrice": 70,
+    "discount": 15,
+    "img": "/images/Stainlesssteelbowzirconnecklace.jpg",
+    "description": "Charming bow pendant necklace with shimmering zircon crystals.",
+    "category": "Necklace",
+    "reviews": [
+      {
+        "name": "Adwoa L.",
+        "rating": 5,
+        "comment": "The zircon crystals are so sparkly! Beautiful necklace.",
+        "date": "2025-11-17"
+      }
+    ]
+  },
+  {
+    "id": "chunky-gold-bow-studs",
+    "title": "Chunky Gold Bow Stud Earrings",
+    "price": 25,
+    "originalPrice": 45,
+    "discount": 15,
+    "img": "/images/Chunkygoldbowstudearrings.jpg",
+    "description": "Bold bow-shaped stud earrings with a polished gold finish.",
+    "category": "Earring",
+    "reviews": [
+      {
+        "name": "Nana G.",
+        "rating": 5,
+        "comment": "Love these chunky studs! Perfect statement piece.",
+        "date": "2025-11-13"
+      }
+    ]
+  },
+  {
+    "id": "elegant-swan-necklace",
+    "title": "Elegant Swan Clavicle Pendant Necklace",
+    "price": 55,
+    "originalPrice": 75,
+    "discount": 15,
+    "img": "/images/Elegantswanclaviclependantnecklace.jpg",
+    "description": "Delicate swan pendant necklace symbolizing grace and beauty.",
+    "category": "Necklace",
+    "reviews": [
+      {
+        "name": "Abena W.",
+        "rating": 5,
+        "comment": "The swan is so elegant! Absolutely love it.",
+        "date": "2025-11-24"
+      }
+    ]
+  },
+  {
+    "id": "ballerina-girl-necklace",
+    "title": "Ballerina Girl Necklace",
+    "price": 55,
+    "originalPrice": 75,
+    "discount": 15,
+    "img": "/images/Ballerinagirlnecklace-titaniumsteelchain.jpg",
+    "description": "Ballerina pendant necklace on a durable titanium steel chain.",
+    "category": "Necklace",
+    "reviews": [
+      {
+        "name": "Adjoa K.",
+        "rating": 5,
+        "comment": "So cute! Perfect gift for my daughter.",
+        "date": "2025-11-19"
+      }
+    ]
+  },
+  {
+    "id": "ysl-vintage-logo-earrings",
+    "title": "YVES Saint Laurent Vintage Logo Earrings",
+    "price": 35,
+    "originalPrice": 50,
+    "discount": 15,
+    "img": "/images/YVESsaintlautrntvintagelogoearrings.jpg",
+    "description": "Repurposed designer zipper pull earrings plated in radiant gold.",
+    "category": "Earring",
+    "reviews": [
+      {
+        "name": "Efua R.",
+        "rating": 5,
+        "comment": "Love the vintage YSL look! Very chic.",
+        "date": "2025-11-27"
+      },
+      {
+        "name": "Yaa S.",
+        "rating": 4,
+        "comment": "Beautiful earrings, great quality.",
+        "date": "2025-11-14"
+      }
+    ]
+  },
+  {
+    "id": "stainless-steel-bow-bracelet",
+    "title": "Stainless Steel Bow Bracelet",
+    "price": 80,
+    "originalPrice": 100,
+    "discount": 15,
+    "img": "/images/Stainlesssteelbowbracelet.jpg",
+    "description": "Durable stainless steel bracelet accented with an elegant bow.",
+    "category": "Bracelet",
+    "reviews": [
+      {
+        "name": "Akua T.",
+        "rating": 5,
+        "comment": "Very sturdy and the bow detail is lovely!",
+        "date": "2025-11-21"
+      }
+    ]
+  },
+  {
+    "id": "vancleef-luxury-gold-bracelet",
+    "title": "VanCleef Luxury Gold Bracelet",
+    "price": 70,
+    "originalPrice": 85,
+    "discount": 15,
+    "img": "/images/Vancleefluxurygoldbracelet.jpg",
+    "description": "Designer-inspired gold plated bracelet with timeless appeal.",
+    "category": "Bracelet",
+    "reviews": [
+      {
+        "name": "Ama H.",
+        "rating": 5,
+        "comment": "Looks just like the real VanCleef! Amazing quality.",
+        "date": "2025-11-28"
+      },
+      {
+        "name": "Serwaa M.",
+        "rating": 5,
+        "comment": "Luxurious and beautiful! Worth every penny.",
+        "date": "2025-11-06"
+      }
+    ]
+  },
+  {
+    "id": "korea-titanium-smart-necklace",
+    "title": "Korea Titanium Steel Smart Shining Necklace",
+    "price": 55,
+    "originalPrice": 75,
+    "discount": 15,
+    "img": "/images/Koreatitaniumsteelsmartshiningnecklace.jpg",
+    "description": "Rhinestone pendant necklace featuring a teardrop pink centerpiece.",
+    "category": "Necklace",
+    "reviews": [
+      {
+        "name": "Ekua B.",
+        "rating": 5,
+        "comment": "The pink centerpiece is stunning! Very sparkly.",
+        "date": "2025-11-25"
+      }
+    ]
+  },
+  {
+    "id": "korea-dongdaemun-necklace",
+    "title": "Korea Dongdaemun Smart Shining Necklace",
+    "price": 55,
+    "originalPrice": 75,
+    "discount": 15,
+    "img": "/images/Koreadongdaemunsmartshiningnecklace.jpg",
+    "description": "Stainless steel necklace with a pink crystal flower pendant.",
+    "category": "Necklace",
+    "reviews": [
+      {
+        "name": "Nana V.",
+        "rating": 5,
+        "comment": "Beautiful flower pendant! Love the pink crystal.",
+        "date": "2025-11-23"
+      }
+    ]
+  }
+]

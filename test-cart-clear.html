@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Cart Clear</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 40px;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      button {
+        padding: 12px 24px;
+        margin: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 6px;
+        border: none;
+        background: #e50f65;
+        color: white;
+      }
+      button:hover {
+        background: #c00d56;
+      }
+      .output {
+        background: #f5f5f5;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 20px;
+        font-family: monospace;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Cart LocalStorage Test</h1>
+
+    <div>
+      <button onclick="addTestItems()">Add Test Items to Cart</button>
+      <button onclick="viewCart()">View Cart</button>
+      <button onclick="clearCart()">Clear Cart</button>
+      <button onclick="goToCheckout()">Go to Checkout</button>
+      <button onclick="goHome()">Go to Home</button>
+    </div>
+
+    <div class="output" id="output">
+      Click buttons to test cart functionality...
+    </div>
+
+    <script>
+      const CART_KEY = "siteCartV1";
+
+      function log(msg) {
+        const output = document.getElementById("output");
+        output.textContent +=
+          "\n" + new Date().toLocaleTimeString() + ": " + msg;
+      }
+
+      function addTestItems() {
+        const cart = {
+          prod1: {
+            id: "prod1",
+            title: "Test Ring",
+            price: "₵150.00",
+            priceNumber: 150,
+            qty: 2,
+            img: "test.jpg",
+          },
+          prod2: {
+            id: "prod2",
+            title: "Test Necklace",
+            price: "₵300.00",
+            priceNumber: 300,
+            qty: 1,
+            img: "test2.jpg",
+          },
+        };
+        localStorage.setItem(CART_KEY, JSON.stringify(cart));
+        log("Added 2 items to cart");
+        viewCart();
+      }
+
+      function viewCart() {
+        const raw = localStorage.getItem(CART_KEY);
+        if (!raw) {
+          log("Cart is NULL or does not exist");
+          return;
+        }
+        const cart = JSON.parse(raw);
+        const itemCount = Object.keys(cart).length;
+        const totalQty = Object.values(cart).reduce(
+          (sum, item) => sum + (item.qty || 0),
+          0
+        );
+        log(`Cart has ${itemCount} product types, ${totalQty} total items`);
+        log("Cart contents: " + JSON.stringify(cart, null, 2));
+      }
+
+      function clearCart() {
+        log("Clearing cart...");
+        localStorage.removeItem(CART_KEY);
+        localStorage.setItem(CART_KEY, JSON.stringify({}));
+        localStorage.removeItem(CART_KEY);
+        log("Cart cleared!");
+        viewCart();
+      }
+
+      function goToCheckout() {
+        window.location.href = "jumia-checkout.html";
+      }
+
+      function goHome() {
+        window.location.href = "index.html?cart_cleared=1&t=" + Date.now();
+      }
+
+      // Check URL params
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get("cart_cleared") === "1") {
+        log("DETECTED: cart_cleared=1 parameter in URL");
+      }
+    </script>
+  </body>
+</html>

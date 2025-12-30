@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Contact Inbox — Ebou Jewelry</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #e50f65;
+        --success: #1eb981;
+        --danger: #ef4444;
+        --dark: #1f2937;
+        --light: #f9fafb;
+        --border: #e5e7eb;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
+          sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        padding: 24px;
+        color: var(--dark);
+      }
+
+      a {
+        color: var(--primary);
+        text-decoration: none;
+      }
+
+      .dashboard-container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .dashboard-header {
+        background: #fff;
+        padding: 24px 32px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+        margin-bottom: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .dashboard-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .dashboard-title h1 {
+        margin: 0;
+        font-size: 1.8rem;
+      }
+
+      .dashboard-title i {
+        color: var(--primary);
+        font-size: 1.6rem;
+      }
+
+      .admin-nav {
+        display: flex;
+        gap: 16px;
+        font-weight: 600;
+      }
+
+      .admin-nav a {
+        color: var(--dark);
+        padding: 6px 10px;
+        border-radius: 8px;
+      }
+
+      .admin-nav a.active {
+        background: rgba(229, 15, 101, 0.12);
+        color: var(--primary);
+      }
+
+      .controls-bar {
+        background: #fff;
+        padding: 20px;
+        border-radius: 14px;
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+        margin-bottom: 24px;
+      }
+
+      .controls-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .controls-row label {
+        font-size: 0.85rem;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .search-input,
+      select {
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: 2px solid var(--border);
+        min-width: 220px;
+        font-size: 0.95rem;
+      }
+
+      .search-input:focus,
+      select:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(229, 15, 101, 0.12);
+      }
+
+      .btn {
+        border: none;
+        border-radius: 10px;
+        padding: 10px 16px;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .btn-outline {
+        background: #fff;
+        color: var(--primary);
+        border: 2px solid rgba(229, 15, 101, 0.3);
+      }
+
+      .inbox-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 24px;
+      }
+
+      .card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 15px 35px rgba(15, 23, 42, 0.08);
+        padding: 0;
+        overflow: hidden;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      thead {
+        background: var(--light);
+      }
+
+      th,
+      td {
+        padding: 12px 16px;
+        text-align: left;
+        border-bottom: 1px solid #f0f2f5;
+        font-size: 0.95rem;
+      }
+
+      tbody tr {
+        cursor: pointer;
+        transition: background 0.15s ease;
+      }
+
+      tbody tr:hover {
+        background: rgba(229, 15, 101, 0.05);
+      }
+
+      tbody tr.selected {
+        background: rgba(229, 15, 101, 0.12);
+      }
+
+      .message-preview {
+        color: #6b7280;
+        font-size: 0.9rem;
+      }
+
+      .status-bar {
+        margin-top: 16px;
+        font-size: 0.9rem;
+        color: #6b7280;
+      }
+
+      .status-bar.error {
+        color: var(--danger);
+      }
+
+      .detail-panel {
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        min-height: 400px;
+      }
+
+      .detail-panel h2 {
+        margin: 0;
+        font-size: 1.2rem;
+      }
+
+      .detail-meta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+        font-size: 0.9rem;
+      }
+
+      .detail-message {
+        background: #fdf2f8;
+        padding: 16px;
+        border-radius: 12px;
+        border-left: 4px solid var(--primary);
+        white-space: pre-wrap;
+        line-height: 1.5;
+      }
+
+      .reply-section {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 2px solid var(--border);
+      }
+
+      .reply-section h3 {
+        font-size: 1rem;
+        margin-bottom: 12px;
+        color: var(--dark);
+      }
+
+      .reply-form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .reply-form textarea {
+        padding: 12px;
+        border-radius: 8px;
+        border: 2px solid var(--border);
+        font-family: inherit;
+        font-size: 0.95rem;
+        resize: vertical;
+        min-height: 120px;
+      }
+
+      .reply-form textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+      }
+
+      .reply-actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .quick-replies {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 8px;
+      }
+
+      .quick-reply-btn {
+        background: #f3f4f6;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        padding: 6px 12px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .quick-reply-btn:hover {
+        background: #e5e7eb;
+        border-color: var(--primary);
+      }
+
+      .empty {
+        text-align: center;
+        padding: 24px;
+        color: #9ca3af;
+      }
+
+      @media (max-width: 960px) {
+        .inbox-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <header class="dashboard-header">
+        <div class="dashboard-title">
+          <i class="fas fa-inbox"></i>
+          <div>
+            <h1>Contact Inbox</h1>
+            <p>Monitor every contact form submission in one place.</p>
+          </div>
+        </div>
+        <nav class="admin-nav">
+          <a href="orders.html">Orders</a>
+          <a href="messages.html" class="active" style="position: relative">
+            Messages
+            <span
+              class="admin-messages-badge"
+              id="admin-messages-badge"
+              style="
+                display: none;
+                position: absolute;
+                top: -6px;
+                right: -10px;
+                background: #ef4444;
+                color: white;
+                font-size: 0.7rem;
+                padding: 3px 7px;
+                border-radius: 12px;
+                font-weight: 700;
+                min-width: 18px;
+                text-align: center;
+              "
+              >0</span
+            >
+          </a>
+          <button
+            onclick="logout()"
+            style="
+              background: #ef4444;
+              color: white;
+              border: none;
+              padding: 8px 16px;
+              border-radius: 8px;
+              cursor: pointer;
+              font-weight: 600;
+              display: flex;
+              align-items: center;
+              gap: 6px;
+            "
+          >
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </nav>
+      </header>
+
+      <section class="controls-bar">
+        <div class="controls-row">
+          <input
+            type="search"
+            id="message-search"
+            class="search-input"
+            placeholder="Search name, email, phone, or message"
+          />
+          <select id="topic-filter">
+            <option value="all">All topics</option>
+          </select>
+          <select id="limit-select">
+            <option value="25">Last 25</option>
+            <option value="50">Last 50</option>
+            <option value="100">Last 100</option>
+            <option value="all">All entries</option>
+          </select>
+          <button class="btn btn-outline" id="refresh-messages">
+            <i class="fas fa-rotate"></i>
+            Refresh
+          </button>
+          <button class="btn btn-primary" id="export-messages">
+            <i class="fas fa-file-export"></i>
+            Export JSON
+          </button>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center">
+          <button
+            onclick="archiveMessages()"
+            style="
+              background: #f59e0b;
+              color: white;
+              border: none;
+              padding: 10px 16px;
+              border-radius: 8px;
+              cursor: pointer;
+              font-weight: 600;
+              display: flex;
+              align-items: center;
+              gap: 6px;
+            "
+          >
+            <i class="fas fa-archive"></i> Archive All
+          </button>
+          <button
+            onclick="clearAllMessages()"
+            style="
+              background: #ef4444;
+              color: white;
+              border: none;
+              padding: 10px 16px;
+              border-radius: 8px;
+              cursor: pointer;
+              font-weight: 600;
+              display: flex;
+              align-items: center;
+              gap: 6px;
+            "
+          >
+            <i class="fas fa-trash-alt"></i> Delete All
+          </button>
+          <p id="messages-status" class="status-bar" style="margin: 0">
+            Ready.
+          </p>
+        </div>
+      </section>
+
+      <section class="inbox-grid">
+        <div class="card">
+          <table>
+            <thead>
+              <tr>
+                <th>Received</th>
+                <th>Name</th>
+                <th>Topic</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Preview</th>
+              </tr>
+            </thead>
+            <tbody id="messages-table-body">
+              <tr>
+                <td colspan="6" class="empty">No messages yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <aside class="card detail-panel" id="message-detail">
+          <p class="empty">Select a row to view full message details.</p>
+        </aside>
+      </section>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Generate CSRF token for admin replies
+        function generateAdminReplyCSRFToken() {
+          return Array.from(crypto.getRandomValues(new Uint8Array(32)))
+            .map((b) => b.toString(16).padStart(2, "0"))
+            .join("");
+        }
+
+        const adminReplyCSRFToken = generateAdminReplyCSRFToken();
+        sessionStorage.setItem("adminReplyCSRFToken", adminReplyCSRFToken);
+
+        const statusEl = document.getElementById("messages-status");
+        const tableBody = document.getElementById("messages-table-body");
+        const detailPanel = document.getElementById("message-detail");
+        const searchInput = document.getElementById("message-search");
+        const topicFilter = document.getElementById("topic-filter");
+        const refreshBtn = document.getElementById("refresh-messages");
+        const exportBtn = document.getElementById("export-messages");
+        const limitSelect = document.getElementById("limit-select");
+
+        const params = new URLSearchParams(window.location.search);
+        const adminKey = params.get("key") || "";
+        const requestHeaders = adminKey ? { "X-Admin-Token": adminKey } : {};
+        const endpoints = [
+          "/.netlify/functions/contact-messages",
+          "/api/contact-messages",
+        ];
+
+        let allMessages = [];
+        let filteredMessages = [];
+        let selectedId = null;
+
+        // Security: Sanitize user input to prevent XSS
+        function sanitizeInput(str) {
+          if (!str) return "";
+          const div = document.createElement("div");
+          div.textContent = str;
+          return div.innerHTML;
+        }
+
+        // Security: Sanitize HTML for display
+        function sanitizeHTML(html) {
+          if (!html) return "";
+          return html
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#x27;")
+            .replace(/\//g, "&#x2F;");
+        }
+
+        function setStatus(message, type) {
+          if (!statusEl) return;
+          statusEl.textContent = message;
+          statusEl.classList.toggle("error", type === "error");
+        }
+
+        function normalizeDate(value) {
+          if (!value) return "—";
+          try {
+            const date = new Date(value);
+            return date.toLocaleString();
+          } catch (e) {
+            return value;
+          }
+        }
+
+        function populateTopicFilter(messages) {
+          const topics = new Set(
+            messages.map((msg) => msg.topic || "General inquiries")
+          );
+          const current = topicFilter.value || "all";
+          topicFilter.innerHTML = '<option value="all">All topics</option>';
+          Array.from(topics)
+            .sort((a, b) => a.localeCompare(b))
+            .forEach((topic) => {
+              const option = document.createElement("option");
+              option.value = topic;
+              option.textContent = `${topic} (${
+                messages.filter(
+                  (m) => (m.topic || "General inquiries") === topic
+                ).length
+              })`;
+              topicFilter.appendChild(option);
+            });
+          if ([...topicFilter.options].some((o) => o.value === current)) {
+            topicFilter.value = current;
+          }
+        }
+
+        function renderTable(messages) {
+          tableBody.innerHTML = "";
+          if (!messages.length) {
+            tableBody.innerHTML =
+              '<tr><td colspan="6" class="empty">No messages match the filters.</td></tr>';
+            detailPanel.innerHTML =
+              '<p class="empty">Select a row to view full message details.</p>';
+            selectedId = null;
+            return;
+          }
+
+          messages.forEach((msg) => {
+            const row = document.createElement("tr");
+            const msgId = msg.id || msg.createdAt + msg.email;
+            if (msgId === selectedId) row.classList.add("selected");
+            row.innerHTML = `
+              <td>${normalizeDate(msg.createdAt)}</td>
+              <td>${msg.name || "—"}</td>
+              <td>${msg.topic || "—"}</td>
+              <td>${msg.email || "—"}</td>
+              <td>${msg.phone || "—"}</td>
+              <td class="message-preview">${
+                (msg.message || "").length > 80
+                  ? msg.message.slice(0, 80) + "…"
+                  : msg.message || "—"
+              }</td>`;
+            row.addEventListener("click", () => {
+              selectedId = msgId;
+              tableBody
+                .querySelectorAll("tr")
+                .forEach((tr) => tr.classList.remove("selected"));
+              row.classList.add("selected");
+              showDetail(msg);
+            });
+            tableBody.appendChild(row);
+          });
+
+          if (!selectedId && messages.length) {
+            const firstRow = tableBody.querySelector("tr");
+            if (firstRow) firstRow.classList.add("selected");
+            showDetail(messages[0]);
+            selectedId =
+              messages[0].id ||
+              messages[0].createdAt + (messages[0].email || "");
+          }
+        }
+
+        function showDetail(message) {
+          // Mark message as read by admin when viewing
+          const messages = JSON.parse(
+            localStorage.getItem("contactMessages") || "[]"
+          );
+          const msgIndex = messages.findIndex(
+            (m) =>
+              (m.id && m.id === message.id) ||
+              (m.email === message.email && m.createdAt === message.createdAt)
+          );
+
+          if (msgIndex !== -1) {
+            messages[msgIndex].readByAdmin = true;
+            messages[msgIndex].adminLastRead = new Date().toISOString();
+            localStorage.setItem("contactMessages", JSON.stringify(messages));
+            console.log("Message marked as read by admin:", message.email);
+            // Update badge immediately
+            updateAdminMessagesBadge();
+          }
+
+          detailPanel.innerHTML = `
+            <div>
+              <h2>${message.name || "Unnamed contact"}</h2>
+              <p>${normalizeDate(message.createdAt)}</p>
+            </div>
+            <div class="detail-meta">
+              <div><strong>Email:</strong><br />${message.email || "—"}</div>
+              <div><strong>Phone:</strong><br />${message.phone || "—"}</div>
+              <div><strong>Topic:</strong><br />${message.topic || "—"}</div>
+              <div><strong>Source:</strong><br />${
+                message.source || "web"
+              }</div>
+            </div>
+            <div class="detail-message">${
+              (message.message || "").trim() || "No message provided."
+            }</div>
+            
+            ${
+              message.replies && message.replies.length > 0
+                ? `
+              <div class="reply-thread" style="background: #f3f4f6; padding: 16px; border-radius: 8px; margin: 16px 0; max-height: 300px; overflow-y: auto;">
+                <h4 style="margin-top: 0; color: var(--dark);">Conversation Thread</h4>
+                ${message.replies
+                  .map(
+                    (reply) => `
+                  <div style="background: white; padding: 12px; border-radius: 6px; margin-bottom: 8px; border-left: 4px solid ${
+                    reply.sender === "admin"
+                      ? "var(--primary)"
+                      : "var(--success)"
+                  };">
+                    <div style="font-weight: 600; font-size: 0.9rem; color: ${
+                      reply.sender === "admin"
+                        ? "var(--primary)"
+                        : "var(--success)"
+                    }; margin-bottom: 4px;">
+                      ${reply.sender === "admin" ? "🔴 Admin" : "👤 Customer"}
+                    </div>
+                    <div style="font-size: 0.9rem; line-height: 1.4; color: var(--dark);">${(
+                      reply.message || ""
+                    ).replace(/\n/g, "<br>")}</div>
+                    <div style="font-size: 0.8rem; color: #9ca3af; margin-top: 6px;">${new Date(
+                      reply.date
+                    ).toLocaleString()}</div>
+                  </div>
+                `
+                  )
+                  .join("")}
+              </div>
+            `
+                : ""
+            }
+            
+            <div class="reply-section">
+              <h3><i class="fas fa-reply"></i> Send Reply</h3>
+              <div class="quick-replies">
+                <button class="quick-reply-btn" data-template="thanks">Thank you</button>
+                <button class="quick-reply-btn" data-template="received">Received</button>
+                <button class="quick-reply-btn" data-template="followup">Follow-up</button>
+                <button class="quick-reply-btn" data-template="pricing">Pricing info</button>
+              </div>
+              <form class="reply-form" id="reply-form">
+                <input type="hidden" id="admin-reply-csrf" value="${adminReplyCSRFToken}">
+                <textarea id="reply-message" placeholder="Type your reply here..." required></textarea>
+                <div class="reply-actions" style="display: flex; gap: 12px; flex-wrap: wrap;">
+                  <button type="button" class="btn btn-primary" id="send-to-inbox-btn">
+                    <i class="fas fa-paper-plane"></i> Send to Inbox
+                  </button>
+                  <button type="button" class="btn btn-outline" id="send-email-btn">
+                    <i class="fas fa-envelope"></i> Send Email
+                  </button>
+                  <button type="button" class="btn btn-outline" id="copy-email-btn">
+                    <i class="fas fa-copy"></i> Copy to Email
+                  </button>
+                  <button type="button" class="btn btn-outline" id="whatsapp-btn" ${
+                    !message.phone ? "disabled" : ""
+                  }>
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                  </button>
+                </div>
+                <p id="reply-status" style="font-size: 0.9rem; margin: 0; color: #6b7280;"></p>
+              </form>
+            </div>
+          `;
+
+          // Quick reply templates
+          const quickReplyBtns =
+            detailPanel.querySelectorAll(".quick-reply-btn");
+          const replyTextarea = detailPanel.querySelector("#reply-message");
+
+          const templates = {
+            thanks: `Hi ${
+              message.name?.split(" ")[0] || "there"
+            },\n\nThank you for reaching out! We've received your message and will get back to you within 12 hours.\n\nBest regards,\nEbou Jewelry Team`,
+            received: `Hi ${
+              message.name?.split(" ")[0] || "there"
+            },\n\nYour inquiry has been received. We're reviewing the details and will respond shortly.\n\nThank you,\nEbou Jewelry`,
+            followup: `Hi ${
+              message.name?.split(" ")[0] || "there"
+            },\n\nFollowing up on your request. Could you please provide more details about:\n\n- \n\nThis will help us assist you better.\n\nBest,\nEbou Jewelry Team`,
+            pricing: `Hi ${
+              message.name?.split(" ")[0] || "there"
+            },\n\nThank you for your interest! Our pricing varies by item and quantity. Please let us know which specific pieces you're interested in, and we'll provide detailed quotes.\n\nYou can also browse our full catalog at [your-website-url]\n\nBest regards,\nEbou Jewelry`,
+          };
+
+          quickReplyBtns.forEach((btn) => {
+            btn.addEventListener("click", () => {
+              const template = btn.dataset.template;
+              if (templates[template]) {
+                replyTextarea.value = templates[template];
+              }
+            });
+          });
+
+          // Send to Inbox button - saves reply directly to customer inbox
+          const sendToInboxBtn =
+            detailPanel.querySelector("#send-to-inbox-btn");
+          sendToInboxBtn?.addEventListener("click", () => {
+            // CSRF token validation (backwards compatible)
+            const submittedToken =
+              detailPanel.querySelector("#admin-reply-csrf")?.value;
+            const storedToken = sessionStorage.getItem("adminReplyCSRFToken");
+
+            // Only validate if both tokens exist
+            if (
+              submittedToken &&
+              storedToken &&
+              submittedToken !== storedToken
+            ) {
+              alert("Invalid security token. Please refresh the page.");
+              return;
+            }
+
+            const replyText = sanitizeInput(replyTextarea.value.trim());
+            if (!replyText) {
+              alert("Please type a reply first");
+              return;
+            }
+
+            // Save reply to the message in localStorage
+            saveReplyToMessage(message, replyText);
+
+            // Add the reply to the current message object immediately
+            if (!message.replies) {
+              message.replies = [];
+            }
+            message.replies.push({
+              sender: "admin",
+              message: replyText,
+              date: new Date().toISOString(),
+            });
+
+            const statusEl = detailPanel.querySelector("#reply-status");
+            if (statusEl) {
+              statusEl.textContent = "✓ Reply sent to customer inbox";
+              statusEl.style.color = "var(--success)";
+              setTimeout(() => {
+                statusEl.textContent = "";
+              }, 3000);
+            }
+
+            // Clear textarea
+            replyTextarea.value = "";
+
+            // Immediately refresh the detail view to show the new reply
+            console.log("Refreshing message detail view with new reply...");
+            showDetail(message);
+          });
+
+          // Send Email button - opens mailto link and saves reply
+          const sendEmailBtn = detailPanel.querySelector("#send-email-btn");
+          sendEmailBtn?.addEventListener("click", () => {
+            // CSRF token validation (backwards compatible)
+            const submittedToken =
+              detailPanel.querySelector("#admin-reply-csrf")?.value;
+            const storedToken = sessionStorage.getItem("adminReplyCSRFToken");
+
+            // Only validate if both tokens exist
+            if (
+              submittedToken &&
+              storedToken &&
+              submittedToken !== storedToken
+            ) {
+              alert("Invalid security token. Please refresh the page.");
+              return;
+            }
+
+            const replyText = sanitizeInput(replyTextarea.value.trim());
+            if (!replyText) {
+              alert("Please type a reply first");
+              return;
+            }
+
+            // Save reply to message
+            saveReplyToMessage(message, replyText);
+
+            const subject = `Re: ${
+              message.topic || "Your inquiry"
+            } - Ebou Jewelry`;
+            const body = replyText;
+            const mailtoLink = `mailto:${
+              message.email
+            }?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
+              body
+            )}`;
+
+            window.location.href = mailtoLink;
+
+            const statusEl = detailPanel.querySelector("#reply-status");
+            if (statusEl) {
+              statusEl.textContent = "✓ Reply saved and email opened";
+              statusEl.style.color = "var(--success)";
+            }
+
+            // Clear textarea
+            replyTextarea.value = "";
+
+            // Refresh messages to show the reply
+            setTimeout(() => fetchMessages(), 100);
+          });
+
+          // Copy to Email button
+          const copyEmailBtn = detailPanel.querySelector("#copy-email-btn");
+          copyEmailBtn?.addEventListener("click", async () => {
+            // CSRF token validation (backwards compatible)
+            const submittedToken =
+              detailPanel.querySelector("#admin-reply-csrf")?.value;
+            const storedToken = sessionStorage.getItem("adminReplyCSRFToken");
+
+            // Only validate if both tokens exist
+            if (
+              submittedToken &&
+              storedToken &&
+              submittedToken !== storedToken
+            ) {
+              alert("Invalid security token. Please refresh the page.");
+              return;
+            }
+
+            const replyText = sanitizeInput(replyTextarea.value.trim());
+            if (!replyText) {
+              alert("Please type a reply first");
+              return;
+            }
+
+            const emailContent = `To: ${message.email}\nSubject: Re: ${
+              message.topic || "Your inquiry"
+            } - Ebou Jewelry\n\n${replyText}`;
+
+            try {
+              await navigator.clipboard.writeText(emailContent);
+              const statusEl = detailPanel.querySelector("#reply-status");
+              if (statusEl) {
+                statusEl.textContent = "✓ Copied to clipboard";
+                statusEl.style.color = "var(--success)";
+                setTimeout(() => {
+                  statusEl.textContent = "";
+                }, 3000);
+              }
+            } catch (err) {
+              alert("Could not copy to clipboard");
+            }
+          });
+
+          // WhatsApp button
+          const whatsappBtn = detailPanel.querySelector("#whatsapp-btn");
+          whatsappBtn?.addEventListener("click", () => {
+            // CSRF token validation (backwards compatible)
+            const submittedToken =
+              detailPanel.querySelector("#admin-reply-csrf")?.value;
+            const storedToken = sessionStorage.getItem("adminReplyCSRFToken");
+
+            // Only validate if both tokens exist
+            if (
+              submittedToken &&
+              storedToken &&
+              submittedToken !== storedToken
+            ) {
+              alert("Invalid security token. Please refresh the page.");
+              return;
+            }
+
+            const replyText = sanitizeInput(replyTextarea.value.trim());
+            if (!replyText) {
+              alert("Please type a reply first");
+              return;
+            }
+
+            const phone = message.phone?.replace(/[^0-9+]/g, "");
+            if (!phone) {
+              alert("No phone number available");
+              return;
+            }
+
+            const whatsappLink = `https://wa.me/${phone}?text=${encodeURIComponent(
+              replyText
+            )}`;
+            window.open(whatsappLink, "_blank");
+
+            const statusEl = detailPanel.querySelector("#reply-status");
+            if (statusEl) {
+              statusEl.textContent = "✓ WhatsApp opened";
+              statusEl.style.color = "var(--success)";
+            }
+          });
+        }
+
+        // Save reply to message in localStorage
+        function saveReplyToMessage(message, replyText) {
+          console.log(
+            "Saving admin reply to message:",
+            message.id || message.email
+          );
+          console.log("Reply text:", replyText);
+          try {
+            const localStored = localStorage.getItem("contactMessages");
+            if (localStored) {
+              const allStoredMessages = JSON.parse(localStored);
+              console.log(
+                "Total messages in storage:",
+                allStoredMessages.length
+              );
+
+              const messageIndex = allStoredMessages.findIndex(
+                (msg) =>
+                  (msg.id && message.id && msg.id === message.id) ||
+                  (msg.email === message.email &&
+                    (msg.date === message.date ||
+                      msg.createdAt === message.createdAt ||
+                      msg.date === message.createdAt ||
+                      msg.createdAt === message.date))
+              );
+
+              if (messageIndex !== -1) {
+                if (!allStoredMessages[messageIndex].replies) {
+                  allStoredMessages[messageIndex].replies = [];
+                }
+
+                allStoredMessages[messageIndex].replies.push({
+                  sender: "admin",
+                  message: replyText,
+                  date: new Date().toISOString(),
+                });
+
+                localStorage.setItem(
+                  "contactMessages",
+                  JSON.stringify(allStoredMessages)
+                );
+
+                console.log("✓ Reply saved to localStorage successfully");
+                console.log(
+                  "Updated message now has",
+                  allStoredMessages[messageIndex].replies.length,
+                  "replies"
+                );
+
+                // Trigger storage event for customer inbox to refresh
+                window.dispatchEvent(
+                  new StorageEvent("storage", {
+                    key: "contactMessages",
+                    oldValue: localStored,
+                    newValue: localStorage.getItem("contactMessages"),
+                    storageArea: localStorage,
+                  })
+                );
+              }
+            }
+          } catch (err) {
+            console.error("Could not save reply:", err);
+          }
+        }
+
+        function applyFilters() {
+          const query = searchInput.value.trim().toLowerCase();
+          const topicValue = topicFilter.value;
+          filteredMessages = allMessages.filter((msg) => {
+            const matchesTopic =
+              topicValue === "all" || (msg.topic || "") === topicValue;
+            const blob = `${msg.name || ""} ${msg.email || ""} ${
+              msg.phone || ""
+            } ${msg.message || ""}`.toLowerCase();
+            const matchesSearch = !query || blob.includes(query);
+            return matchesTopic && matchesSearch;
+          });
+          renderTable(filteredMessages);
+          setStatus(
+            `Showing ${filteredMessages.length} of ${allMessages.length} messages.`
+          );
+        }
+
+        async function fetchMessages() {
+          setStatus("Loading messages…");
+          const limitParam = limitSelect.value;
+
+          // Load directly from localStorage (primary storage)
+          try {
+            console.log("Loading messages from localStorage...");
+            const localStored = localStorage.getItem("contactMessages");
+            if (localStored) {
+              let localMessages = JSON.parse(localStored);
+              console.log(
+                "Found messages in localStorage:",
+                localMessages.length
+              );
+
+              if (Array.isArray(localMessages) && localMessages.length > 0) {
+                // Remove duplicates
+                const uniqueMessagesMap = new Map();
+                localMessages.forEach((msg) => {
+                  const key =
+                    msg.id ||
+                    `${msg.email}-${msg.date || msg.createdAt}-${msg.topic}`;
+                  if (!uniqueMessagesMap.has(key)) {
+                    uniqueMessagesMap.set(key, msg);
+                  } else {
+                    // If duplicate found, merge replies if any
+                    const existing = uniqueMessagesMap.get(key);
+                    if (msg.replies && msg.replies.length > 0) {
+                      existing.replies = existing.replies || [];
+                      msg.replies.forEach((reply) => {
+                        // Only add reply if it doesn't exist
+                        if (
+                          !existing.replies.some(
+                            (r) =>
+                              r.date === reply.date &&
+                              r.message === reply.message
+                          )
+                        ) {
+                          existing.replies.push(reply);
+                        }
+                      });
+                    }
+                  }
+                });
+                allMessages = Array.from(uniqueMessagesMap.values());
+
+                const limit = Number.parseInt(limitParam, 10);
+                if (!Number.isNaN(limit) && limit > 0) {
+                  allMessages = allMessages.slice(0, limit);
+                }
+                populateTopicFilter(allMessages);
+                applyFilters();
+                setStatus(
+                  `Loaded ${allMessages.length} message${
+                    allMessages.length === 1 ? "" : "s"
+                  } from inbox.`
+                );
+                return;
+              }
+            }
+          } catch (err) {
+            console.error("Error loading from localStorage:", err);
+          }
+
+          // If localStorage is empty, show empty state
+          allMessages = [];
+          populateTopicFilter(allMessages);
+          applyFilters();
+          setStatus("No messages found.");
+        }
+
+        searchInput.addEventListener("input", () => applyFilters());
+        topicFilter.addEventListener("change", () => applyFilters());
+        limitSelect.addEventListener("change", () => fetchMessages());
+        refreshBtn.addEventListener("click", () => fetchMessages());
+
+        exportBtn.addEventListener("click", () => {
+          const data = filteredMessages.length ? filteredMessages : allMessages;
+          if (!data.length) {
+            setStatus("Nothing to export yet.");
+            return;
+          }
+          const blob = new Blob([JSON.stringify(data, null, 2)], {
+            type: "application/json",
+          });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = `contact-messages-${Date.now()}.json`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+        });
+
+        // Auto-refresh messages every 10 seconds
+        setInterval(() => {
+          fetchMessages();
+        }, 10000);
+
+        // Listen for storage changes (when customer sends message from contact form)
+        window.addEventListener("storage", (e) => {
+          if (e.key === "contactMessages") {
+            fetchMessages();
+          }
+        });
+
+        fetchMessages();
+
+        // Count and update unread messages badge
+        function updateAdminMessagesBadge() {
+          try {
+            const contactMessages = JSON.parse(
+              localStorage.getItem("contactMessages") || "[]"
+            );
+            // Count messages that haven't been read by admin or have new customer replies
+            const unreadCount = contactMessages.filter((msg) => {
+              // New message not read by admin
+              if (!msg.readByAdmin) return true;
+              // Has customer replies after admin last read
+              if (msg.replies && msg.replies.length > 0) {
+                const hasNewCustomerReply = msg.replies.some(
+                  (r) =>
+                    r.sender === "customer" &&
+                    new Date(r.date) > new Date(msg.adminLastRead || 0)
+                );
+                return hasNewCustomerReply;
+              }
+              return false;
+            }).length;
+
+            const badge = document.getElementById("admin-messages-badge");
+            if (badge) {
+              badge.textContent = unreadCount;
+              badge.style.display = unreadCount > 0 ? "block" : "none";
+            }
+          } catch (err) {
+            console.error("Error counting admin messages:", err);
+          }
+        }
+
+        updateAdminMessagesBadge();
+        // Update badge every 10 seconds
+        setInterval(updateAdminMessagesBadge, 10000);
+
+        // Auto-refresh messages list every 10 seconds (only updates the list, not the detail view)
+        console.log("Setting up auto-refresh for messages list...");
+        setInterval(() => {
+          console.log("Auto-refreshing messages list...");
+          fetchMessages(); // Only refreshes the list, detail view stays unchanged
+        }, 10000);
+
+        // Listen for storage changes (when messages are updated in another tab/window)
+        window.addEventListener("storage", (e) => {
+          if (e.key === "contactMessages") {
+            console.log("Messages updated in storage, refreshing list...");
+            fetchMessages(); // Only refreshes the list
+          }
+        });
+      });
+
+      // Session Check - Protect Page
+      function checkAuthentication() {
+        const session = JSON.parse(
+          localStorage.getItem("adminSession") || "{}"
+        );
+
+        // Check if session exists and is valid
+        if (
+          !session.isLoggedIn ||
+          !session.expiry ||
+          session.expiry < Date.now()
+        ) {
+          // Session invalid or expired
+          localStorage.removeItem("adminSession");
+          window.location.href = "login.html";
+          return false;
+        }
+
+        // Check for inactivity timeout (30 minutes)
+        const inactivityLimit = 30 * 60 * 1000;
+        if (
+          session.lastActivity &&
+          Date.now() - session.lastActivity > inactivityLimit
+        ) {
+          localStorage.removeItem("adminSession");
+          alert("Session expired due to inactivity. Please log in again.");
+          window.location.href = "login.html";
+          return false;
+        }
+
+        // Update last activity timestamp
+        session.lastActivity = Date.now();
+        localStorage.setItem("adminSession", JSON.stringify(session));
+
+        return true;
+      }
+
+      // Clear all messages
+      // Archive messages (save to archived storage)
+      function archiveMessages() {
+        if (
+          confirm(
+            "Archive all current messages? They will be moved to archived storage and cleared from the inbox."
+          )
+        ) {
+          const currentMessages = localStorage.getItem("contactMessages");
+          if (currentMessages) {
+            // Save to archived messages
+            const timestamp = new Date().toISOString();
+            const archiveKey = `archivedMessages_${timestamp}`;
+            localStorage.setItem(archiveKey, currentMessages);
+
+            // Clear current messages
+            localStorage.removeItem("contactMessages");
+            allMessages = [];
+            filteredMessages = [];
+            renderTable([]);
+            document.getElementById("message-detail").innerHTML =
+              '<p class="empty">All messages archived.</p>';
+            setStatus(`Messages archived as ${archiveKey}`);
+
+            // Reload page to refresh UI
+            setTimeout(() => {
+              window.location.reload();
+            }, 1500);
+          } else {
+            alert("No messages to archive.");
+          }
+        }
+      }
+
+      // Clear all messages permanently
+      function clearAllMessages() {
+        if (
+          confirm(
+            "Are you sure you want to PERMANENTLY DELETE ALL messages? This cannot be undone!"
+          )
+        ) {
+          localStorage.removeItem("contactMessages");
+          allMessages = [];
+          filteredMessages = [];
+          renderTable([]);
+          document.getElementById("message-detail").innerHTML =
+            '<p class="empty">All messages deleted.</p>';
+          setStatus("All messages have been permanently deleted.");
+          // Reload page to refresh UI
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      }
+
+      // Logout Function
+      function logout() {
+        if (confirm("Are you sure you want to logout?")) {
+          localStorage.removeItem("adminSession");
+          window.location.href = "login.html";
+        }
+      }
+
+      // Run authentication check on page load
+      if (!checkAuthentication()) {
+        // Will redirect to login if not authenticated
+      }
+    </script>
+  </body>
+</html>

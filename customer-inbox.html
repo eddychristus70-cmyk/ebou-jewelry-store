@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Inbox - Ebou Jewelry</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #e50f65;
+        --secondary: #fa6de8;
+        --success: #1eb981;
+        --warning: #f59e0b;
+        --info: #3b82f6;
+        --dark: #1f2937;
+        --light: #f9fafb;
+        --border: #e5e7eb;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        color: var(--dark);
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .page-header {
+        background: white;
+        border-radius: 16px;
+        padding: 32px;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .page-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .page-title h1 {
+        font-size: 2rem;
+        color: var(--dark);
+      }
+
+      .page-title i {
+        color: var(--primary);
+        font-size: 1.8rem;
+      }
+
+      .back-btn {
+        padding: 10px 20px;
+        background: white;
+        border: 2px solid var(--primary);
+        color: var(--primary);
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        transition: all 0.2s;
+      }
+
+      .back-btn:hover {
+        background: var(--primary);
+        color: white;
+      }
+
+      .inbox-container {
+        display: grid;
+        grid-template-columns: 350px 1fr;
+        gap: 20px;
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        min-height: 600px;
+      }
+
+      .messages-list {
+        border-right: 2px solid var(--border);
+        overflow-y: auto;
+      }
+
+      .messages-header {
+        padding: 20px;
+        border-bottom: 2px solid var(--border);
+        background: #f9fafb;
+      }
+
+      .messages-header h2 {
+        font-size: 1.25rem;
+        margin-bottom: 12px;
+      }
+
+      .search-box {
+        position: relative;
+      }
+
+      .search-box input {
+        width: 100%;
+        padding: 10px 16px 10px 40px;
+        border: 2px solid var(--border);
+        border-radius: 8px;
+        font-size: 0.95rem;
+      }
+
+      .search-box input:focus {
+        outline: none;
+        border-color: var(--primary);
+      }
+
+      .search-box i {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #9ca3af;
+      }
+
+      .message-item {
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border);
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .message-item:hover {
+        background: #f9fafb;
+      }
+
+      .message-item.active {
+        background: rgba(229, 15, 101, 0.05);
+        border-left: 4px solid var(--primary);
+      }
+
+      .message-item.unread {
+        background: #fff7fb;
+      }
+
+      .message-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 8px;
+      }
+
+      .message-subject {
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: var(--dark);
+      }
+
+      .message-date {
+        font-size: 0.8rem;
+        color: #6b7280;
+      }
+
+      .message-preview {
+        font-size: 0.9rem;
+        color: #6b7280;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .badge-new {
+        background: rgba(229, 15, 101, 0.1);
+        color: var(--primary);
+      }
+
+      .badge-replied {
+        background: rgba(30, 185, 129, 0.1);
+        color: var(--success);
+      }
+
+      .message-detail {
+        padding: 32px;
+        overflow-y: auto;
+      }
+
+      .empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        color: #6b7280;
+        text-align: center;
+        padding: 40px;
+      }
+
+      .empty-state i {
+        font-size: 4rem;
+        margin-bottom: 16px;
+        opacity: 0.3;
+      }
+
+      .empty-state h3 {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+        color: var(--dark);
+      }
+
+      .detail-header {
+        margin-bottom: 24px;
+        padding-bottom: 24px;
+        border-bottom: 2px solid var(--border);
+      }
+
+      .detail-subject {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--dark);
+        margin-bottom: 12px;
+      }
+
+      .detail-meta {
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+        font-size: 0.9rem;
+        color: #6b7280;
+      }
+
+      .detail-meta-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .detail-meta-item i {
+        color: var(--primary);
+      }
+
+      .message-thread {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .thread-message {
+        padding: 20px;
+        border-radius: 12px;
+        background: #f9fafb;
+        border-left: 4px solid #e5e7eb;
+      }
+
+      .thread-message.admin-reply {
+        background: linear-gradient(
+          135deg,
+          rgba(30, 185, 129, 0.08) 0%,
+          rgba(30, 185, 129, 0.12) 100%
+        );
+        border-left: 4px solid var(--success);
+        margin-left: 0;
+        margin-right: 20px;
+      }
+
+      .thread-message.customer-reply {
+        background: linear-gradient(
+          135deg,
+          rgba(229, 15, 101, 0.08) 0%,
+          rgba(229, 15, 101, 0.12) 100%
+        );
+        border-left: 4px solid var(--primary);
+        margin-right: 0;
+        margin-left: 20px;
+      }
+
+      .thread-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      .thread-sender {
+        font-weight: 700;
+        color: var(--dark);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.95rem;
+      }
+
+      .admin-reply .thread-sender {
+        color: var(--success);
+      }
+
+      .admin-reply .thread-sender i {
+        color: var(--success);
+        font-size: 1rem;
+      }
+
+      .customer-reply .thread-sender {
+        color: var(--primary);
+      }
+
+      .customer-reply .thread-sender i {
+        color: var(--primary);
+        font-size: 1rem;
+      }
+
+      .thread-time {
+        font-size: 0.85rem;
+        color: #6b7280;
+      }
+
+      .thread-content {
+        line-height: 1.6;
+        color: var(--dark);
+        white-space: pre-wrap;
+      }
+
+      .reply-section {
+        margin-top: 24px;
+        padding-top: 24px;
+        border-top: 2px solid var(--border);
+      }
+
+      .reply-section h3 {
+        margin-bottom: 16px;
+        color: var(--dark);
+      }
+
+      .reply-form textarea {
+        width: 100%;
+        padding: 14px;
+        border: 2px solid var(--border);
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 0.95rem;
+        resize: vertical;
+        min-height: 120px;
+        margin-bottom: 12px;
+      }
+
+      .reply-form textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+      }
+
+      .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #c70d56;
+        transform: translateY(-1px);
+      }
+
+      .btn-primary:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      @media (max-width: 768px) {
+        .inbox-container {
+          grid-template-columns: 1fr;
+        }
+
+        .messages-list {
+          border-right: none;
+          border-bottom: 2px solid var(--border);
+          max-height: 300px;
+        }
+
+        .message-detail {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="page-header">
+        <div class="header-content">
+          <div class="page-title">
+            <i class="fas fa-inbox"></i>
+            <h1>My Inbox</h1>
+          </div>
+          <a href="jumia-login.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+            Back to Account
+          </a>
+        </div>
+      </div>
+
+      <div class="inbox-container">
+        <div class="messages-list">
+          <div class="messages-header">
+            <h2>Messages</h2>
+            <div style="display: flex; gap: 8px">
+              <button
+                onclick="refreshMessages()"
+                class="back-btn"
+                style="padding: 8px 16px; font-size: 0.9rem"
+              >
+                <i class="fas fa-sync-alt"></i>
+                Refresh
+              </button>
+              <button
+                onclick="clearMyMessages()"
+                style="
+                  background: #ef4444;
+                  color: white;
+                  border: none;
+                  padding: 8px 16px;
+                  border-radius: 8px;
+                  cursor: pointer;
+                  font-weight: 600;
+                  font-size: 0.9rem;
+                "
+              >
+                <i class="fas fa-trash-alt"></i>
+                Clear All
+              </button>
+            </div>
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input
+                type="text"
+                id="search-messages"
+                placeholder="Search messages..."
+              />
+            </div>
+          </div>
+          <div id="messages-list-items">
+            <!-- Messages will be loaded here -->
+          </div>
+        </div>
+
+        <div class="message-detail" id="message-detail">
+          <div class="empty-state">
+            <i class="fas fa-envelope-open"></i>
+            <h3>Select a message</h3>
+            <p>Choose a message from the list to view details</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Generate CSRF token for message replies
+      function generateInboxCSRFToken() {
+        return Array.from(crypto.getRandomValues(new Uint8Array(32)))
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("");
+      }
+
+      const inboxCSRFToken = generateInboxCSRFToken();
+      sessionStorage.setItem("inboxCSRFToken", inboxCSRFToken);
+
+      // Sanitize input to prevent XSS
+      function sanitizeInput(str) {
+        if (!str) return "";
+        const div = document.createElement("div");
+        div.textContent = str;
+        return div.innerHTML;
+      }
+
+      const SESSION_KEY = "ebouAuthSession";
+      const sessionData = JSON.parse(
+        sessionStorage.getItem(SESSION_KEY) || "{}"
+      );
+      const customerEmail = sessionData.email || "";
+
+      let allMessages = [];
+      let selectedMessageIndex = -1;
+
+      // Clear all customer messages
+      function clearMyMessages() {
+        if (
+          confirm(
+            "Are you sure you want to delete ALL your messages? This cannot be undone!"
+          )
+        ) {
+          const storedMessages = JSON.parse(
+            localStorage.getItem("contactMessages") || "[]"
+          );
+          const otherMessages = storedMessages.filter(
+            (msg) =>
+              msg.email &&
+              msg.email.toLowerCase() !== customerEmail.toLowerCase()
+          );
+          localStorage.setItem(
+            "contactMessages",
+            JSON.stringify(otherMessages)
+          );
+          allMessages = [];
+          selectedMessageIndex = -1;
+          displayMessagesList();
+          document.getElementById("message-detail").innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-check-circle" style="color: var(--success);"></i>
+              <h3>All Messages Cleared</h3>
+              <p>Your inbox is now empty.</p>
+            </div>
+          `;
+          // Reload page to refresh UI
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      }
+
+      // Refresh messages manually
+      function refreshMessages() {
+        const btn = event.target.closest("button");
+        const icon = btn.querySelector("i");
+        icon.classList.add("fa-spin");
+
+        loadMessages();
+
+        // If a message is selected, refresh its detail view
+        if (selectedMessageIndex >= 0) {
+          setTimeout(() => {
+            if (allMessages[selectedMessageIndex]) {
+              selectMessage(selectedMessageIndex);
+            }
+          }, 100);
+        }
+
+        setTimeout(() => {
+          icon.classList.remove("fa-spin");
+        }, 500);
+      }
+
+      // Load customer messages
+      function loadMessages() {
+        const storedMessages = JSON.parse(
+          localStorage.getItem("contactMessages") || "[]"
+        );
+
+        // Filter messages by customer email
+        let customerMessages = storedMessages.filter(
+          (msg) =>
+            msg.email && msg.email.toLowerCase() === customerEmail.toLowerCase()
+        );
+
+        // Remove duplicates - keep only unique messages by ID
+        const uniqueMessagesMap = new Map();
+        customerMessages.forEach((msg) => {
+          const key =
+            msg.id || `${msg.email}-${msg.date || msg.createdAt}-${msg.topic}`;
+          if (!uniqueMessagesMap.has(key)) {
+            uniqueMessagesMap.set(key, msg);
+          } else {
+            // If duplicate found, merge replies if any
+            const existing = uniqueMessagesMap.get(key);
+            if (msg.replies && msg.replies.length > 0) {
+              existing.replies = existing.replies || [];
+              msg.replies.forEach((reply) => {
+                // Only add reply if it doesn't exist
+                if (
+                  !existing.replies.some(
+                    (r) => r.date === reply.date && r.message === reply.message
+                  )
+                ) {
+                  existing.replies.push(reply);
+                }
+              });
+            }
+          }
+        });
+
+        allMessages = Array.from(uniqueMessagesMap.values());
+        displayMessagesList();
+      }
+
+      // Display messages list
+      function displayMessagesList() {
+        const listContainer = document.getElementById("messages-list-items");
+
+        if (allMessages.length === 0) {
+          const totalMessages = JSON.parse(
+            localStorage.getItem("contactMessages") || "[]"
+          ).length;
+          listContainer.innerHTML = `
+                    <div class="empty-state" style="padding: 40px 20px;">
+                        <i class="fas fa-inbox"></i>
+                        <h3>No Messages Found</h3>
+                        <p>Logged in as: ${customerEmail || "Not logged in"}</p>
+                        <p>Total messages in system: ${totalMessages}</p>
+                        <p style="font-size: 0.9rem; color: #666;">Make sure you're logged in with the same email you used in the contact form.</p>
+                    </div>
+                `;
+          return;
+        }
+
+        // Sort by date (newest first)
+        allMessages.sort(
+          (a, b) =>
+            new Date(b.date || b.createdAt) - new Date(a.date || a.createdAt)
+        );
+
+        listContainer.innerHTML = allMessages
+          .map((msg, index) => {
+            const hasReply = msg.replies && msg.replies.length > 0;
+            const isUnread = !msg.readByCustomer;
+
+            return `
+                    <div class="message-item ${
+                      selectedMessageIndex === index ? "active" : ""
+                    } ${isUnread ? "unread" : ""}" 
+                         onclick="selectMessage(${index})">
+                        <div class="message-header">
+                            <div class="message-subject">${
+                              msg.subject || msg.topic || "No Subject"
+                            }</div>
+                            <span class="badge ${
+                              hasReply ? "badge-replied" : "badge-new"
+                            }">
+                                ${hasReply ? "Replied" : "New"}
+                            </span>
+                        </div>
+                        <div class="message-date">
+                            <i class="fas fa-calendar"></i>
+                            ${new Date(
+                              msg.date || msg.createdAt || Date.now()
+                            ).toLocaleDateString()}
+                        </div>
+                        <div class="message-preview">${
+                          msg.message
+                            ? msg.message.substring(0, 60) + "..."
+                            : "No message"
+                        }</div>
+                    </div>
+                `;
+          })
+          .join("");
+      }
+
+      // Select and display message
+      function selectMessage(index) {
+        selectedMessageIndex = index;
+        const message = allMessages[index];
+
+        // Mark as read with timestamp
+        message.readByCustomer = true;
+        message.lastReadTime = new Date().toISOString();
+        updateMessageInStorage(index, message);
+
+        displayMessageDetail(message);
+        displayMessagesList(); // Refresh to update active state
+      }
+
+      // Display message detail
+      function displayMessageDetail(message) {
+        const detailContainer = document.getElementById("message-detail");
+        const hasReplies = message.replies && message.replies.length > 0;
+
+        detailContainer.innerHTML = `
+                <div class="detail-header">
+                    <div class="detail-subject">${
+                      message.subject || message.topic || "No Subject"
+                    }</div>
+                    <div class="detail-meta">
+                        <div class="detail-meta-item">
+                            <i class="fas fa-calendar"></i>
+                            ${new Date(
+                              message.date || message.createdAt || Date.now()
+                            ).toLocaleString()}
+                        </div>
+                        <div class="detail-meta-item">
+                            <i class="fas fa-tag"></i>
+                            ${message.topic || "General"}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="message-thread">
+                    <div class="thread-message customer-reply">
+                        <div class="thread-header">
+                            <span class="thread-sender">
+                                <i class="fas fa-user-circle"></i>
+                                ${(message.name || "You").split(" ")[0]}
+                            </span>
+                            <span class="thread-time">${new Date(
+                              message.date || message.createdAt
+                            ).toLocaleString()}</span>
+                        </div>
+                        <div class="thread-content">${
+                          message.message || "No message content"
+                        }</div>
+                    </div>
+
+                    ${
+                      hasReplies
+                        ? message.replies
+                            .map(
+                              (reply) => `
+                        <div class="thread-message ${
+                          reply.sender === "admin"
+                            ? "admin-reply"
+                            : "customer-reply"
+                        }">
+                            <div class="thread-header">
+                                <span class="thread-sender">
+                                    ${
+                                      reply.sender === "admin"
+                                        ? '<i class="fas fa-headset"></i> Ebou Jewelry Support'
+                                        : '<i class="fas fa-user-circle"></i> ' +
+                                          (message.name || "You").split(" ")[0]
+                                    }
+                                </span>
+                                <span class="thread-time">${new Date(
+                                  reply.date
+                                ).toLocaleString()}</span>
+                            </div>
+                            <div class="thread-content">${reply.message}</div>
+                        </div>
+                    `
+                            )
+                            .join("")
+                        : ""
+                    }
+                </div>
+
+                <div class="reply-section">
+                    <h3><i class="fas fa-reply"></i> Send a Reply</h3>
+                    <form onsubmit="sendReply(event, ${selectedMessageIndex})">
+                        <input type="hidden" class="reply-csrf-token" value="${inboxCSRFToken}">
+                        <textarea id="customer-reply" placeholder="Type your reply here..." required></textarea>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Send Reply
+                        </button>
+                    </form>
+                </div>
+            `;
+      }
+
+      // Send customer reply
+      function sendReply(event, messageIndex) {
+        event.preventDefault();
+
+        console.log("sendReply called with messageIndex:", messageIndex);
+
+        // CSRF token validation (backwards compatible)
+        const form = event.target;
+        const submittedToken = form.querySelector(".reply-csrf-token")?.value;
+        const storedToken = sessionStorage.getItem("inboxCSRFToken");
+
+        // Only validate if both tokens exist
+        if (submittedToken && storedToken && submittedToken !== storedToken) {
+          alert("Invalid security token. Please refresh the page.");
+          return;
+        }
+
+        const textarea = document.getElementById("customer-reply");
+        const replyText = sanitizeInput(textarea.value.trim());
+
+        console.log("Reply text:", replyText);
+
+        if (!replyText) {
+          console.log("No reply text, returning");
+          return;
+        }
+
+        const message = allMessages[messageIndex];
+        console.log("Original message:", message);
+
+        // Add reply to message
+        if (!message.replies) {
+          message.replies = [];
+        }
+
+        message.replies.push({
+          sender: "customer",
+          message: replyText,
+          date: new Date().toISOString(),
+        });
+
+        // Reset admin's read status so they see the notification
+        message.readByAdmin = false;
+
+        console.log("Updated message with new reply:", message);
+
+        // Update message in storage
+        updateMessageInStorage(messageIndex, message);
+
+        // Clear the textarea
+        textarea.value = "";
+
+        // Refresh display
+        displayMessageDetail(message);
+        displayMessagesList();
+
+        alert("Reply sent! The admin will see your message.");
+      }
+
+      // Update message in localStorage
+      function updateMessageInStorage(index, updatedMessage) {
+        console.log("updateMessageInStorage called");
+        const allStoredMessages = JSON.parse(
+          localStorage.getItem("contactMessages") || "[]"
+        );
+        console.log("All stored messages:", allStoredMessages.length);
+
+        const globalIndex = allStoredMessages.findIndex(
+          (msg) =>
+            (msg.id && updatedMessage.id && msg.id === updatedMessage.id) ||
+            (msg.email === updatedMessage.email &&
+              (msg.date === updatedMessage.date ||
+                msg.createdAt === updatedMessage.createdAt ||
+                msg.date === updatedMessage.createdAt ||
+                msg.createdAt === updatedMessage.date))
+        );
+
+        console.log("Found message at globalIndex:", globalIndex);
+
+        if (globalIndex !== -1) {
+          allStoredMessages[globalIndex] = updatedMessage;
+          localStorage.setItem(
+            "contactMessages",
+            JSON.stringify(allStoredMessages)
+          );
+          console.log("Message updated in localStorage successfully");
+        } else {
+          console.error("Could not find message in localStorage to update");
+        }
+      }
+
+      // Search functionality
+      document
+        .getElementById("search-messages")
+        ?.addEventListener("input", function (e) {
+          const searchTerm = e.target.value.toLowerCase();
+          const messageItems = document.querySelectorAll(".message-item");
+
+          messageItems.forEach((item) => {
+            const text = item.textContent.toLowerCase();
+            item.style.display = text.includes(searchTerm) ? "block" : "none";
+          });
+        });
+
+      // Auto-refresh when messages are updated
+      window.addEventListener("storage", function (e) {
+        if (e.key === "contactMessages") {
+          loadMessages();
+          if (selectedMessageIndex >= 0 && allMessages[selectedMessageIndex]) {
+            displayMessageDetail(allMessages[selectedMessageIndex]);
+          }
+        }
+      });
+
+      // Check if user is logged in
+      if (!customerEmail) {
+        document.querySelector(".container").innerHTML = `
+                <div class="page-header">
+                    <div class="empty-state">
+                        <i class="fas fa-user-lock"></i>
+                        <h3>Please Log In</h3>
+                        <p>You need to be logged in to view your inbox</p>
+                        <a href="jumia-login.html" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Go to Login
+                        </a>
+                    </div>
+                </div>
+            `;
+      } else {
+        // Load messages on page load
+        loadMessages();
+
+        // Refresh every 30 seconds
+        setInterval(loadMessages, 30000);
+      }
+    </script>
+  </body>
+</html>

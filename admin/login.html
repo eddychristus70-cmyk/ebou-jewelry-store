@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login — Ebou Jewelry</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #e50f65;
+        --secondary: #fa6de8;
+        --dark: #1f2937;
+        --light: #f9fafb;
+        --border: #e5e7eb;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .login-container {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        width: 100%;
+        max-width: 420px;
+        overflow: hidden;
+        animation: slideUp 0.5s ease-out;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .login-header {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        padding: 40px 32px;
+        text-align: center;
+        color: white;
+      }
+
+      .login-logo {
+        font-size: 3rem;
+        margin-bottom: 12px;
+      }
+
+      .login-header h1 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+
+      .login-header p {
+        opacity: 0.9;
+        font-size: 0.95rem;
+      }
+
+      .login-body {
+        padding: 40px 32px;
+      }
+
+      .form-group {
+        margin-bottom: 24px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--dark);
+        font-size: 0.95rem;
+      }
+
+      .input-wrapper {
+        position: relative;
+      }
+
+      .input-wrapper i {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #9ca3af;
+        font-size: 1.1rem;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 14px 16px 14px 48px;
+        border: 2px solid var(--border);
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: all 0.3s;
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(229, 15, 101, 0.1);
+      }
+
+      .password-toggle {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #9ca3af;
+        cursor: pointer;
+        font-size: 1.1rem;
+        padding: 4px;
+      }
+
+      .password-toggle:hover {
+        color: var(--primary);
+      }
+
+      .remember-forgot {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        font-size: 0.9rem;
+      }
+
+      .remember-me {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .remember-me input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+      }
+
+      .forgot-link {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .forgot-link:hover {
+        text-decoration: underline;
+      }
+
+      .login-btn {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.05rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .login-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(229, 15, 101, 0.4);
+      }
+
+      .login-btn:active {
+        transform: translateY(0);
+      }
+
+      .login-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .error-message {
+        background: #fee2e2;
+        color: #dc2626;
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        display: none;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.9rem;
+      }
+
+      .error-message.show {
+        display: flex;
+        animation: shake 0.4s;
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-10px);
+        }
+        75% {
+          transform: translateX(10px);
+        }
+      }
+
+      .back-home {
+        text-align: center;
+        margin-top: 24px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border);
+      }
+
+      .back-home a {
+        color: #6b7280;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.9rem;
+      }
+
+      .back-home a:hover {
+        color: var(--primary);
+      }
+
+      .demo-credentials {
+        background: #f0f9ff;
+        border: 1px solid #bae6fd;
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 0.85rem;
+      }
+
+      .demo-credentials strong {
+        color: #0369a1;
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .demo-credentials code {
+        background: white;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-family: monospace;
+        color: #1f2937;
+      }
+
+      @media (max-width: 480px) {
+        .login-container {
+          border-radius: 0;
+        }
+
+        .login-body {
+          padding: 32px 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="login-header">
+        <div class="login-logo">
+          <i class="fas fa-gem"></i>
+        </div>
+        <h1>Admin Login</h1>
+        <p>Ebou Jewelry Dashboard</p>
+      </div>
+
+      <div class="login-body">
+        <div class="error-message" id="error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          <span id="error-text">Invalid username or password</span>
+        </div>
+
+        <form id="login-form">
+          <input type="hidden" id="csrf-token" name="csrf_token" value="" />
+          <div class="form-group">
+            <label for="username">Username</label>
+            <div class="input-wrapper">
+              <i class="fas fa-user"></i>
+              <input
+                type="text"
+                id="username"
+                class="form-input"
+                placeholder="Enter your username"
+                required
+                autocomplete="username"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-wrapper">
+              <i class="fas fa-lock"></i>
+              <input
+                type="password"
+                id="password"
+                class="form-input"
+                placeholder="Enter your password"
+                required
+                autocomplete="current-password"
+              />
+              <button
+                type="button"
+                class="password-toggle"
+                id="toggle-password"
+              >
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="remember-forgot">
+            <label class="remember-me">
+              <input type="checkbox" id="remember-me" />
+              <span>Remember me</span>
+            </label>
+            <a href="#" class="forgot-link">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="login-btn" id="login-btn">
+            <i class="fas fa-sign-in-alt"></i>
+            Login to Dashboard
+          </button>
+        </form>
+
+        <div class="back-home">
+          <a href="../index.html">
+            <i class="fas fa-arrow-left"></i>
+            Back to Store
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Admin credentials (In production, this should be handled server-side)
+      const ADMIN_CREDENTIALS = {
+        username: "ebouJewelry2",
+        password: "Eboujewelry2$",
+      };
+
+      // Session duration (4 hours in milliseconds for better security)
+      const SESSION_DURATION = 4 * 60 * 60 * 1000;
+
+      // Generate CSRF token
+      function generateCSRFToken() {
+        return Array.from(crypto.getRandomValues(new Uint8Array(32)))
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("");
+      }
+
+      // Generate and store CSRF token for login form
+      const loginCSRFToken = generateCSRFToken();
+      sessionStorage.setItem("loginCSRFToken", loginCSRFToken);
+
+      // Elements
+      const loginForm = document.getElementById("login-form");
+      const usernameInput = document.getElementById("username");
+      const passwordInput = document.getElementById("password");
+      const rememberMeCheckbox = document.getElementById("remember-me");
+      const errorMessage = document.getElementById("error-message");
+      const loginBtn = document.getElementById("login-btn");
+      const togglePassword = document.getElementById("toggle-password");
+
+      // Set CSRF token in hidden field
+      document.getElementById("csrf-token").value = loginCSRFToken;
+
+      // Password toggle
+      togglePassword.addEventListener("click", () => {
+        const type = passwordInput.type === "password" ? "text" : "password";
+        passwordInput.type = type;
+        togglePassword.innerHTML =
+          type === "password"
+            ? '<i class="fas fa-eye"></i>'
+            : '<i class="fas fa-eye-slash"></i>';
+      });
+
+      // Check if already logged in
+      const session = JSON.parse(localStorage.getItem("adminSession") || "{}");
+      if (
+        session.isLoggedIn &&
+        session.expiry > Date.now() &&
+        session.username
+      ) {
+        // Validate session integrity
+        if (session.csrfToken && session.lastActivity) {
+          // Check for session timeout (30 min inactivity)
+          const inactivityLimit = 30 * 60 * 1000;
+          if (Date.now() - session.lastActivity < inactivityLimit) {
+            window.location.href = "orders.html";
+          } else {
+            // Session expired due to inactivity
+            localStorage.removeItem("adminSession");
+          }
+        }
+      }
+
+      // Form submission
+      loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        // CSRF token validation (backwards compatible)
+        const submittedToken = document.getElementById("csrf-token")?.value;
+        const storedToken = sessionStorage.getItem("loginCSRFToken");
+
+        // Only validate if both tokens exist
+        if (submittedToken && storedToken && submittedToken !== storedToken) {
+          errorMessage.querySelector("#error-text").textContent =
+            "Invalid security token. Please refresh the page.";
+          errorMessage.classList.add("show");
+          return;
+        }
+
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value;
+        const rememberMe = rememberMeCheckbox.checked;
+
+        // Debug logging
+        // Hide error message
+        errorMessage.classList.remove("show");
+
+        // Validate credentials
+        if (
+          username === ADMIN_CREDENTIALS.username &&
+          password === ADMIN_CREDENTIALS.password
+        ) {
+          // Create session
+          const sessionData = {
+            isLoggedIn: true,
+            username: username,
+            loginTime: Date.now(),
+            lastActivity: Date.now(),
+            expiry: Date.now() + SESSION_DURATION,
+            rememberMe: rememberMe,
+            csrfToken: generateCSRFToken(),
+            userAgent: navigator.userAgent.substring(0, 100), // Session fingerprint
+          };
+
+          // Store session
+          localStorage.setItem("adminSession", JSON.stringify(sessionData));
+
+          // Show success feedback
+          loginBtn.innerHTML =
+            '<i class="fas fa-check-circle"></i> Login Successful!';
+          loginBtn.style.background = "#1eb981";
+
+          // Redirect to orders page
+          setTimeout(() => {
+            window.location.href = "orders.html";
+          }, 500);
+        } else {
+          // Show error
+          errorMessage.classList.add("show");
+          passwordInput.value = "";
+          passwordInput.focus();
+
+          // Shake the form
+          loginForm.style.animation = "shake 0.4s";
+          setTimeout(() => {
+            loginForm.style.animation = "";
+          }, 400);
+        }
+      });
+
+      // Auto-focus username on load
+      usernameInput.focus();
+
+      // Enter key handling
+      document.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          loginForm.dispatchEvent(new Event("submit"));
+        }
+      });
+    </script>
+  </body>
+</html>
