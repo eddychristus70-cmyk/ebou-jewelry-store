@@ -1557,21 +1557,6 @@ document.addEventListener("DOMContentLoaded", function () {
       event.preventDefault();
       console.log("✅ Contact form submitted!");
 
-      // CSRF token validation (backwards compatible)
-      const submittedToken =
-        document.getElementById("contact-csrf-token")?.value;
-      const storedToken = sessionStorage.getItem("contactCSRFToken");
-      console.log("🔐 CSRF Check - Submitted:", submittedToken?.substring(0, 10) + "...", "Stored:", storedToken?.substring(0, 10) + "...");
-
-      // Only validate if both tokens exist (backwards compatible with pages loaded before CSRF)
-      if (submittedToken && storedToken && submittedToken !== storedToken) {
-        console.error("❌ CSRF tokens don't match!");
-        setStatus("Invalid security token. Please refresh the page.", "error");
-        if (submitBtn) submitBtn.disabled = false;
-        return;
-      }
-      console.log("✅ CSRF validation passed");
-
       if (submitBtn) submitBtn.disabled = true;
       setStatus("Sending message…", "info");
 
