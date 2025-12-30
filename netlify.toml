@@ -10,12 +10,12 @@
 
 # Password protect admin pages (Basic Auth)
 # To enable: Set ADMIN_PASSWORD in Netlify environment variables
-[[redirects]]
-  from = "/admin/*"
-  to = "/admin/:splat"
-  status = 200
-  force = false
-  conditions = {Role = ["admin"]}
+# [[redirects]]
+#   from = "/admin/*"
+#   to = "/admin/:splat"
+#   status = 200
+#   force = false
+#   conditions = {Role = ["admin"]}
 
 # Uncomment below for HTTP Basic Auth protection
 # Replace USERNAME and PASSWORD with your desired credentials
