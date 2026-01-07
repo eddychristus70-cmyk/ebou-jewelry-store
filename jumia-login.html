@@ -365,7 +365,8 @@
       .input-wrapper input,
       .input-wrapper textarea {
         width: 100%;
-        padding: 14px 46px 14px 16px;
+        padding: 14px 16px;
+        padding-right: 88px;
         border-radius: 12px;
         border: 1.5px solid #e2e8f0;
         font-size: 1rem;
@@ -378,15 +379,16 @@
 
       .input-wrapper .field-icon {
         position: absolute;
-        right: 16px;
+        right: 50px;
         top: 50%;
         transform: translateY(-50%);
         color: var(--muted);
+        pointer-events: none;
       }
 
       .password-toggle {
         position: absolute;
-        right: 16px;
+        right: 12px;
         top: 50%;
         transform: translateY(-50%);
         background: none;
