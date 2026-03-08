@@ -1,4 +1,17 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // Update user icon link based on login state
+  (function () {
+    try {
+      const session = JSON.parse(sessionStorage.getItem("ebouAuthSession") || "{}");
+      const profileLink = document.querySelector(".profile-link");
+      if (profileLink) {
+        profileLink.href = session && session.email
+          ? "customer-dashboard.html"
+          : "jumia-login.html";
+      }
+    } catch (e) {}
+  })();
+
   const menuBtn = document.querySelector(".mobile-menu-btn");
   const navLinks = document.querySelector(".nav-links");
   if (menuBtn && navLinks) {

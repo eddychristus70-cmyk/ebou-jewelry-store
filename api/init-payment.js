@@ -40,7 +40,7 @@ module.exports = async (req, res) => {
   };
 
   // channel hints
-  if (paymentMethod === "momo") {
+  if (paymentMethod === "momo" || paymentMethod === "mobile_money") {
     payload.channels = ["mobile_money"];
     // include phone in mobile_money if available
     const phone = (customer.phone || "").toString();
