@@ -4,8 +4,7 @@ function isAuthorized(req) {
   const adminToken = process.env.CONTACT_ADMIN_TOKEN;
   if (!adminToken) return true;
   const headerToken = req.headers["x-admin-token"];
-  const query = (req.query && (req.query.key || req.query.token)) || "";
-  return headerToken === adminToken || query === adminToken;
+  return headerToken === adminToken;
 }
 
 module.exports = async (req, res) => {

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -83,7 +83,9 @@
         gap: 8px;
         cursor: pointer;
         box-shadow: 0 12px 24px rgba(229, 15, 101, 0.3);
-        transition: transform 0.2s ease, background 0.2s ease;
+        transition:
+          transform 0.2s ease,
+          background 0.2s ease;
       }
 
       .cta-button:hover {
@@ -700,7 +702,12 @@
                 required
               />
               <i class="fas fa-lock field-icon" aria-hidden="true"></i>
-              <button type="button" class="password-toggle" id="toggle-password" title="Show/hide password">
+              <button
+                type="button"
+                class="password-toggle"
+                id="toggle-password"
+                title="Show/hide password"
+              >
                 <i class="fas fa-eye"></i>
               </button>
             </div>
@@ -718,7 +725,12 @@
                 autocomplete="new-password"
               />
               <i class="fas fa-lock field-icon" aria-hidden="true"></i>
-              <button type="button" class="password-toggle" id="toggle-confirm-password" title="Show/hide password">
+              <button
+                type="button"
+                class="password-toggle"
+                id="toggle-confirm-password"
+                title="Show/hide password"
+              >
                 <i class="fas fa-eye"></i>
               </button>
             </div>
@@ -849,7 +861,7 @@
           atob(base64)
             .split("")
             .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-            .join("")
+            .join(""),
         );
         return JSON.parse(jsonPayload);
       }
@@ -910,7 +922,7 @@
 
         // Check for post-signup checkout
         const postSignupCheckout = localStorage.getItem(
-          POST_SIGNUP_CHECKOUT_KEY
+          POST_SIGNUP_CHECKOUT_KEY,
         );
         if (postSignupCheckout === "true") {
           localStorage.removeItem(POST_SIGNUP_CHECKOUT_KEY);
@@ -963,7 +975,9 @@
 
         // Password toggle functionality
         const togglePasswordBtn = document.getElementById("toggle-password");
-        const toggleConfirmBtn = document.getElementById("toggle-confirm-password");
+        const toggleConfirmBtn = document.getElementById(
+          "toggle-confirm-password",
+        );
 
         if (togglePasswordBtn) {
           togglePasswordBtn.addEventListener("click", (e) => {
@@ -981,8 +995,7 @@
         if (toggleConfirmBtn) {
           toggleConfirmBtn.addEventListener("click", (e) => {
             e.preventDefault();
-            const type =
-              confirmInput.type === "password" ? "text" : "password";
+            const type = confirmInput.type === "password" ? "text" : "password";
             confirmInput.type = type;
             toggleConfirmBtn.innerHTML =
               type === "password"
@@ -1111,7 +1124,7 @@
 
         function findAccount(email) {
           return getAccounts().find(
-            (acct) => acct.email === email.toLowerCase()
+            (acct) => acct.email === email.toLowerCase(),
           );
         }
 
@@ -1174,7 +1187,7 @@
         function cartHasPendingItems() {
           const snapshot = getCartSnapshot();
           return Object.values(snapshot || {}).some(
-            (entry) => Number(entry?.qty || 0) > 0
+            (entry) => Number(entry?.qty || 0) > 0,
           );
         }
 
@@ -1189,7 +1202,7 @@
               });
               if (resp.ok) return true;
               console.warn(
-                `Profile sync endpoint ${endpoint} responded with ${resp.status}`
+                `Profile sync endpoint ${endpoint} responded with ${resp.status}`,
               );
             } catch (err) {
               console.warn(`Profile sync attempt failed for ${endpoint}`, err);
@@ -1341,7 +1354,7 @@
               lastLogin: new Date().toISOString(),
               expiry: Date.now() + 4 * 60 * 60 * 1000, // 4 hours
               lastActivity: Date.now(),
-            })
+            }),
           );
 
           const wantsCheckout =
@@ -1390,7 +1403,7 @@
 
           // CSRF token validation (backwards compatible)
           const submittedToken = document.getElementById(
-            "customer-csrf-token"
+            "customer-csrf-token",
           )?.value;
           const storedToken = sessionStorage.getItem("customerCSRFToken");
 
@@ -1422,7 +1435,7 @@
         });
 
         tabs.forEach((tab) =>
-          tab.addEventListener("click", () => setMode(tab.dataset.mode))
+          tab.addEventListener("click", () => setMode(tab.dataset.mode)),
         );
 
         emailInput.addEventListener("blur", () => {
@@ -1455,7 +1468,7 @@
           const account = session?.email ? findAccount(session.email) : null;
           const name = account?.profile?.name || "there";
           const message = encodeURIComponent(
-            `Hi Ebou Jewelry, this is ${name}. I need help with my order.`
+            `Hi Ebou Jewelry, this is ${name}. I need help with my order.`,
           );
           window.open(`https://wa.me/233500000000?text=${message}`, "_blank");
         });
@@ -1483,19 +1496,19 @@
         function updateInboxBadge(customerEmail) {
           try {
             const messages = JSON.parse(
-              localStorage.getItem("contactMessages") || "[]"
+              localStorage.getItem("contactMessages") || "[]",
             );
             const userMessages = messages.filter(
               (msg) =>
                 msg.email &&
-                msg.email.toLowerCase() === customerEmail.toLowerCase()
+                msg.email.toLowerCase() === customerEmail.toLowerCase(),
             );
 
             // Count messages with admin replies that customer hasn't read
             const unreadCount = userMessages.filter((msg) => {
               if (!msg.replies || msg.replies.length === 0) return false;
               const hasAdminReply = msg.replies.some(
-                (r) => r.sender === "admin"
+                (r) => r.sender === "admin",
               );
               return hasAdminReply && !msg.readByCustomer;
             }).length;
