@@ -363,19 +363,10 @@ header {
   border-radius: 2.5rem;
 }
 .logo-text {
-  .tag-controls {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 12px 0 8px 0;
-    flex-wrap: wrap;
-  }
-  /* tag-chip styles removed (tag UI no longer present) */
-  .btn.btn-outline {
-    padding: 6px 10px;
-    font-size: 0.85rem;
-  }
   vertical-align: middle;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary-color);
 }
 
 .nav-links {
