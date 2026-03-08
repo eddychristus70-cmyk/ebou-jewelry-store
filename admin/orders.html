@@ -623,17 +623,7 @@
     </style>
   </head>
   <body>
-    <div id="locked" style="display: none">
-      <div class="locked-view">
-        <i class="fas fa-lock"></i>
-        <h2>Admin Access Required</h2>
-        <p>This vendor dashboard is protected.</p>
-        <p style="margin-top: 16px; font-size: 0.875rem">
-          Add <code>?pw=devpass</code> to the URL or enter the password when
-          prompted.
-        </p>
-      </div>
-    </div>
+
 
     <div id="content" class="dashboard-container" style="display: none">
       <div class="dashboard-header">
@@ -790,16 +780,12 @@
       const orderCSRFToken = generateOrderCSRFToken();
       sessionStorage.setItem("orderCSRFToken", orderCSRFToken);
 
-      const PW = "devpass";
       let allOrders = [];
       let currentFilter = "all";
 
       function checkAuth() {
-        const url = new URL(window.location.href);
-        const pw = url.searchParams.get("pw");
-        if (pw === PW) return true;
-        const entered = prompt("Enter admin password:");
-        return entered === PW;
+        // Auth is handled by checkAuthentication() via login session
+        return true;
       }
 
       function formatDate(timestamp) {
