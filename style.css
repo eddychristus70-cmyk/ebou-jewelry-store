@@ -1844,6 +1844,16 @@ img {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* When discount badge is inside price-wrapper, display inline instead of absolute */
+.price-wrapper .discount-badge {
+  position: static;
+  box-shadow: none;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+
 .add-to-cart {
   background: linear-gradient(120deg, var(--primary-color), #b40b4d);
   color: #fff;

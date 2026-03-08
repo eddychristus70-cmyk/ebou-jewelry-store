@@ -73,9 +73,14 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Normalize price formatting inside product and preorder cards.
-  // Ensures a single <span class="price">$X</span> before the Add to cart button.
+  // Ensures a single <span class="price">₵X</span> exists.
+  // Preserves .original-price and .discount-badge elements.
   function normalizePriceContainer(containerSelector) {
     document.querySelectorAll(containerSelector).forEach(function (container) {
+      // If there's already a .price with a ₵ symbol, skip normalization
+      const existingPrice = container.querySelector(".price");
+      if (existingPrice && /₵/.test(existingPrice.textContent)) return;
+
       // Try to find any element containing a numeric price
       let priceSource = container.querySelector(
         ".price, .new-price, div.price, span.new-price"
@@ -91,17 +96,26 @@ document.addEventListener("DOMContentLoaded", function () {
         const normalized = "₵" + match[1];
 
         // Remove existing price-like elements to avoid duplicates
+        // but keep .original-price and .discount-badge
         container.querySelectorAll(".price, .new-price").forEach(function (n) {
-          n.remove();
+          if (!n.classList.contains("original-price") && !n.classList.contains("discount-badge")) {
+            n.remove();
+          }
         });
 
-        // Create and insert normalized span.price before the button (if any)
+        // Create and insert normalized span.price
         const span = document.createElement("span");
         span.className = "price";
         span.textContent = normalized;
-        const btn = container.querySelector("button");
-        if (btn) container.insertBefore(span, btn);
-        else container.appendChild(span);
+        // Insert into .price-wrapper if it exists, otherwise before button
+        const wrapper = container.querySelector(".price-wrapper");
+        if (wrapper) {
+          wrapper.insertBefore(span, wrapper.firstChild);
+        } else {
+          const btn = container.querySelector("button");
+          if (btn) container.insertBefore(span, btn);
+          else container.appendChild(span);
+        }
       }
     });
   }
