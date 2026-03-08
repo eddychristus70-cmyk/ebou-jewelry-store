@@ -1867,8 +1867,8 @@ img {
 
 @media (max-width: 640px) {
   .product-price {
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    align-items: stretch;
     gap: 10px;
     flex-wrap: wrap;
   }
@@ -1878,9 +1878,27 @@ img {
   }
 
   .add-to-cart {
-    width: auto;
-    min-width: 140px;
+    width: 100%;
+    min-width: unset;
     text-align: center;
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .add-to-cart {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    border-radius: 8px;
+  }
+
+  .price {
+    font-size: 1.4rem;
+  }
+
+  .product-price {
+    gap: 6px;
   }
 }
 
@@ -2179,7 +2197,18 @@ img {
   }
 
   .product-price {
-    padding: 8px;
+    padding: 6px 4px;
+  }
+
+  .add-to-cart {
+    padding: 6px 8px;
+    font-size: 0.75rem;
+    min-width: unset;
+    border-radius: 6px;
+  }
+
+  .price {
+    font-size: 1.1rem;
   }
 
   .acrii-section {
