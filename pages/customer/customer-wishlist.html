@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Wishlist - VisionStyle</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #3498db;
+        --secondary: #9b59b6;
+        --success: #1eb981;
+        --warning: #f59e0b;
+        --info: #3b82f6;
+        --dark: #2c3e50;
+        --light: #f9fafb;
+        --border: #e5e7eb;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        color: var(--dark);
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .page-header {
+        background: white;
+        border-radius: 16px;
+        padding: 32px;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .page-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .page-title h1 {
+        font-size: 2rem;
+        color: var(--dark);
+      }
+
+      .page-title i {
+        color: var(--primary);
+        font-size: 1.8rem;
+      }
+
+      .back-btn {
+        padding: 10px 20px;
+        background: white;
+        border: 2px solid var(--primary);
+        color: var(--primary);
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        transition: all 0.2s;
+      }
+
+      .back-btn:hover {
+        background: var(--primary);
+        color: white;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #2980b9;
+        transform: translateY(-1px);
+      }
+
+      .wishlist-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 24px;
+        margin-top: 24px;
+      }
+
+      .wishlist-card {
+        background: white;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s, box-shadow 0.2s;
+        position: relative;
+        border-left: 4px solid var(--primary);
+      }
+
+      .wishlist-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(52, 152, 219, 0.2);
+      }
+
+      .item-image {
+        width: 100%;
+        height: 200px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e5e7eb 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 16px;
+        overflow: hidden;
+      }
+
+      .item-image i {
+        font-size: 4rem;
+        color: var(--primary);
+        opacity: 0.3;
+      }
+
+      .item-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .item-name {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: var(--dark);
+      }
+
+      .item-category {
+        font-size: 0.85rem;
+        color: #6b7280;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .item-price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 16px;
+      }
+
+      .item-actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .btn-remove {
+        flex: 1;
+        padding: 10px 16px;
+        background: #fee2e2;
+        color: #dc2626;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+      }
+
+      .btn-remove:hover {
+        background: #fecaca;
+        transform: translateY(-1px);
+      }
+
+      .btn-add-cart {
+        flex: 1;
+        padding: 10px 16px;
+        background: var(--success);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+      }
+
+      .btn-add-cart:hover {
+        background: #169967;
+        transform: translateY(-1px);
+      }
+
+      .empty-state {
+        background: white;
+        border-radius: 16px;
+        padding: 80px 40px;
+        text-align: center;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      .empty-state i {
+        font-size: 5rem;
+        color: #d1d5db;
+        margin-bottom: 24px;
+      }
+
+      .empty-state h2 {
+        font-size: 1.8rem;
+        margin-bottom: 12px;
+        color: var(--dark);
+      }
+
+      .empty-state p {
+        color: #6b7280;
+        margin-bottom: 24px;
+      }
+
+      .stats {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .stat-badge {
+        padding: 8px 16px;
+        background: rgba(52, 152, 219, 0.1);
+        color: var(--primary);
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .date-added {
+        font-size: 0.75rem;
+        color: #9ca3af;
+        margin-bottom: 12px;
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 12px;
+        }
+
+        .page-header {
+          padding: 20px;
+        }
+
+        .header-content {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .stats {
+          justify-content: center;
+        }
+
+        .wishlist-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Page Header -->
+      <div class="page-header">
+        <div class="header-content">
+          <div class="page-title">
+            <i class="fas fa-heart"></i>
+            <div>
+              <h1>My Wishlist</h1>
+              <p style="margin: 4px 0 0; color: #6b7280; font-size: 0.9rem">
+                Save your favorite eyewear for later
+              </p>
+            </div>
+          </div>
+          <div class="stats">
+            <span class="stat-badge" id="item-count">0 items</span>
+            <a href="customer-orders.html" class="back-btn">
+              <i class="fas fa-arrow-left"></i>
+              Back to Orders
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wishlist Grid -->
+      <div id="wishlist-container">
+        <!-- Wishlist items will be loaded here -->
+      </div>
+    </div>
+
+    <script>
+      const SESSION_KEY = "visionStyleAuthSession";
+      let sessionData = {};
+      let customerEmail = "";
+      let allProducts = []; // Store all products from products.json
+
+      // Initialize page
+      document.addEventListener("DOMContentLoaded", function () {
+        checkAuthentication();
+        loadProducts();
+      });
+
+      // Load products from products.json
+      async function loadProducts() {
+        try {
+          const response = await fetch("products.json");
+          if (response.ok) {
+            allProducts = await response.json();
+          }
+        } catch (error) {
+          console.error("Error loading products:", error);
+        }
+        loadWishlist();
+      }
+
+      // Check if user is logged in
+      function checkAuthentication() {
+        sessionData = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "{}");
+        customerEmail = sessionData.email || "";
+
+        // Check session expiry
+        if (sessionData.expiry && Date.now() > sessionData.expiry) {
+          sessionStorage.removeItem(SESSION_KEY);
+          window.location.href = "login.html";
+          return;
+        }
+
+        // Check inactivity (30 minutes)
+        const inactivityLimit = 30 * 60 * 1000;
+        if (
+          sessionData.lastActivity &&
+          Date.now() - sessionData.lastActivity > inactivityLimit
+        ) {
+          sessionStorage.removeItem(SESSION_KEY);
+          window.location.href = "login.html";
+          return;
+        }
+
+        if (!customerEmail) {
+          window.location.href = "login.html";
+          return;
+        }
+
+        // Update last activity
+        sessionData.lastActivity = Date.now();
+        sessionStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
+      }
+
+      // Load wishlist items
+      function loadWishlist() {
+        const wishlist = JSON.parse(
+          localStorage.getItem(`wishlist_${customerEmail}`) || "[]"
+        );
+        const container = document.getElementById("wishlist-container");
+        const countBadge = document.getElementById("item-count");
+
+        countBadge.textContent = `${wishlist.length} ${
+          wishlist.length === 1 ? "item" : "items"
+        }`;
+
+        if (wishlist.length === 0) {
+          container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-glasses"></i>
+                        <h2>Your wishlist is empty</h2>
+                        <p>Start adding your favorite eyewear to save them for later!</p>
+                        <a href="products.html" class="btn btn-primary">
+                            <i class="fas fa-shopping-bag"></i>
+                            Browse Products
+                        </a>
+                    </div>
+                `;
+          return;
+        }
+
+        container.innerHTML = `
+                <div class="wishlist-grid">
+                    ${wishlist
+                      .map(
+                        (item, index) => `
+                        <div class="wishlist-card">
+                            <div class="item-image">
+                                ${
+                                  item.img
+                                    ? `<img src="${item.img}" alt="${
+                                        item.name || "Product"
+                                      }">`
+                                    : '<i class="fas fa-glasses"></i>'
+                                }
+                            </div>
+                            <div class="item-name">${
+                              item.name || item.title || "Eyewear"
+                            }</div>
+                            <div class="item-category">
+                                <i class="fas fa-tag"></i>
+                                ${getCategoryName(item.category || "optical")}
+                            </div>
+                            ${
+                              item.dateAdded
+                                ? `<div class="date-added">
+                                <i class="far fa-calendar"></i>
+                                Added ${new Date(
+                                  item.dateAdded
+                                ).toLocaleDateString()}
+                            </div>`
+                                : ""
+                            }
+                            <div class="item-price">$${
+                              item.price || "99.99"
+                            }</div>
+                            <div class="item-actions">
+                                <button class="btn-remove" onclick="removeItem(${index})">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                                <button class="btn-add-cart" onclick="addToCart(${index})">
+                                    <i class="fas fa-shopping-cart"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    `
+                      )
+                      .join("")}
+                </div>
+            `;
+      }
+
+      // Get category display name
+      function getCategoryName(category) {
+        const categories = {
+          sunglasses: "Sunglasses",
+          optical: "Optical Glasses",
+          designer: "Designer Frames",
+          sport: "Sport Eyewear",
+        };
+        return categories[category] || "Eyewear";
+      }
+
+      // Remove item from wishlist
+      function removeItem(index) {
+        if (!confirm("Remove this item from your wishlist?")) return;
+
+        const wishlist = JSON.parse(
+          localStorage.getItem(`wishlist_${customerEmail}`) || "[]"
+        );
+        const removedItem = wishlist[index];
+        wishlist.splice(index, 1);
+        localStorage.setItem(
+          `wishlist_${customerEmail}`,
+          JSON.stringify(wishlist)
+        );
+
+        // Show notification
+        showNotification(`"${removedItem.name}" removed from wishlist`, "info");
+        loadWishlist();
+      }
+
+      // Add to cart
+      function addToCart(index) {
+        const wishlist = JSON.parse(
+          localStorage.getItem(`wishlist_${customerEmail}`) || "[]"
+        );
+        const item = wishlist[index];
+
+        // Get current cart
+        const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+        // Check if item already in cart
+        const existingItem = cart.find((cartItem) => cartItem.id === item.id);
+        if (existingItem) {
+          showNotification(
+            `"${item.name}" is already in your cart`,
+            "warning"
+          );
+          return;
+        }
+
+        // Add to cart
+        cart.push({
+          id: item.id || Date.now(),
+          name: item.name || item.title,
+          price: parseFloat(item.price) || 0,
+          quantity: 1,
+          image: item.img,
+        });
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        // Update cart count if element exists
+        const cartCount = document.getElementById("cartCount");
+        if (cartCount) {
+          cartCount.textContent = cart.length;
+        }
+
+        showNotification(`"${item.name}" added to cart!`, "success");
+      }
+
+      // Show notification
+      function showNotification(message, type = "success") {
+        const notification = document.createElement("div");
+        notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 16px 24px;
+                background: ${
+                  type === "success"
+                    ? "#1eb981"
+                    : type === "warning"
+                    ? "#f59e0b"
+                    : "#3498db"
+                };
+                color: white;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 1000;
+                font-weight: 600;
+                animation: slideIn 0.3s ease;
+            `;
+        notification.textContent = message;
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+          notification.style.animation = "slideOut 0.3s ease";
+          setTimeout(() => notification.remove(), 300);
+        }, 3000);
+      }
+
+      // Add animation styles
+      const style = document.createElement("style");
+      style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(400px); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(400px); opacity: 0; }
+            }
+        `;
+      document.head.appendChild(style);
+    </script>
+  </body>
+</html>

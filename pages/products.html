@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Products - VisionStyle</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+  <body>
+    <!-- Promo Banner -->
+    <div class="promo-banner" id="promoBanner">
+      <div class="promo-content">
+        <span class="promo-text"
+          >🎉 New Year Sale - Up to 40% OFF on Selected Eyewear! Use Code:
+          <strong>VISION2026</strong></span
+        >
+        <button class="promo-close" id="promoClose">✕</button>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+      <nav>
+        <a href="../index.html" class="logo"
+          ><i class="fas fa-glasses"></i> VisionStyle</a
+        >
+        <ul class="nav-links" id="navLinks">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="categories.html">Categories</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="header-icons">
+          <div class="search-container">
+            <input
+              type="text"
+              class="search-input"
+              id="searchInput"
+              placeholder="Search eyewear..."
+            />
+            <button class="search-btn" id="searchBtn">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+          <div class="user-icon" id="userIcon">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="cart-icon" id="cartIcon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cartCount">0</span>
+          </div>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Page Hero -->
+    <section class="hero shop-hero">
+      <div class="hero-content">
+        <h1>Our Products</h1>
+        <p>Discover premium eyewear for every style and occasion</p>
+      </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products page-section">
+      <div class="container">
+        <!-- Product Filters -->
+        <div class="filters-container">
+          <div class="filter-group">
+            <label>Price Range:</label>
+            <select id="priceFilter" class="filter-select">
+              <option value="all">All Prices</option>
+              <option value="0-150">Under $150</option>
+              <option value="150-200">$150 - $200</option>
+              <option value="200+">$200+</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Style:</label>
+            <select id="styleFilter" class="filter-select">
+              <option value="all">All Styles</option>
+              <option value="sunglasses">Sunglasses</option>
+              <option value="optical">Optical</option>
+              <option value="sport">Sport</option>
+              <option value="designer">Designer</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Sort By:</label>
+            <select id="sortFilter" class="filter-select">
+              <option value="featured">Featured</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Highest Rated</option>
+            </select>
+          </div>
+          <button class="clear-filters" id="clearFilters">Clear Filters</button>
+        </div>
+
+        <!-- Comparison Bar -->
+        <div class="comparison-bar" id="comparisonBar">
+          <div class="comparison-content">
+            <span class="comparison-text"
+              >Compare Products (<span id="compareCount">0</span>/3)</span
+            >
+            <button class="compare-btn" id="compareBtn" disabled>
+              Compare Now
+            </button>
+            <button class="clear-compare" id="clearCompare">Clear All</button>
+          </div>
+        </div>
+
+        <div class="product-grid">
+          <div
+            class="product-card"
+            data-product="classic-aviator"
+            data-price="149.99"
+            data-style="sunglasses"
+            data-rating="5"
+          >
+            <span class="sale-badge">SALE</span>
+            <button
+              class="wishlist-btn"
+              onclick="toggleWishlist('Classic Aviator', this)"
+            >
+              <i class="fas fa-heart"></i>
+            </button>
+            <input
+              type="checkbox"
+              class="compare-checkbox"
+              data-product-name="Classic Aviator"
+              data-product-price="149.99"
+            />
+            <div
+              class="product-image"
+              onclick="openLightbox('🕶️', 'Classic Aviator')"
+            >
+              🕶️
+            </div>
+            <div class="product-info">
+              <h3 class="product-name">Classic Aviator</h3>
+              <div class="product-rating">
+                <span class="stars">⭐⭐⭐⭐⭐</span>
+                <span class="review-count">(248 reviews)</span>
+              </div>
+              <p class="product-price">
+                $149.99 <span class="original-price">$199.99</span>
+              </p>
+              <p class="product-description">
+                Timeless design with UV400 protection
+              </p>
+              <div class="product-actions">
+                <button
+                  class="add-to-cart"
+                  onclick="addToCart('Classic Aviator', 149.99)"
+                >
+                  Add to Cart
+                </button>
+                <button
+                  class="quick-view-btn"
+                  onclick="
+                    openQuickView(
+                      'Classic Aviator',
+                      149.99,
+                      '🕶️',
+                      'Timeless design with UV400 protection. Premium metal frame with adjustable nose pads.',
+                    )
+                  "
+                >
+                  Quick View
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="product-card"
+            data-product="modern-square"
+            data-price="129.99"
+            data-style="optical"
+            data-rating="5"
+          >
+            <span class="new-badge">NEW</span>
+            <button
+              class="wishlist-btn"
+              onclick="toggleWishlist('Modern Square', this)"
+            >
+              <i class="fas fa-heart"></i>
+            </button>
+            <input
+              type="checkbox"
+              class="compare-checkbox"
+              data-product-name="Modern Square"
+              data-product-price="129.99"
+            />
+            <div
+              class="product-image"
+              onclick="openLightbox('👓', 'Modern Square')"
+            >
+              👓
+            </div>
+            <div class="product-info">
+              <h3 class="product-name">Modern Square</h3>
+              <div class="product-rating">
+                <span class="stars">⭐⭐⭐⭐⭐</span>
+                <span class="review-count">(189 reviews)</span>
+              </div>
+              <p class="product-price">$129.99</p>
+              <p class="product-description">
+                Contemporary frame for everyday wear
+              </p>
+              <div class="product-actions">
+                <button
+                  class="add-to-cart"
+                  onclick="addToCart('Modern Square', 129.99)"
+                >
+                  Add to Cart
+                </button>
+                <button
+                  class="quick-view-btn"
+                  onclick="
+                    openQuickView(
+                      'Modern Square',
+                      129.99,
+                      '👓',
+                      'Contemporary square frame perfect for everyday wear. Lightweight acetate construction.',
+                    )
+                  "
+                >
+                  Quick View
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="product-card"
+            data-product="sport-pro"
+            data-price="189.99"
+            data-style="sport"
+            data-rating="5"
+          >
+            <span class="discount-badge">20% OFF</span>
+            <button
+              class="wishlist-btn"
+              onclick="toggleWishlist('Sport Pro', this)"
+            >
+              ❤️
+            </button>
+            <input
+              type="checkbox"
+              class="compare-checkbox"
+              data-product-name="Sport Pro"
+              data-product-price="189.99"
+            />
+            <div
+              class="product-image"
+              onclick="openLightbox('🕶️', 'Sport Pro')"
+            >
+              🕶️
+            </div>
+            <div class="product-info">
+              <h3 class="product-name">Sport Pro</h3>
+              <div class="product-rating">
+                <span class="stars">⭐⭐⭐⭐⭐</span>
+                <span class="review-count">(312 reviews)</span>
+              </div>
+              <p class="product-price">$189.99</p>
+              <p class="product-description">
+                High-performance polarized lenses
+              </p>
+              <div class="product-actions">
+                <button
+                  class="add-to-cart"
+                  onclick="addToCart('Sport Pro', 189.99)"
+                >
+                  Add to Cart
+                </button>
+                <button
+                  class="quick-view-btn"
+                  onclick="
+                    openQuickView(
+                      'Sport Pro',
+                      189.99,
+                      '🕶️',
+                      'Professional sports eyewear with polarized lenses. Anti-slip rubber grips and UV400 protection.',
+                    )
+                  "
+                >
+                  Quick View
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="product-card"
+            data-product="round-vintage"
+            data-price="139.99"
+            data-style="optical"
+            data-rating="4"
+          >
+            <button
+              class="wishlist-btn"
+              onclick="toggleWishlist('Round Vintage', this)"
+            >
+              <i class="fas fa-heart"></i>
+            </button>
+            <input
+              type="checkbox"
+              class="compare-checkbox"
+              data-product-name="Round Vintage"
+              data-product-price="139.99"
+            />
+            <div
+              class="product-image"
+              onclick="openLightbox('👓', 'Round Vintage')"
+            >
+              👓
+            </div>
+            <div class="product-info">
+              <h3 class="product-name">Round Vintage</h3>
+              <div class="product-rating">
+                <span class="stars">⭐⭐⭐⭐☆</span>
+                <span class="review-count">(156 reviews)</span>
+              </div>
+              <p class="product-price">$139.99</p>
+              <p class="product-description">Retro style with modern comfort</p>
+              <div class="product-actions">
+                <button
+                  class="add-to-cart"
+                  onclick="addToCart('Round Vintage', 139.99)"
+                >
+                  Add to Cart
+                </button>
+                <button
+                  class="quick-view-btn"
+                  onclick="
+                    openQuickView(
+                      'Round Vintage',
+                      139.99,
+                      '👓',
+                      'Classic round frame with vintage appeal. Comfortable fit with spring hinges.',
+                    )
+                  "
+                >
+                  Quick View
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="product-card"
+            data-product="luxury-cat-eye"
+            data-price="249.99"
+            data-style="designer"
+            data-rating="5"
+          >
+            <button
+              class="wishlist-btn"
+              onclick="toggleWishlist('Luxury Cat-Eye', this)"
+            >
+              <i class="fas fa-heart"></i>
+            </button>
+            <input
+              type="checkbox"
+              class="compare-checkbox"
+              data-product-name="Luxury Cat-Eye"
+              data-product-price="249.99"
+            />
+            <div
+              class="product-image"
+              onclick="openLightbox('💎', 'Luxury Cat-Eye')"
+            >
+              💎
+            </div>
+            <div class="product-info">
+              <h3 class="product-name">Luxury Cat-Eye</h3>
+              <div class="product-rating">
+                <span class="stars">⭐⭐⭐⭐⭐</span>
+                <span class="review-count">(421 reviews)</span>
+              </div>
+              <p class="product-price">$249.99</p>
+              <p class="product-description">
+                Premium acetate frame with crystals
+              </p>
+              <div class="product-actions">
+                <button
+                  class="add-to-cart"
+                  onclick="addToCart('Luxury Cat-Eye', 249.99)"
+                >
+                  Add to Cart
+                </button>
+                <button
+                  class="quick-view-btn"
+                  onclick="
+                    openQuickView(
+                      'Luxury Cat-Eye',
+                      249.99,
+                      '💎',
+                      'Luxury designer frame with Swarovski crystals. Handcrafted Italian acetate with premium lenses.',
+                    )
+                  "
+                >
+                  Quick View
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="product-card"
+            data-product="wayfarer-style"
+            data-price="159.99"
+            data-style="sunglasses"
+            data-rating="5"
+          >
+            <button
+              class="wishlist-btn"
+              onclick="toggleWishlist('Wayfarer Style', this)"
+            >
+              <i class="fas fa-heart"></i>
+            </button>
+            <input
+              type="checkbox"
+              class="compare-checkbox"
+              data-product-name="Wayfarer Style"
+              data-product-price="159.99"
+            />
+            <div
+              class="product-image"
+              onclick="openLightbox('🕶️', 'Wayfarer Style')"
+            >
+              🕶️
+            </div>
+            <div class="product-info">
+              <h3 class="product-name">Wayfarer Style</h3>
+              <div class="product-rating">
+                <span class="stars">⭐⭐⭐⭐⭐</span>
+                <span class="review-count">(378 reviews)</span>
+              </div>
+              <p class="product-price">$159.99</p>
+              <p class="product-description">Iconic design for all occasions</p>
+              <div class="product-actions">
+                <button
+                  class="add-to-cart"
+                  onclick="addToCart('Wayfarer Style', 159.99)"
+                >
+                  Add to Cart
+                </button>
+                <button
+                  class="quick-view-btn"
+                  onclick="
+                    openQuickView(
+                      'Wayfarer Style',
+                      159.99,
+                      '🕶️',
+                      'Timeless wayfarer design suitable for any occasion. Durable plastic frame with gradient lenses.',
+                    )
+                  "
+                >
+                  Quick View
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>About VisionStyle</h3>
+          <p>
+            Your trusted source for premium eyewear. We combine style, quality,
+            and affordability.
+          </p>
+          <div class="social-media">
+            <h4>Follow Us</h4>
+            <div class="social-icons">
+              <a href="#" class="social-icon" title="Facebook"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a href="#" class="social-icon" title="Instagram"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" class="social-icon" title="Twitter"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a href="#" class="social-icon" title="YouTube"
+                ><i class="fab fa-youtube"></i
+              ></a>
+              <a href="#" class="social-icon" title="Pinterest"
+                ><i class="fab fa-pinterest"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="categories.html">Categories</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Customer Service</h3>
+          <ul>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Contact Info</h3>
+          <p>Email: info@visionstyle.com</p>
+          <p>Phone: (555) 123-4567</p>
+          <p>Mon-Fri: 9AM-6PM</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 VisionStyle. All rights reserved.</p>
+        <p class="footer-trust">
+          🔒 Secure Shopping | ✓ Authentic Products | 🚚 Free Shipping Over $100
+        </p>
+      </div>
+    </footer>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+      <div class="cart-modal-content">
+        <div class="cart-modal-header">
+          <h2>Shopping Cart</h2>
+          <button class="close-cart" id="closeCart">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+          <p class="empty-cart">Your cart is empty</p>
+        </div>
+        <div class="cart-total">
+          <div class="cart-total-row">
+            <span>Subtotal:</span>
+            <span id="cartSubtotal">$0.00</span>
+          </div>
+          <div class="cart-total-row">
+            <span>Shipping:</span>
+            <span>FREE</span>
+          </div>
+          <div class="cart-total-row total">
+            <span>Total:</span>
+            <span id="cartTotal">$0.00</span>
+          </div>
+        </div>
+        <button class="checkout-btn">Proceed to Checkout</button>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+      <span class="toast-icon" id="toastIcon">✓</span>
+      <span class="toast-message" id="toastMessage">Item added to cart!</span>
+    </div>
+
+    <!-- Quick View Modal -->
+    <div class="quick-view-modal" id="quickViewModal">
+      <div class="quick-view-content">
+        <button class="close-quick-view" id="closeQuickView">✕</button>
+        <div class="quick-view-layout">
+          <div class="quick-view-image" id="quickViewImage">🕶️</div>
+          <div class="quick-view-details">
+            <h2 id="quickViewName">Product Name</h2>
+            <div class="product-rating">
+              <span class="stars">⭐⭐⭐⭐⭐</span>
+              <span class="review-count">(248 reviews)</span>
+            </div>
+            <p class="quick-view-price" id="quickViewPrice">$149.99</p>
+            <p class="quick-view-description" id="quickViewDescription">
+              Product description goes here
+            </p>
+            <div class="quick-view-features">
+              <h4>Features:</h4>
+              <ul>
+                <li>✓ UV400 Protection</li>
+                <li>✓ Premium Materials</li>
+                <li>✓ Adjustable Fit</li>
+                <li>✓ 1 Year Warranty</li>
+              </ul>
+            </div>
+            <div class="quick-view-actions">
+              <button class="add-to-cart-qv" id="addToCartQV">
+                Add to Cart
+              </button>
+              <button class="wishlist-qv" id="wishlistQV">
+                Add to Wishlist
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparison Modal -->
+    <div class="comparison-modal" id="comparisonModal">
+      <div class="comparison-modal-content">
+        <div class="comparison-header">
+          <h2>Compare Products</h2>
+          <button class="close-comparison" id="closeComparison">✕</button>
+        </div>
+        <div class="comparison-grid" id="comparisonGrid">
+          <!-- Comparison items will be inserted here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Image Lightbox -->
+    <div class="lightbox" id="lightbox">
+      <button class="close-lightbox" id="closeLightbox">✕</button>
+      <div class="lightbox-content">
+        <div class="lightbox-image" id="lightboxImage">🕶️</div>
+        <p class="lightbox-caption" id="lightboxCaption">Product Name</p>
+      </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" title="Back to top">↑</button>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+      <div class="spinner"></div>
+      <p>Loading amazing eyewear...</p>
+    </div>
+
+    <script src="../js/script.js"></script>
+  </body>
+</html>

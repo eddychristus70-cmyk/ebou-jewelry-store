@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact VisionStyle - Premium Eyewear</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+  <body class="contact-page">
+    <!-- Promo Banner -->
+    <div class="promo-banner" id="promoBanner">
+      <div class="promo-content">
+        <span class="promo-text"
+          >🎉 New Year Sale - Up to 40% OFF on Selected Eyewear! Use Code:
+          <strong>VISION2026</strong></span
+        >
+        <button class="promo-close" id="promoClose">✕</button>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+      <nav>
+        <a href="../index.html" class="logo"
+          ><i class="fas fa-glasses"></i> VisionStyle</a
+        >
+        <ul class="nav-links" id="navLinks">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="categories.html">Categories</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="contact.html" class="active">Contact</a></li>
+        </ul>
+        <div class="header-icons">
+          <div class="search-container">
+            <input
+              type="text"
+              class="search-input"
+              id="searchInput"
+              placeholder="Search eyewear..."
+            />
+            <button class="search-btn" id="searchBtn">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+          <div class="user-icon" id="userIcon">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="cart-icon" id="cartIcon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cartCount">0</span>
+          </div>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <!-- Hero Section -->
+      <section class="hero contact-hero">
+        <div class="hero-content">
+          <p class="eyebrow">Get in Touch</p>
+          <h1>We're Always Here to Help</h1>
+          <p>
+            Reach out for frame recommendations, prescription guidance, order
+            tracking, or bulk purchase inquiries. Our eyewear experts respond
+            within 24 hours.
+          </p>
+          <div class="hero-btns">
+            <a href="#contact-form" class="btn btn-primary">Send a Message</a>
+            <a href="tel:+15551234567" class="btn btn-outline">Call Us Now</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Panels -->
+      <section class="contact-panels page-section">
+        <div class="container">
+          <div class="contact-grid">
+            <article class="contact-card">
+              <div class="contact-card-icon"><i class="fas fa-phone"></i></div>
+              <h3>Talk to Us</h3>
+              <p>Monday to Saturday · 9:00 AM — 7:00 PM EST</p>
+              <a href="tel:+15551234567" class="contact-link"
+                >+1 (555) 123-4567</a
+              >
+            </article>
+
+            <article class="contact-card">
+              <div class="contact-card-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <h3>Email & Inquiries</h3>
+              <p>Wholesale, prescription, or partnership requests.</p>
+              <a href="mailto:info@visionstyle.com" class="contact-link"
+                >info@visionstyle.com</a
+              >
+            </article>
+
+            <article class="contact-card">
+              <div class="contact-card-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <h3>Store Location</h3>
+              <p>123 Vision Street — visits by appointment only.</p>
+              <span class="contact-link">New York, NY 10001</span>
+            </article>
+
+            <article class="contact-card">
+              <div class="contact-card-icon">
+                <i class="fas fa-comment-dots"></i>
+              </div>
+              <h3>Social Media</h3>
+              <p>DMs are open for quick questions and style advice.</p>
+              <div class="contact-socials">
+                <a href="#" target="_blank"
+                  ><i class="fab fa-instagram"></i> Instagram</a
+                >
+                <a href="#" target="_blank"
+                  ><i class="fab fa-twitter"></i> Twitter</a
+                >
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Form Section -->
+      <section class="contact-form-section page-section" id="contact-form">
+        <div class="container contact-form-wrapper">
+          <div class="contact-form-copy">
+            <p class="eyebrow">Send a Note</p>
+            <h2>Tell Us About Your Request</h2>
+            <p>
+              Share as many details as possible—desired delivery date, frame
+              styles, prescription requirements, or references. We will follow
+              up with next steps.
+            </p>
+            <ul class="contact-highlights">
+              <li>✓ Replies within 24 hours on business days</li>
+              <li>✓ Virtual try-on sessions for online shoppers</li>
+              <li>✓ Bulk and corporate discounts available</li>
+            </ul>
+          </div>
+
+          <form class="contact-form" id="contact-support-form" novalidate>
+            <div class="form-row">
+              <label for="full-name">Full Name *</label>
+              <input type="text" id="full-name" name="full-name" required />
+            </div>
+            <div class="form-row">
+              <label for="email">Email *</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+            <div class="form-row">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" />
+            </div>
+            <div class="form-row">
+              <label for="topic">Topic *</label>
+              <select id="topic" name="topic" required>
+                <option value="">Select one</option>
+                <option value="order">Order Update</option>
+                <option value="prescription">Prescription Inquiry</option>
+                <option value="bulk">Bulk / Wholesale</option>
+                <option value="styling">Frame Recommendations</option>
+                <option value="return">Returns & Exchanges</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="message">Message *</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="5"
+                placeholder="Include frame styles, prescription details, or other context"
+                required
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Message</button>
+            <p
+              id="contact-status"
+              class="form-status"
+              role="status"
+              aria-live="polite"
+            ></p>
+          </form>
+        </div>
+      </section>
+
+      <!-- Contact FAQs -->
+      <section class="contact-faqs page-section">
+        <div class="container contact-faqs-wrapper">
+          <div class="faq-card">
+            <h3>How fast do you deliver?</h3>
+            <p>
+              Local orders ship within 1-3 business days. Express shipping is
+              available for urgent orders, and same-day pickup can be arranged
+              in select cities.
+            </p>
+          </div>
+          <div class="faq-card">
+            <h3>Do you accept returns?</h3>
+            <p>
+              We accept exchanges within 30 days for unworn frames with original
+              packaging. Contact us for personalized assistance with fit
+              adjustments.
+            </p>
+          </div>
+          <div class="faq-card">
+            <h3>Can you add my prescription?</h3>
+            <p>
+              Yes! Upload your prescription during checkout and we'll custom-fit
+              lenses to any optical frame. Blue light and transition lenses
+              available.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>About VisionStyle</h3>
+          <p>
+            Your trusted source for premium eyewear. We combine style, quality,
+            and affordability to bring you the perfect frames.
+          </p>
+          <div class="social-media">
+            <h4>Follow Us</h4>
+            <div class="social-icons">
+              <a href="#" class="social-icon" title="Facebook"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a href="#" class="social-icon" title="Instagram"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" class="social-icon" title="Twitter"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a href="#" class="social-icon" title="YouTube"
+                ><i class="fab fa-youtube"></i
+              ></a>
+              <a href="#" class="social-icon" title="Pinterest"
+                ><i class="fab fa-pinterest"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="categories.html">Categories</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Customer Service</h3>
+          <ul>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Contact Info</h3>
+          <p>Email: info@visionstyle.com</p>
+          <p>Phone: (555) 123-4567</p>
+          <p>Mon-Fri: 9AM-6PM EST</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 VisionStyle. All rights reserved.</p>
+        <p class="footer-trust">
+          🔒 Secure Shopping | ✓ Authentic Products | 🚚 Free Shipping Over $100
+        </p>
+      </div>
+    </footer>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+      <div class="cart-modal-content">
+        <div class="cart-modal-header">
+          <h2>Shopping Cart</h2>
+          <button class="close-cart" id="closeCart">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+          <p class="empty-cart">Your cart is empty</p>
+        </div>
+        <div class="cart-total">
+          <div class="cart-total-row">
+            <span>Subtotal:</span>
+            <span id="cartSubtotal">$0.00</span>
+          </div>
+          <div class="cart-total-row">
+            <span>Shipping:</span>
+            <span>FREE</span>
+          </div>
+          <div class="cart-total-row total">
+            <span>Total:</span>
+            <span id="cartTotal">$0.00</span>
+          </div>
+        </div>
+        <button class="checkout-btn">Proceed to Checkout</button>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+      <span class="toast-icon" id="toastIcon">✓</span>
+      <span class="toast-message" id="toastMessage">Message sent!</span>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" title="Back to top">↑</button>
+
+    <script src="../js/script.js"></script>
+  </body>
+</html>

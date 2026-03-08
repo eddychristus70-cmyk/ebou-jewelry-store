@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Results - VisionStyle</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <nav>
+        <a href="../index.html" class="logo"
+          ><i class="fas fa-glasses"></i> VisionStyle</a
+        >
+        <ul class="nav-links" id="navLinks">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="categories.html">Categories</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="search-container">
+          <input
+            type="text"
+            class="search-input"
+            id="searchInput"
+            placeholder="Search eyewear..."
+          />
+          <button class="search-btn" id="searchBtn">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+        <div class="header-icons">
+          <div class="cart-icon" id="cartIcon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cartCount">0</span>
+          </div>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+          <span></span><span></span><span></span>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs">
+      <div class="container">
+        <a href="../index.html">Home</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>Search Results</span>
+      </div>
+    </div>
+
+    <!-- Search Results Section -->
+    <section class="search-results-section">
+      <div class="container">
+        <div class="search-header">
+          <h1><i class="fas fa-search"></i> Search Results</h1>
+          <p id="searchSummary">
+            Showing results for "<span id="searchQuery"></span>"
+          </p>
+
+          <div class="search-refine">
+            <input
+              type="text"
+              id="refineSearch"
+              placeholder="Refine your search..."
+            />
+            <button class="btn btn-primary" id="refineBtn">Search</button>
+          </div>
+        </div>
+
+        <!-- Filters & Sort -->
+        <div class="results-controls">
+          <div class="results-count">
+            <span id="resultsCount">0</span> products found
+          </div>
+          <div class="results-sort">
+            <label for="sortBy">Sort by:</label>
+            <select id="sortBy">
+              <option value="relevance">Relevance</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="name-az">Name: A-Z</option>
+              <option value="name-za">Name: Z-A</option>
+              <option value="rating">Highest Rated</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Quick Filters -->
+        <div class="quick-filters">
+          <button class="filter-chip active" data-filter="all">All</button>
+          <button class="filter-chip" data-filter="sunglasses">
+            Sunglasses
+          </button>
+          <button class="filter-chip" data-filter="eyeglasses">
+            Eyeglasses
+          </button>
+          <button class="filter-chip" data-filter="sports">Sports</button>
+          <button class="filter-chip" data-filter="premium">Premium</button>
+        </div>
+
+        <!-- Results Grid -->
+        <div class="search-results-grid" id="searchResultsGrid">
+          <!-- Results populated by JS -->
+        </div>
+
+        <!-- No Results -->
+        <div class="no-results" id="noResults" style="display: none">
+          <i class="fas fa-search"></i>
+          <h2>No results found</h2>
+          <p>
+            We couldn't find any products matching your search. Try different
+            keywords or browse our categories.
+          </p>
+          <div class="no-results-actions">
+            <a href="products.html" class="btn btn-primary"
+              >Browse All Products</a
+            >
+            <a href="categories.html" class="btn btn-outline"
+              >View Categories</a
+            >
+          </div>
+
+          <div class="search-suggestions">
+            <h3>Popular Searches</h3>
+            <div class="suggestion-tags">
+              <a href="search-results.html?q=aviator" class="suggestion-tag"
+                >Aviator</a
+              >
+              <a href="search-results.html?q=round" class="suggestion-tag"
+                >Round Frames</a
+              >
+              <a href="search-results.html?q=polarized" class="suggestion-tag"
+                >Polarized</a
+              >
+              <a href="search-results.html?q=blue light" class="suggestion-tag"
+                >Blue Light</a
+              >
+              <a href="search-results.html?q=titanium" class="suggestion-tag"
+                >Titanium</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Loading State -->
+        <div class="search-loading" id="searchLoading">
+          <div class="loading-spinner"></div>
+          <p>Searching products...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3><i class="fas fa-glasses"></i> VisionStyle</h3>
+            <p>Premium eyewear for every style and occasion.</p>
+          </div>
+          <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="products.html">Products</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Customer Service</h4>
+            <ul>
+              <li><a href="faq.html">FAQ</a></li>
+              <li><a href="size-guide.html">Size Guide</a></li>
+              <li><a href="#">Returns</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Contact</h4>
+            <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+            <p><i class="fas fa-envelope"></i> info@visionstyle.com</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 VisionStyle. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script>
+      let allProducts = [];
+      let filteredProducts = [];
+      let currentFilter = "all";
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        // Get search query from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = urlParams.get("q") || "";
+
+        document.getElementById("searchQuery").textContent = query;
+        document.getElementById("refineSearch").value = query;
+        document.getElementById("searchInput").value = query;
+
+        // Load products
+        await loadProducts();
+
+        // Perform search
+        if (query) {
+          performSearch(query);
+        } else {
+          document.getElementById("searchLoading").style.display = "none";
+          document.getElementById("noResults").style.display = "block";
+        }
+
+        // Event listeners
+        document.getElementById("refineBtn").addEventListener("click", () => {
+          const newQuery = document.getElementById("refineSearch").value.trim();
+          if (newQuery) {
+            window.location.href = `search-results.html?q=${encodeURIComponent(newQuery)}`;
+          }
+        });
+
+        document
+          .getElementById("refineSearch")
+          .addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+              const newQuery = e.target.value.trim();
+              if (newQuery) {
+                window.location.href = `search-results.html?q=${encodeURIComponent(newQuery)}`;
+              }
+            }
+          });
+
+        // Sort
+        document.getElementById("sortBy").addEventListener("change", () => {
+          sortProducts();
+          displayResults();
+        });
+
+        // Quick filters
+        document.querySelectorAll(".filter-chip").forEach((chip) => {
+          chip.addEventListener("click", () => {
+            document
+              .querySelectorAll(".filter-chip")
+              .forEach((c) => c.classList.remove("active"));
+            chip.classList.add("active");
+            currentFilter = chip.dataset.filter;
+            applyFilter();
+            displayResults();
+          });
+        });
+      });
+
+      async function loadProducts() {
+        try {
+          const response = await fetch("products.json");
+          allProducts = await response.json();
+        } catch (error) {
+          console.error("Error loading products:", error);
+          allProducts = [];
+        }
+      }
+
+      function performSearch(query) {
+        document.getElementById("searchLoading").style.display = "flex";
+        document.getElementById("searchResultsGrid").style.display = "none";
+        document.getElementById("noResults").style.display = "none";
+
+        setTimeout(() => {
+          const searchTerms = query.toLowerCase().split(" ");
+
+          filteredProducts = allProducts.filter((product) => {
+            const searchableText =
+              `${product.name} ${product.category} ${product.description || ""} ${product.brand || ""}`.toLowerCase();
+            return searchTerms.some((term) => searchableText.includes(term));
+          });
+
+          sortProducts();
+          document.getElementById("searchLoading").style.display = "none";
+
+          if (filteredProducts.length > 0) {
+            displayResults();
+          } else {
+            document.getElementById("noResults").style.display = "block";
+          }
+
+          document.getElementById("resultsCount").textContent =
+            filteredProducts.length;
+        }, 500);
+      }
+
+      function sortProducts() {
+        const sortBy = document.getElementById("sortBy").value;
+
+        switch (sortBy) {
+          case "price-low":
+            filteredProducts.sort((a, b) => a.price - b.price);
+            break;
+          case "price-high":
+            filteredProducts.sort((a, b) => b.price - a.price);
+            break;
+          case "name-az":
+            filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+            break;
+          case "name-za":
+            filteredProducts.sort((a, b) => b.name.localeCompare(a.name));
+            break;
+          case "rating":
+            filteredProducts.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+            break;
+          default:
+            // Relevance - keep original order
+            break;
+        }
+      }
+
+      function applyFilter() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = urlParams.get("q") || "";
+        const searchTerms = query.toLowerCase().split(" ");
+
+        filteredProducts = allProducts.filter((product) => {
+          const searchableText =
+            `${product.name} ${product.category} ${product.description || ""} ${product.brand || ""}`.toLowerCase();
+          const matchesSearch = searchTerms.some((term) =>
+            searchableText.includes(term),
+          );
+
+          if (currentFilter === "all") {
+            return matchesSearch;
+          }
+
+          return (
+            matchesSearch && product.category.toLowerCase() === currentFilter
+          );
+        });
+
+        sortProducts();
+        document.getElementById("resultsCount").textContent =
+          filteredProducts.length;
+      }
+
+      function displayResults() {
+        const grid = document.getElementById("searchResultsGrid");
+
+        if (filteredProducts.length === 0) {
+          grid.style.display = "none";
+          document.getElementById("noResults").style.display = "block";
+          return;
+        }
+
+        grid.style.display = "grid";
+        document.getElementById("noResults").style.display = "none";
+
+        grid.innerHTML = filteredProducts
+          .map(
+            (product) => `
+          <div class="product-card" data-id="${product.id}">
+            ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ""}
+            <div class="product-image">
+              <img src="${product.image}" alt="${product.name}" loading="lazy" />
+              <div class="product-overlay">
+                <button class="quick-view-btn" onclick="quickView(${product.id})">
+                  <i class="fas fa-eye"></i> Quick View
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <span class="product-category">${product.category}</span>
+              <h3>${product.name}</h3>
+              <div class="product-rating">
+                ${generateStars(product.rating || 4.5)}
+                <span>(${product.reviews || Math.floor(Math.random() * 100) + 10})</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">$${product.price.toFixed(2)}</span>
+                ${product.originalPrice ? `<span class="original-price">$${product.originalPrice.toFixed(2)}</span>` : ""}
+              </div>
+              <div class="product-actions">
+                <button class="btn btn-primary add-to-cart-btn" onclick="addToCart(${product.id})">
+                  <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+                <button class="wishlist-btn" onclick="toggleWishlist(${product.id})">
+                  <i class="far fa-heart"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        `,
+          )
+          .join("");
+      }
+
+      function generateStars(rating) {
+        let stars = "";
+        for (let i = 1; i <= 5; i++) {
+          if (i <= Math.floor(rating)) {
+            stars += '<i class="fas fa-star"></i>';
+          } else if (i - 0.5 <= rating) {
+            stars += '<i class="fas fa-star-half-alt"></i>';
+          } else {
+            stars += '<i class="far fa-star"></i>';
+          }
+        }
+        return stars;
+      }
+
+      function quickView(productId) {
+        window.location.href = `product-detail.html?id=${productId}`;
+      }
+
+      function addToCart(productId) {
+        const product = allProducts.find((p) => p.id === productId);
+        if (!product) return;
+
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const existingItem = cart.find((item) => item.id === productId);
+
+        if (existingItem) {
+          existingItem.quantity++;
+        } else {
+          cart.push({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            quantity: 1,
+            color: "Black",
+            size: "Medium",
+            lens: "Clear",
+          });
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartCount();
+        showToast("Added to cart!");
+      }
+
+      function toggleWishlist(productId) {
+        let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+        const index = wishlist.indexOf(productId);
+
+        if (index > -1) {
+          wishlist.splice(index, 1);
+          showToast("Removed from wishlist");
+        } else {
+          wishlist.push(productId);
+          showToast("Added to wishlist!");
+        }
+
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FAQ - VisionStyle</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <nav>
+        <a href="../index.html" class="logo"
+          ><i class="fas fa-glasses"></i> VisionStyle</a
+        >
+        <ul class="nav-links" id="navLinks">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="categories.html">Categories</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="header-icons">
+          <div class="search-container">
+            <input
+              type="text"
+              class="search-input"
+              id="searchInput"
+              placeholder="Search eyewear..."
+            />
+            <button class="search-btn" id="searchBtn">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+          <div class="user-icon" id="userIcon">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="cart-icon" id="cartIcon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cartCount">0</span>
+          </div>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+          <span></span><span></span><span></span>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs">
+      <div class="container">
+        <a href="../index.html">Home</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>FAQ</span>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+      <div class="container">
+        <div class="faq-header">
+          <h1>
+            <i class="fas fa-question-circle"></i> Frequently Asked Questions
+          </h1>
+          <p>
+            Find answers to common questions about our products and services
+          </p>
+
+          <div class="faq-search">
+            <input
+              type="text"
+              id="faqSearch"
+              placeholder="Search questions..."
+            />
+            <i class="fas fa-search"></i>
+          </div>
+        </div>
+
+        <div class="faq-categories">
+          <button class="faq-category active" data-category="all">All</button>
+          <button class="faq-category" data-category="orders">
+            Orders & Shipping
+          </button>
+          <button class="faq-category" data-category="products">
+            Products
+          </button>
+          <button class="faq-category" data-category="returns">
+            Returns & Refunds
+          </button>
+          <button class="faq-category" data-category="prescription">
+            Prescription
+          </button>
+          <button class="faq-category" data-category="account">Account</button>
+        </div>
+
+        <div class="faq-list">
+          <!-- Orders & Shipping -->
+          <div class="faq-item" data-category="orders">
+            <button class="faq-question">
+              <span>How long does shipping take?</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>We offer several shipping options:</p>
+              <ul>
+                <li>
+                  <strong>Standard Shipping:</strong> 5-7 business days ($5.99,
+                  free on orders over $100)
+                </li>
+                <li>
+                  <strong>Express Shipping:</strong> 2-3 business days ($12.99)
+                </li>
+                <li>
+                  <strong>Next Day Delivery:</strong> 1 business day ($24.99)
+                </li>
+              </ul>
+              <p>
+                International shipping typically takes 7-14 business days
+                depending on destination.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="orders">
+            <button class="faq-question">
+              <span>How can I track my order?</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Once your order ships, you'll receive an email with tracking
+                information. You can also track your order by:
+              </p>
+              <ul>
+                <li>Logging into your account and viewing order history</li>
+                <li>
+                  Contacting our customer support team with your order number
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="orders">
+            <button class="faq-question">
+              <span>Do you ship internationally?</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Yes! We ship to over 15 countries worldwide. International
+                shipping rates and delivery times vary by location. Please note
+                that customers are responsible for any customs duties or import
+                taxes that may apply.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="orders">
+            <button class="faq-question">
+              <span>Can I change or cancel my order?</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>
+                You can modify or cancel your order within 2 hours of placing it
+                by contacting our customer support. After this window, we begin
+                processing orders immediately and may not be able to make
+                changes. However, you can always return items after delivery.
+              </p>
+            </div>
+          </div>
+
+          <!-- Products -->
+          <div class="faq-item" data-category="products">
+            <button class="faq-question">
+              <span>How do I find the right frame size?</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Finding the perfect fit is easy with our
+                <a href="size-guide.html">Size Guide</a>. Key measurements
+                include:
+              </p>
+              <ul>
+                <li>
+                  <strong>Lens Width:</strong> The horizontal width of each lens
+                </li>
+                <li>
+                  <strong>Bridge Width:</strong> The distance between the lenses
+                </li>
+                <li><strong>Temple Length:</strong> The length of the arms</li>
+              </ul>
+              <p>
+                You can also use our Virtual Try-On feature to see how frames
+                look on your face!
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="products">
+            <button class="faq-question">
+              <span>What materials are your frames made from?</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>We use only premium materials:</p>
+              <ul>
+                <li>
+                  <strong>Acetate:</strong> Durable, hypoallergenic, and
+                  available in beautiful colors
+                </li>
+                <li>
+                  <strong>Titanium:</strong> Lightweight, strong, and
+                  corrosion-resistant
+                </li>
+                <li>
+                  <strong>Stainless Steel:</strong> Sleek, durable, and
+                  affordable
+                </li>
+                <li>
+                  <strong>TR90:</strong> Flexible, lightweight, and extremely
+                  durable
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="products">
+            <button class="faq-question">
+              <span>What lens options are available?</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>We offer a variety of lens options:</p>
+              <ul>
+                <li><strong>Clear Lenses:</strong> Standard optical lenses</li>
+                <li>
+                  <strong>Blue Light Blocking:</strong> Protect your eyes from
+                  digital screens (+$29)
+                </li>
+                <li>
+                  <strong>Photochromic:</strong> Automatically adjust to light
+                  conditions (+$49)
+                </li>
+                <li><strong>Polarized:</strong> Reduce glare for sunglasses</li>
+                <li>
+                  <strong>Progressive:</strong> Multi-focal lenses for vision
+                  correction
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="products">
+            <button class="faq-question">
+              <span>Do your sunglasses provide UV protection?</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Yes! All our sunglasses come with 100% UV400 protection,
+                blocking both UVA and UVB rays. This is essential for protecting
+                your eyes from harmful sun exposure.
+              </p>
+            </div>
+          </div>
+
+          <!-- Returns & Refunds -->
+          <div class="faq-item" data-category="returns">
+            <button class="faq-question">
+              <span>What is your return policy?</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>
+                We offer a hassle-free 30-day return policy. If you're not
+                completely satisfied with your purchase, you can return it
+                within 30 days for a full refund or exchange. Items must be:
+              </p>
+              <ul>
+                <li>In original condition and packaging</li>
+                <li>Unworn and undamaged</li>
+                <li>Accompanied by original receipt or proof of purchase</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="returns">
+            <button class="faq-question">
+              <span>How do I start a return?</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>Starting a return is easy:</p>
+              <ol>
+                <li>Log into your account and go to Order History</li>
+                <li>Select the item you want to return</li>
+                <li>Choose your reason for return</li>
+                <li>Print your prepaid return label</li>
+                <li>
+                  Pack the item securely and drop it off at any shipping
+                  location
+                </li>
+              </ol>
+              <p>
+                Alternatively, you can contact our support team for assistance.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="returns">
+            <button class="faq-question">
+              <span>How long do refunds take?</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Once we receive your return, we process refunds within 3-5
+                business days. The refund will be credited to your original
+                payment method. Please note that your bank may take an
+                additional 5-10 business days to reflect the refund in your
+                account.
+              </p>
+            </div>
+          </div>
+
+          <!-- Prescription -->
+          <div class="faq-item" data-category="prescription">
+            <button class="faq-question">
+              <span>Can I order prescription lenses?</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Yes! All our frames can be fitted with prescription lenses.
+                During checkout, you can:
+              </p>
+              <ul>
+                <li>Enter your prescription manually</li>
+                <li>Upload a photo of your prescription</li>
+                <li>Have us contact your eye doctor</li>
+              </ul>
+              <p>
+                We work with licensed opticians to ensure accurate lens
+                crafting.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="prescription">
+            <button class="faq-question">
+              <span>How do I know my prescription?</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>Your prescription should include:</p>
+              <ul>
+                <li><strong>OD/OS:</strong> Right eye/Left eye values</li>
+                <li><strong>Sphere (SPH):</strong> Lens power needed</li>
+                <li>
+                  <strong>Cylinder (CYL):</strong> Astigmatism correction (if
+                  needed)
+                </li>
+                <li><strong>Axis:</strong> Angle of astigmatism correction</li>
+                <li><strong>PD:</strong> Pupillary distance</li>
+              </ul>
+              <p>
+                Contact your eye doctor if you need a copy of your prescription.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="prescription">
+            <button class="faq-question">
+              <span>How do I measure my pupillary distance (PD)?</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>You can measure your PD at home:</p>
+              <ol>
+                <li>Stand 8 inches from a mirror</li>
+                <li>Hold a ruler against your brow</li>
+                <li>
+                  Close your right eye and align the ruler's 0mm with your left
+                  pupil center
+                </li>
+                <li>Close your left eye and open your right</li>
+                <li>Note the measurement to your right pupil center</li>
+              </ol>
+              <p>
+                Average adult PD is between 54-74mm. You can also ask your eye
+                doctor for this measurement.
+              </p>
+            </div>
+          </div>
+
+          <!-- Account -->
+          <div class="faq-item" data-category="account">
+            <button class="faq-question">
+              <span>How do I create an account?</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>Creating an account is quick and easy:</p>
+              <ol>
+                <li>Click the "Login" link in the header</li>
+                <li>Select "Create Account"</li>
+                <li>Enter your email and create a password</li>
+                <li>Verify your email address</li>
+              </ol>
+              <p>
+                You can also sign up with Google or Facebook for faster
+                checkout.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="account">
+            <button class="faq-question">
+              <span>What are the benefits of having an account?</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>Account holders enjoy these benefits:</p>
+              <ul>
+                <li>Faster checkout with saved addresses</li>
+                <li>Order history and tracking</li>
+                <li>Wishlist to save favorite items</li>
+                <li>Exclusive member discounts</li>
+                <li>Early access to new arrivals</li>
+                <li>Saved prescriptions for easy reordering</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="faq-item" data-category="account">
+            <button class="faq-question">
+              <span>I forgot my password. What should I do?</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>Don't worry! You can easily reset your password:</p>
+              <ol>
+                <li>Go to the <a href="login.html">login page</a></li>
+                <li>Click "Forgot Password?"</li>
+                <li>Enter your email address</li>
+                <li>Check your email for reset instructions</li>
+                <li>Create a new password</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <!-- Still Need Help -->
+        <div class="still-need-help">
+          <h2>Still Have Questions?</h2>
+          <p>
+            Can't find what you're looking for? Our support team is here to
+            help!
+          </p>
+          <div class="help-options">
+            <a href="contact.html" class="help-option">
+              <i class="fas fa-envelope"></i>
+              <span>Email Us</span>
+            </a>
+            <a href="tel:+15551234567" class="help-option">
+              <i class="fas fa-phone"></i>
+              <span>Call Us</span>
+            </a>
+            <button class="help-option" id="startChat">
+              <i class="fas fa-comments"></i>
+              <span>Live Chat</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3><i class="fas fa-glasses"></i> VisionStyle</h3>
+            <p>Premium eyewear for every style and occasion.</p>
+          </div>
+          <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="products.html">Products</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Customer Service</h4>
+            <ul>
+              <li><a href="faq.html">FAQ</a></li>
+              <li><a href="size-guide.html">Size Guide</a></li>
+              <li><a href="#">Returns</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Contact</h4>
+            <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+            <p><i class="fas fa-envelope"></i> info@visionstyle.com</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 VisionStyle. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // FAQ Accordion
+        const questions = document.querySelectorAll(".faq-question");
+        questions.forEach((question) => {
+          question.addEventListener("click", () => {
+            const item = question.parentElement;
+            const isActive = item.classList.contains("active");
+
+            // Close all
+            document
+              .querySelectorAll(".faq-item")
+              .forEach((i) => i.classList.remove("active"));
+
+            // Open clicked if wasn't active
+            if (!isActive) {
+              item.classList.add("active");
+            }
+          });
+        });
+
+        // Category Filter
+        const categories = document.querySelectorAll(".faq-category");
+        categories.forEach((cat) => {
+          cat.addEventListener("click", () => {
+            categories.forEach((c) => c.classList.remove("active"));
+            cat.classList.add("active");
+
+            const category = cat.dataset.category;
+            document.querySelectorAll(".faq-item").forEach((item) => {
+              if (category === "all" || item.dataset.category === category) {
+                item.style.display = "block";
+              } else {
+                item.style.display = "none";
+              }
+            });
+          });
+        });
+
+        // Search FAQ
+        document.getElementById("faqSearch").addEventListener("input", (e) => {
+          const query = e.target.value.toLowerCase();
+          document.querySelectorAll(".faq-item").forEach((item) => {
+            const text = item.textContent.toLowerCase();
+            item.style.display = text.includes(query) ? "block" : "none";
+          });
+
+          // Reset category filter
+          categories.forEach((c) => c.classList.remove("active"));
+          document
+            .querySelector('[data-category="all"]')
+            .classList.add("active");
+        });
+
+        // Live Chat
+        document.getElementById("startChat").addEventListener("click", () => {
+          showToast("Live chat will open soon!");
+        });
+      });
+    </script>
+  </body>
+</html>

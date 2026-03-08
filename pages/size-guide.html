@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Size Guide - VisionStyle</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <nav>
+        <a href="../index.html" class="logo"
+          ><i class="fas fa-glasses"></i> VisionStyle</a
+        >
+        <ul class="nav-links" id="navLinks">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="categories.html">Categories</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="search-container">
+          <input
+            type="text"
+            class="search-input"
+            id="searchInput"
+            placeholder="Search eyewear..."
+          />
+          <button class="search-btn" id="searchBtn">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+        <div class="header-icons">
+          <div class="cart-icon" id="cartIcon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cartCount">0</span>
+          </div>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+          <span></span><span></span><span></span>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs">
+      <div class="container">
+        <a href="../index.html">Home</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>Size Guide</span>
+      </div>
+    </div>
+
+    <!-- Size Guide Section -->
+    <section class="size-guide-section">
+      <div class="container">
+        <div class="size-guide-header">
+          <h1><i class="fas fa-ruler"></i> Eyewear Size Guide</h1>
+          <p>Find the perfect fit for your face</p>
+        </div>
+
+        <!-- How to Measure -->
+        <div class="measure-section">
+          <h2>How to Find Your Frame Size</h2>
+          <p>
+            Frame measurements are usually printed on the inside of the temple
+            arm. Here's how to read them:
+          </p>
+
+          <div class="frame-diagram">
+            <div class="diagram-image">
+              <svg viewBox="0 0 400 150" class="glasses-svg">
+                <!-- Left lens -->
+                <rect
+                  x="20"
+                  y="30"
+                  width="140"
+                  height="80"
+                  rx="10"
+                  fill="none"
+                  stroke="#8B4513"
+                  stroke-width="3"
+                />
+                <!-- Right lens -->
+                <rect
+                  x="240"
+                  y="30"
+                  width="140"
+                  height="80"
+                  rx="10"
+                  fill="none"
+                  stroke="#8B4513"
+                  stroke-width="3"
+                />
+                <!-- Bridge -->
+                <path
+                  d="M160 70 Q200 50 240 70"
+                  fill="none"
+                  stroke="#8B4513"
+                  stroke-width="3"
+                />
+                <!-- Temple left -->
+                <line
+                  x1="20"
+                  y1="45"
+                  x2="-20"
+                  y2="45"
+                  stroke="#8B4513"
+                  stroke-width="3"
+                />
+                <!-- Temple right -->
+                <line
+                  x1="380"
+                  y1="45"
+                  x2="420"
+                  y2="45"
+                  stroke="#8B4513"
+                  stroke-width="3"
+                />
+
+                <!-- Measurement lines -->
+                <line
+                  x1="20"
+                  y1="130"
+                  x2="160"
+                  y2="130"
+                  stroke="#007bff"
+                  stroke-width="2"
+                />
+                <text
+                  x="90"
+                  y="145"
+                  fill="#007bff"
+                  font-size="12"
+                  text-anchor="middle"
+                >
+                  Lens Width
+                </text>
+
+                <line
+                  x1="160"
+                  y1="25"
+                  x2="240"
+                  y2="25"
+                  stroke="#28a745"
+                  stroke-width="2"
+                />
+                <text
+                  x="200"
+                  y="18"
+                  fill="#28a745"
+                  font-size="12"
+                  text-anchor="middle"
+                >
+                  Bridge Width
+                </text>
+
+                <line
+                  x1="380"
+                  y1="55"
+                  x2="380"
+                  y2="45"
+                  stroke="#dc3545"
+                  stroke-width="2"
+                />
+                <line
+                  x1="380"
+                  y1="50"
+                  x2="420"
+                  y2="50"
+                  stroke="#dc3545"
+                  stroke-width="2"
+                />
+                <text x="420" y="65" fill="#dc3545" font-size="10">
+                  Temple Length
+                </text>
+              </svg>
+            </div>
+
+            <div class="measurements-list">
+              <div class="measurement-item">
+                <div
+                  class="measurement-color"
+                  style="background: #007bff"
+                ></div>
+                <div>
+                  <h4>Lens Width (Eye Size)</h4>
+                  <p>
+                    The horizontal width of each lens, measured in millimeters.
+                    Typical range: 40-62mm
+                  </p>
+                </div>
+              </div>
+              <div class="measurement-item">
+                <div
+                  class="measurement-color"
+                  style="background: #28a745"
+                ></div>
+                <div>
+                  <h4>Bridge Width</h4>
+                  <p>
+                    The distance between the two lenses at the bridge. Typical
+                    range: 14-24mm
+                  </p>
+                </div>
+              </div>
+              <div class="measurement-item">
+                <div
+                  class="measurement-color"
+                  style="background: #dc3545"
+                ></div>
+                <div>
+                  <h4>Temple Length (Arm Length)</h4>
+                  <p>
+                    The length of the arms from hinge to tip. Typical range:
+                    120-150mm
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Size Chart -->
+        <div class="size-chart-section">
+          <h2>Frame Size Chart</h2>
+          <div class="size-table-wrapper">
+            <table class="size-table">
+              <thead>
+                <tr>
+                  <th>Size</th>
+                  <th>Lens Width</th>
+                  <th>Bridge Width</th>
+                  <th>Temple Length</th>
+                  <th>Frame Width</th>
+                  <th>Best For</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="size-badge small">Small</span></td>
+                  <td>48-50mm</td>
+                  <td>16-18mm</td>
+                  <td>135-140mm</td>
+                  <td>126-132mm</td>
+                  <td>Narrow faces, children</td>
+                </tr>
+                <tr>
+                  <td><span class="size-badge medium">Medium</span></td>
+                  <td>51-54mm</td>
+                  <td>17-19mm</td>
+                  <td>140-145mm</td>
+                  <td>133-140mm</td>
+                  <td>Average adult faces</td>
+                </tr>
+                <tr>
+                  <td><span class="size-badge large">Large</span></td>
+                  <td>55-58mm</td>
+                  <td>18-21mm</td>
+                  <td>145-150mm</td>
+                  <td>141-148mm</td>
+                  <td>Wider faces</td>
+                </tr>
+                <tr>
+                  <td><span class="size-badge xlarge">X-Large</span></td>
+                  <td>59-62mm</td>
+                  <td>20-24mm</td>
+                  <td>148-155mm</td>
+                  <td>149-156mm</td>
+                  <td>Very wide faces</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Face Shape Guide -->
+        <div class="face-shape-section">
+          <h2>Find Your Face Shape</h2>
+          <p>
+            Different frame styles complement different face shapes. Find your
+            perfect match!
+          </p>
+
+          <div class="face-shapes-grid">
+            <div class="face-shape-card">
+              <div class="shape-icon oval">
+                <svg viewBox="0 0 100 120" width="80" height="96">
+                  <ellipse
+                    cx="50"
+                    cy="60"
+                    rx="35"
+                    ry="50"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                  />
+                </svg>
+              </div>
+              <h3>Oval</h3>
+              <p>Balanced proportions with slightly wider cheekbones</p>
+              <div class="recommended">
+                <strong>Best frames:</strong> Almost any style! You're lucky -
+                try square, rectangular, or geometric frames.
+              </div>
+            </div>
+
+            <div class="face-shape-card">
+              <div class="shape-icon round">
+                <svg viewBox="0 0 100 100" width="80" height="80">
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="40"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                  />
+                </svg>
+              </div>
+              <h3>Round</h3>
+              <p>Similar width and length with soft angles</p>
+              <div class="recommended">
+                <strong>Best frames:</strong> Angular, rectangular frames to add
+                definition. Avoid round frames.
+              </div>
+            </div>
+
+            <div class="face-shape-card">
+              <div class="shape-icon square">
+                <svg viewBox="0 0 100 100" width="80" height="80">
+                  <rect
+                    x="10"
+                    y="10"
+                    width="80"
+                    height="80"
+                    rx="5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                  />
+                </svg>
+              </div>
+              <h3>Square</h3>
+              <p>Strong jawline with equal width forehead</p>
+              <div class="recommended">
+                <strong>Best frames:</strong> Round or oval frames to soften
+                angles. Cat-eye styles work great too!
+              </div>
+            </div>
+
+            <div class="face-shape-card">
+              <div class="shape-icon heart">
+                <svg viewBox="0 0 100 100" width="80" height="80">
+                  <path
+                    d="M50 90 L15 50 Q10 25 35 20 Q50 20 50 40 Q50 20 65 20 Q90 25 85 50 Z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                  />
+                </svg>
+              </div>
+              <h3>Heart</h3>
+              <p>Wider forehead tapering to narrow chin</p>
+              <div class="recommended">
+                <strong>Best frames:</strong> Bottom-heavy frames, round shapes,
+                or light-colored frames that add width to lower face.
+              </div>
+            </div>
+
+            <div class="face-shape-card">
+              <div class="shape-icon oblong">
+                <svg viewBox="0 0 80 120" width="64" height="96">
+                  <rect
+                    x="10"
+                    y="10"
+                    width="60"
+                    height="100"
+                    rx="30"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                  />
+                </svg>
+              </div>
+              <h3>Oblong</h3>
+              <p>Longer than wide with straight cheeks</p>
+              <div class="recommended">
+                <strong>Best frames:</strong> Oversized frames, decorative
+                temples, or frames with depth to shorten the face.
+              </div>
+            </div>
+
+            <div class="face-shape-card">
+              <div class="shape-icon diamond">
+                <svg viewBox="0 0 100 120" width="80" height="96">
+                  <path
+                    d="M50 10 L90 60 L50 110 L10 60 Z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                  />
+                </svg>
+              </div>
+              <h3>Diamond</h3>
+              <p>Narrow forehead and jaw with wide cheekbones</p>
+              <div class="recommended">
+                <strong>Best frames:</strong> Cat-eye, oval, or rimless frames
+                that highlight your cheekbones.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Measurement Tips -->
+        <div class="tips-section">
+          <h2>Pro Tips for the Perfect Fit</h2>
+          <div class="tips-grid">
+            <div class="tip-card">
+              <i class="fas fa-check-circle"></i>
+              <h4>Check Your Current Glasses</h4>
+              <p>
+                Look at the inside of your temple arm for numbers like
+                "52-18-140" which represent lens width, bridge width, and temple
+                length.
+              </p>
+            </div>
+            <div class="tip-card">
+              <i class="fas fa-ruler-horizontal"></i>
+              <h4>Measure Frame Width</h4>
+              <p>
+                The total frame width should match your face width. Frames
+                shouldn't extend past your temples or feel too tight.
+              </p>
+            </div>
+            <div class="tip-card">
+              <i class="fas fa-eye"></i>
+              <h4>Check Pupil Position</h4>
+              <p>
+                Your pupils should be centered in the lenses. If they're too far
+                to the side, the frame is too wide or narrow.
+              </p>
+            </div>
+            <div class="tip-card">
+              <i class="fas fa-arrows-alt-v"></i>
+              <h4>Temple Fit</h4>
+              <p>
+                Temples should fit comfortably over your ears without pressing
+                or sliding. Adjust by gently bending if needed.
+              </p>
+            </div>
+            <div class="tip-card">
+              <i class="fas fa-nose"></i>
+              <h4>Bridge Comfort</h4>
+              <p>
+                The bridge should rest comfortably on your nose without pinching
+                or sliding down. Look for adjustable nose pads if needed.
+              </p>
+            </div>
+            <div class="tip-card">
+              <i class="fas fa-camera"></i>
+              <h4>Use Virtual Try-On</h4>
+              <p>
+                Our virtual try-on feature lets you see how frames look on your
+                face before you buy!
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="size-guide-cta">
+          <h2>Ready to Find Your Perfect Pair?</h2>
+          <p>Use our virtual try-on to see how different frames look on you!</p>
+          <a href="products.html" class="btn btn-primary btn-lg"
+            >Browse Frames</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3><i class="fas fa-glasses"></i> VisionStyle</h3>
+            <p>Premium eyewear for every style and occasion.</p>
+          </div>
+          <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="products.html">Products</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Customer Service</h4>
+            <ul>
+              <li><a href="faq.html">FAQ</a></li>
+              <li><a href="size-guide.html">Size Guide</a></li>
+              <li><a href="#">Returns</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Contact</h4>
+            <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+            <p><i class="fas fa-envelope"></i> info@visionstyle.com</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 VisionStyle. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,152 @@
+[
+  {
+    "id": "elegant-necklace-sets",
+    "title": "Elegant Necklace Sets",
+    "price": 135,
+    "originalPrice": 150,
+    "discount": 15,
+    "img": "images/6ab3ad07-3cf0-4ebc-8f3e-803b18210db3.jpg",
+    "description": "White & Golden Butterfly Clavicle — a delicate, timeless necklace set.",
+    "category": "Necklace",
+    "reviews": [
+      {"name": "Ama K.", "rating": 5, "comment": "Absolutely beautiful! The butterfly design is so delicate and elegant.", "date": "2025-11-15"},
+      {"name": "Abena M.", "rating": 5, "comment": "Perfect for special occasions. Great quality for the price!", "date": "2025-11-10"}
+    ]
+  },
+  {
+    "id": "bowknot-pearl-earring",
+    "title": "Bowknot Pearl Earring",
+    "price": 35,
+    "originalPrice": 50,
+    "discount": 15,
+    "img": "images/7e9dbf2d-5a1b-4289-a536-d5d6d313152e.jpg",
+    "description": "Fashionable bowknot pearl earring for women & girls.",
+    "category": "Earring",
+    "reviews": [
+      {"name": "Efua G.", "rating": 5, "comment": "So cute! I wear them to work every day. Very comfortable.", "date": "2025-11-20"},
+      {"name": "Akosua B.", "rating": 4, "comment": "Beautiful earrings, exactly as shown in the picture.", "date": "2025-11-08"}
+    ]
+  },
+  {
+    "id": "luxury-gold-geometric-line",
+    "title": "Luxury Gold Geometric Line Jewelry Set",
+    "price": 85,
+    "originalPrice": 100,
+    "discount": 15,
+    "img": "images/7ef742d6-382f-4de3-a327-b15cc9aa50dd.jpg",
+    "description": "Jewelry set including wide bangle bracelet and ring.",
+    "category": "Bangle",
+    "reviews": [{"name": "Yaa A.", "rating": 5, "comment": "Love the geometric design! Very modern and stylish.", "date": "2025-11-18"}]
+  },
+  {
+    "id": "mens-3pcs-fashion-alloy-set",
+    "title": "Men's 3pcs Fashion Alloy Jewelry Set",
+    "price": 135,
+    "originalPrice": 150,
+    "discount": 15,
+    "img": "images/97844c8a800960e01401f0327829dae7.jpg",
+    "description": "Fashion punk black color cross pendant set.",
+    "category": "Necklace",
+    "reviews": [
+      {"name": "Kwame D.", "rating": 5, "comment": "Great quality! My boyfriend loves it.", "date": "2025-11-12"},
+      {"name": "Kofi S.", "rating": 4, "comment": "Nice set, good value for money.", "date": "2025-11-05"}
+    ]
+  },
+  {
+    "id": "womens-3pcs-bracelets",
+    "title": "3pcs Women's Fashionable Bracelets",
+    "price": 100,
+    "originalPrice": 120,
+    "discount": 15,
+    "img": "images/a0cc9f3110e8120583899011f2f77814_VND73nnujZK7K.jpg",
+    "description": "Bracelet includes heart shaped cuff design, lucky 8 shaped chain & bangle.",
+    "category": "Bracelet",
+    "reviews": [{"name": "Adjoa T.", "rating": 5, "comment": "All three pieces are beautiful. Can wear them separately or together!", "date": "2025-11-22"}]
+  },
+  {
+    "id": "golden-love-bold-earring",
+    "title": "Golden Love Bold Earring",
+    "price": 30,
+    "originalPrice": 45,
+    "discount": 15,
+    "img": "images/a78c91b5-b2e6-45f6-b226-2fd35a37c63d.jpg",
+    "description": "Chunky heart-shaped golden earrings for a bold look.",
+    "category": "Earring",
+    "reviews": [
+      {"name": "Nana F.", "rating": 5, "comment": "These are statement pieces! I get compliments every time I wear them.", "date": "2025-11-25"},
+      {"name": "Esi L.", "rating": 5, "comment": "Perfect size and weight. Love the bold look!", "date": "2025-11-14"}
+    ]
+  },
+  {
+    "id": "mini-starfish-necklace",
+    "title": "Mini Starfish Necklace",
+    "price": 50,
+    "originalPrice": 70,
+    "discount": 15,
+    "img": "images/c896b8320c5bebe083b2dda56d8e2efd_QANrh8XN5OcPz.jpg",
+    "description": "Fashionable zircon pendant necklace — stainless steel.",
+    "category": "Necklace",
+    "reviews": [{"name": "Akua P.", "rating": 5, "comment": "So pretty and delicate! Perfect for everyday wear.", "date": "2025-11-19"}]
+  },
+  {
+    "id": "mens-quartz-watch-set",
+    "title": "Men's Quartz Watch Set",
+    "price": 230,
+    "originalPrice": 250,
+    "discount": 15,
+    "img": "images/ca079257-c1cc-4f71-8bf5-019bd3e30d4d.jpg",
+    "description": "Round dial, electronic drive and hand display. Includes matching accessories.",
+    "category": "Watch",
+    "reviews": [
+      {"name": "Kwesi R.", "rating": 5, "comment": "Excellent set! Watch keeps time perfectly and accessories match well.", "date": "2025-11-16"},
+      {"name": "Kojo M.", "rating": 4, "comment": "Good quality for the price. Very satisfied!", "date": "2025-11-09"}
+    ]
+  },
+  {
+    "id": "spring-flower-petal-earring",
+    "title": "Spring Flower Petal Earring",
+    "price": 35,
+    "originalPrice": 50,
+    "discount": 15,
+    "img": "images/d5c744c040310fc53e46a9bf203bd356_nffzHO2knNO1e.jpg",
+    "description": "Romantic leaf rose petals dangle earring for women & girls.",
+    "category": "Earring",
+    "reviews": [{"name": "Adwoa J.", "rating": 5, "comment": "These earrings are gorgeous! Very feminine and romantic.", "date": "2025-11-21"}]
+  },
+  {
+    "id": "mens-black-clover-bracelet",
+    "title": "Men's Black Clover Bracelet",
+    "price": 50,
+    "originalPrice": 75,
+    "discount": 15,
+    "img": "images/ec625dc0-9e13-4a92-a86a-b39ae8339f71.jpg",
+    "description": "Solid sterling silver anti-tarnish white gold coating round cut bracelet.",
+    "category": "Bracelet",
+    "reviews": [{"name": "Yaw K.", "rating": 5, "comment": "Sturdy and stylish! Great quality silver.", "date": "2025-11-17"}]
+  },
+  {
+    "id": "golden-necklace-bangle",
+    "title": "Golden Necklace & Bangle Chic Jewelry Set",
+    "price": 85,
+    "originalPrice": 100,
+    "discount": 15,
+    "img": "images/fd5415da071ecf40c2c325589e7eb9cd_xXpHSekZi10RP.jpg",
+    "description": "Necklace and bangle set — exquisite choker and cuff bangle.",
+    "category": "Bangle",
+    "reviews": [
+      {"name": "Afua W.", "rating": 5, "comment": "Both pieces are beautiful! Perfect match.", "date": "2025-11-23"},
+      {"name": "Ama D.", "rating": 4, "comment": "Love this set! Wear it to every event.", "date": "2025-11-11"}
+    ]
+  },
+  {
+    "id": "golden-wings-earrings",
+    "title": "Golden Wings Earrings",
+    "price": 25,
+    "originalPrice": 40,
+    "discount": 15,
+    "img": "images/fd5994e9-0bc3-45b5-b932-117877ef2d03.jpg",
+    "description": "Pretty golden butterfly wings earrings for women and girls.",
+    "category": "Earring",
+    "reviews": [{"name": "Serwaa N.", "rating": 5, "comment": "So cute and lightweight! Perfect for daily wear.", "date": "2025-11-24"}]
+  }
+]

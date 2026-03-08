@@ -1,0 +1,87 @@
+[
+  {
+    "email": "john.smith@example.com",
+    "name": "John Smith",
+    "phone": "+1555-0001",
+    "address": "123 Vision Street",
+    "city": "New York",
+    "region": "NY",
+    "zipCode": "10001",
+    "preferences": {
+      "newsletter": true,
+      "smsNotifications": false,
+      "emailNotifications": true
+    },
+    "loginAt": "2026-01-20T14:30:00.000Z",
+    "createdAt": "2025-12-01T10:00:00.000Z",
+    "lastActivity": "2026-01-20T15:45:00.000Z"
+  },
+  {
+    "email": "sarah.j@example.com",
+    "name": "Sarah Johnson",
+    "phone": "+1555-0002",
+    "address": "456 Optical Avenue",
+    "city": "Los Angeles",
+    "region": "CA",
+    "zipCode": "90001",
+    "preferences": {
+      "newsletter": true,
+      "smsNotifications": true,
+      "emailNotifications": true
+    },
+    "loginAt": "2026-01-19T09:15:00.000Z",
+    "createdAt": "2025-11-15T08:30:00.000Z",
+    "lastActivity": "2026-01-19T11:20:00.000Z"
+  },
+  {
+    "email": "mbrown@example.com",
+    "name": "Michael Brown",
+    "phone": "+1555-0003",
+    "address": "789 Sunglasses Blvd",
+    "city": "Miami",
+    "region": "FL",
+    "zipCode": "33101",
+    "preferences": {
+      "newsletter": false,
+      "smsNotifications": false,
+      "emailNotifications": true
+    },
+    "loginAt": "2026-01-18T16:00:00.000Z",
+    "createdAt": "2025-10-20T14:00:00.000Z",
+    "lastActivity": "2026-01-18T17:30:00.000Z"
+  },
+  {
+    "email": "emily.davis@example.com",
+    "name": "Emily Davis",
+    "phone": "+1555-0004",
+    "address": "321 Frame Street",
+    "city": "Chicago",
+    "region": "IL",
+    "zipCode": "60601",
+    "preferences": {
+      "newsletter": true,
+      "smsNotifications": true,
+      "emailNotifications": true
+    },
+    "loginAt": "2026-01-17T11:00:00.000Z",
+    "createdAt": "2025-09-10T09:00:00.000Z",
+    "lastActivity": "2026-01-17T12:00:00.000Z"
+  },
+  {
+    "email": "dwilson@example.com",
+    "name": "David Wilson",
+    "phone": "+1555-0005",
+    "address": "555 Designer Lane",
+    "city": "Boston",
+    "region": "MA",
+    "zipCode": "02101",
+    "preferences": {
+      "newsletter": true,
+      "smsNotifications": false,
+      "emailNotifications": true
+    },
+    "loginAt": "2026-01-16T13:30:00.000Z",
+    "createdAt": "2025-08-05T10:15:00.000Z",
+    "lastActivity": "2026-01-16T14:45:00.000Z"
+  }
+]

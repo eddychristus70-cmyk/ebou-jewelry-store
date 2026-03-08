@@ -1,0 +1,756 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VisionStyle - Premium Eyewear</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <!-- Promo Banner -->
+    <div class="promo-banner" id="promoBanner">
+      <div class="promo-content">
+        <span class="promo-text"
+          >🎉 New Year Sale - Up to 40% OFF on Selected Eyewear! Use Code:
+          <strong>VISION2026</strong></span
+        >
+        <button class="promo-close" id="promoClose">✕</button>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+      <nav>
+        <a href="index.html" class="logo"
+          ><i class="fas fa-glasses"></i> VisionStyle</a
+        >
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="pages/categories.html">Categories</a></li>
+          <li><a href="pages/products.html">Products</a></li>
+          <li><a href="pages/contact.html">Contact</a></li>
+        </ul>
+        <div class="header-icons">
+          <div class="search-container">
+            <input
+              type="text"
+              class="search-input"
+              id="searchInput"
+              placeholder="Search eyewear..."
+            />
+            <button class="search-btn" id="searchBtn">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+          <div class="user-icon" id="userIcon">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="cart-icon" id="cartIcon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cartCount">0</span>
+          </div>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero Section with Carousel -->
+    <section class="hero" id="home">
+      <div class="hero-slider">
+        <div
+          class="hero-slide active"
+          style="
+            background:
+              linear-gradient(
+                135deg,
+                rgba(44, 62, 80, 0.4) 0%,
+                rgba(52, 73, 94, 0.25) 100%
+              ),
+              url('images/0106071266bedf88be3af65d2bec6b5c.jpg')
+                center/cover;
+          "
+        >
+          <div class="hero-content">
+            <h1>See the World in Style</h1>
+            <p>Premium eyewear collection for every face and occasion</p>
+            <button
+              class="cta-button"
+              onclick="window.location.href = 'pages/products.html'"
+            >
+              Shop Now
+            </button>
+          </div>
+        </div>
+        <div
+          class="hero-slide"
+          style="
+            background:
+              linear-gradient(
+                135deg,
+                rgba(155, 89, 182, 0.35) 0%,
+                rgba(52, 152, 219, 0.25) 100%
+              ),
+              url('images/0163c5549ef58db8b3460cac934822e3.jpg')
+                center/cover;
+          "
+        >
+          <div class="hero-content">
+            <h1>Designer Collection 2026</h1>
+            <p>Exclusive luxury frames from world-renowned brands</p>
+            <button
+              class="cta-button"
+              onclick="
+                window.location.href = 'pages/products.html?category=designer'
+              "
+            >
+              Explore Collection
+            </button>
+          </div>
+        </div>
+        <div
+          class="hero-slide"
+          style="
+            background:
+              linear-gradient(
+                135deg,
+                rgba(41, 128, 185, 0.35) 0%,
+                rgba(44, 62, 80, 0.25) 100%
+              ),
+              url('images/02188c3b-e61e-4615-b0e9-82ae6f4b8317.jpg')
+                center/cover;
+          "
+        >
+          <div class="hero-content">
+            <h1>UV Protection Guaranteed</h1>
+            <p>Protect your eyes with our UV400 certified lenses</p>
+            <button
+              class="cta-button"
+              onclick="window.location.href = 'pages/products.html'"
+            >
+              Learn More
+            </button>
+          </div>
+        </div>
+      </div>
+      <button class="hero-prev" id="heroPrev">‹</button>
+      <button class="hero-next" id="heroNext">›</button>
+      <div class="hero-dots" id="heroDots">
+        <span class="dot active" data-slide="0"></span>
+        <span class="dot" data-slide="1"></span>
+        <span class="dot" data-slide="2"></span>
+      </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories" id="categories">
+      <h2 class="section-title">Browse by Category</h2>
+      <div class="category-grid">
+        <div
+          class="category-card"
+          onclick="
+            window.location.href = 'pages/products.html?category=sunglasses'
+          "
+          style="
+            cursor: pointer;
+            background:
+              linear-gradient(
+                rgba(52, 152, 219, 0.85),
+                rgba(52, 152, 219, 0.85)
+              ),
+              url(&quot;images/2d23801f-4ef8-493c-a117-52e09dda41cb.jpg&quot;)
+                center/cover;
+          "
+        >
+          <div class="category-icon"><i class="fas fa-sunglasses"></i></div>
+          <h3>Sunglasses</h3>
+          <p>Protect your eyes in style</p>
+        </div>
+        <div
+          class="category-card"
+          onclick="
+            window.location.href = 'pages/products.html?category=optical'
+          "
+          style="
+            cursor: pointer;
+            background:
+              linear-gradient(
+                rgba(52, 152, 219, 0.85),
+                rgba(52, 152, 219, 0.85)
+              ),
+              url(&quot;images/399256fd-5e89-40da-a002-969a344e7d1a.jpg&quot;)
+                center/cover;
+          "
+        >
+          <div class="category-icon"><i class="fas fa-glasses"></i></div>
+          <h3>Optical Glasses</h3>
+          <p>Clear vision, perfect style</p>
+        </div>
+        <div
+          class="category-card"
+          onclick="
+            window.location.href = 'pages/products.html?category=designer'
+          "
+          style="
+            cursor: pointer;
+            background:
+              linear-gradient(
+                rgba(155, 89, 182, 0.85),
+                rgba(155, 89, 182, 0.85)
+              ),
+              url(&quot;images/448b35c70f2c05e09cf5d5b9887d558a_826v3CaohuNvQ.jpg&quot;)
+                center/cover;
+          "
+        >
+          <div class="category-icon"><i class="fas fa-gem"></i></div>
+          <h3>Designer Collection</h3>
+          <p>Luxury brands</p>
+        </div>
+        <div
+          class="category-card"
+          onclick="window.location.href = 'pages/products.html?category=sport'"
+          style="
+            cursor: pointer;
+            background:
+              linear-gradient(
+                rgba(52, 152, 219, 0.85),
+                rgba(52, 152, 219, 0.85)
+              ),
+              url(&quot;images/66eeaa76a456ffccf97b604cdadd6a74.jpg&quot;)
+                center/cover;
+          "
+        >
+          <div class="category-icon"><i class="fas fa-bolt"></i></div>
+          <h3>Sports Eyewear</h3>
+          <p>Performance meets comfort</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+      <h2 class="section-title">Featured Products</h2>
+
+      <!-- Product Filters -->
+      <div class="filters-container">
+        <div class="filter-group">
+          <label>Price Range:</label>
+          <select id="priceFilter" class="filter-select">
+            <option value="all">All Prices</option>
+            <option value="0-50">Under $50</option>
+            <option value="50-100">$50 - $100</option>
+            <option value="100+">$100+</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Category:</label>
+          <select id="styleFilter" class="filter-select">
+            <option value="all">All Categories</option>
+            <option value="necklace">Necklaces</option>
+            <option value="earring">Earrings</option>
+            <option value="bracelet">Bracelets</option>
+            <option value="bangle">Bangles</option>
+            <option value="jewelry set">Jewelry Sets</option>
+            <option value="watch">Watches</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Sort By:</label>
+          <select id="sortFilter" class="filter-select">
+            <option value="featured">Featured</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="rating">Highest Rated</option>
+          </select>
+        </div>
+        <button class="clear-filters" id="clearFilters">Clear Filters</button>
+      </div>
+
+      <!-- Comparison Bar -->
+      <div class="comparison-bar" id="comparisonBar">
+        <div class="comparison-content">
+          <span class="comparison-text"
+            >Compare Products (<span id="compareCount">0</span>/3)</span
+          >
+          <button class="compare-btn" id="compareBtn" disabled>
+            Compare Now
+          </button>
+          <button class="clear-compare" id="clearCompare">Clear All</button>
+        </div>
+      </div>
+
+      <div class="product-grid" id="productGrid">
+        <!-- Products will be loaded dynamically from products.json -->
+        <div class="loading-products">
+          <p>Loading products...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+      <div class="newsletter-container">
+        <h2>Stay Updated with VisionStyle</h2>
+        <p>Subscribe to get exclusive offers, new arrivals, and style tips!</p>
+        <form class="newsletter-form" id="newsletterForm">
+          <input
+            type="email"
+            class="newsletter-input"
+            id="newsletterEmail"
+            placeholder="Enter your email"
+            required
+          />
+          <button type="submit" class="newsletter-btn">Subscribe</button>
+        </form>
+        <p class="newsletter-message" id="newsletterMessage"></p>
+      </div>
+    </section>
+
+    <!-- Customer Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+      <div class="testimonials-container">
+        <h2 class="section-title">What Our Customers Say</h2>
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <div class="testimonial-avatar">👤</div>
+              <div class="testimonial-info">
+                <h4>Sarah Johnson</h4>
+                <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+              </div>
+            </div>
+            <p class="testimonial-text">
+              "Absolutely love my new sunglasses! The quality is outstanding and
+              they fit perfectly. Customer service was excellent too. Highly
+              recommend VisionStyle!"
+            </p>
+            <span class="testimonial-date">2 weeks ago</span>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <div class="testimonial-avatar">👨</div>
+              <div class="testimonial-info">
+                <h4>Michael Chen</h4>
+                <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+              </div>
+            </div>
+            <p class="testimonial-text">
+              "Best online eyewear store! Fast shipping, great prices, and the
+              frames are top quality. I've ordered three pairs now and couldn't
+              be happier."
+            </p>
+            <span class="testimonial-date">1 month ago</span>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <div class="testimonial-avatar">👩</div>
+              <div class="testimonial-info">
+                <h4>Emma Williams</h4>
+                <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+              </div>
+            </div>
+            <p class="testimonial-text">
+              "The designer collection is amazing! Found my perfect pair of
+              cat-eye glasses. The website is easy to use and the delivery was
+              super fast. Will definitely shop here again!"
+            </p>
+            <span class="testimonial-date">3 weeks ago</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust Badges Section -->
+    <section class="trust-badges">
+      <div class="trust-badges-container">
+        <div class="trust-badge">
+          <div class="trust-icon">🔒</div>
+          <h4>Secure Payment</h4>
+          <p>SSL Encrypted</p>
+        </div>
+        <div class="trust-badge">
+          <div class="trust-icon">📦</div>
+          <h4>Free Shipping</h4>
+          <p>Orders Over $100</p>
+        </div>
+        <div class="trust-badge">
+          <div class="trust-icon">🔄</div>
+          <h4>Easy Returns</h4>
+          <p>30-Day Policy</p>
+        </div>
+        <div class="trust-badge">
+          <div class="trust-icon">✓️</div>
+          <h4>Authentic Products</h4>
+          <p>100% Genuine</p>
+        </div>
+        <div class="trust-badge">
+          <div class="trust-icon">🏆</div>
+          <h4>Award Winning</h4>
+          <p>Best Eyewear 2025</p>
+        </div>
+        <div class="trust-badge">
+          <div class="trust-icon">📞</div>
+          <h4>24/7 Support</h4>
+          <p>Always Here to Help</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="blog" id="blog">
+      <div class="blog-container">
+        <h2 class="section-title">Eyewear Tips & Trends</h2>
+        <div class="blog-grid">
+          <article class="blog-card">
+            <div class="blog-image">👓</div>
+            <div class="blog-content">
+              <span class="blog-category">Style Guide</span>
+              <h3>How to Choose the Perfect Frame for Your Face Shape</h3>
+              <p>
+                Discover which frame styles complement your unique features and
+                enhance your natural beauty...
+              </p>
+              <div class="blog-meta">
+                <span>📅 Jan 5, 2026</span>
+                <span>👁️ 2.5k views</span>
+              </div>
+              <a href="#" class="blog-read-more">Read More →</a>
+            </div>
+          </article>
+
+          <article class="blog-card">
+            <div class="blog-image">🕶️</div>
+            <div class="blog-content">
+              <span class="blog-category">Eye Health</span>
+              <h3>UV Protection: Why It Matters for Your Eyes</h3>
+              <p>
+                Learn about the importance of UV protection and how to keep your
+                eyes healthy in all seasons...
+              </p>
+              <div class="blog-meta">
+                <span>📅 Jan 3, 2026</span>
+                <span>👁️ 3.2k views</span>
+              </div>
+              <a href="#" class="blog-read-more">Read More →</a>
+            </div>
+          </article>
+
+          <article class="blog-card">
+            <div class="blog-image">💎</div>
+            <div class="blog-content">
+              <span class="blog-category">Trends</span>
+              <h3>Top Eyewear Trends for 2026</h3>
+              <p>
+                Stay ahead of the fashion curve with the latest eyewear styles
+                that are taking the world by storm...
+              </p>
+              <div class="blog-meta">
+                <span>📅 Dec 30, 2025</span>
+                <span>👁️ 4.1k views</span>
+              </div>
+              <a href="#" class="blog-read-more">Read More →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+      <div class="faq-container">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>How do I know which frame size is right for me?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Frame size is indicated by three numbers (e.g., 52-18-140): lens
+                width, bridge width, and temple length. We provide detailed
+                measurements for each product. You can also measure your current
+                glasses or visit our size guide for help.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>What is your return policy?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                We offer a 30-day return policy. If you're not completely
+                satisfied with your purchase, you can return it for a full
+                refund or exchange. Items must be in original condition with all
+                packaging intact.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Do you offer prescription lenses?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Yes! We can add prescription lenses to most of our frames.
+                Simply add your prescription details during checkout. We offer
+                single vision, progressive, and blue light blocking lenses.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>How long does shipping take?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Standard shipping takes 5-7 business days. Express shipping (2-3
+                days) is available. Orders over $100 qualify for free standard
+                shipping. All orders are tracked and insured.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Are your products authentic?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Absolutely! We guarantee 100% authentic products. All designer
+                frames come with certificates of authenticity and original
+                packaging. We work directly with authorized distributors.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Do you offer a warranty?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Yes! All our eyewear comes with a 1-year manufacturer warranty
+                covering defects in materials and workmanship. Extended warranty
+                options are available at checkout.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+      <div class="features-container">
+        <div class="feature">
+          <div class="feature-icon">🚚</div>
+          <h3>Free Shipping</h3>
+          <p>On orders over $100</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🔄</div>
+          <h3>30-Day Returns</h3>
+          <p>Easy returns policy</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">✅</div>
+          <h3>Quality Guaranteed</h3>
+          <p>Premium materials only</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">💳</div>
+          <h3>Secure Payment</h3>
+          <p>100% secure checkout</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>About VisionStyle</h3>
+          <p>
+            Your trusted source for premium eyewear. We combine style, quality,
+            and affordability.
+          </p>
+          <div class="social-media">
+            <h4>Follow Us</h4>
+            <div class="social-icons">
+              <a href="#" class="social-icon" title="Facebook"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a href="#" class="social-icon" title="Instagram"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" class="social-icon" title="Twitter"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a href="#" class="social-icon" title="YouTube"
+                ><i class="fab fa-youtube"></i
+              ></a>
+              <a href="#" class="social-icon" title="Pinterest"
+                ><i class="fab fa-pinterest"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="pages/categories.html">Categories</a></li>
+            <li><a href="pages/products.html">Products</a></li>
+            <li><a href="pages/contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Customer Service</h3>
+          <ul>
+            <li><a href="pages/contact.html">Contact Us</a></li>
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Contact Info</h3>
+          <p>Email: info@visionstyle.com</p>
+          <p>Phone: (555) 123-4567</p>
+          <p>Mon-Fri: 9AM-6PM</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 VisionStyle. All rights reserved.</p>
+        <p class="footer-trust">
+          🔒 Secure Shopping | ✓️ Authentic Products | 🚚 Free Shipping Over $100
+        </p>
+      </div>
+    </footer>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+      <div class="cart-modal-content">
+        <div class="cart-modal-header">
+          <h2>Shopping Cart</h2>
+          <button class="close-cart" id="closeCart">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+          <p class="empty-cart">Your cart is empty</p>
+        </div>
+        <div class="cart-total">
+          <div class="cart-total-row">
+            <span>Subtotal:</span>
+            <span id="cartSubtotal">$0.00</span>
+          </div>
+          <div class="cart-total-row">
+            <span>Shipping:</span>
+            <span>FREE</span>
+          </div>
+          <div class="cart-total-row total">
+            <span>Total:</span>
+            <span id="cartTotal">$0.00</span>
+          </div>
+        </div>
+        <button class="checkout-btn">Proceed to Checkout</button>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+      <span class="toast-icon" id="toastIcon">✓</span>
+      <span class="toast-message" id="toastMessage">Item added to cart!</span>
+    </div>
+
+    <!-- Quick View Modal -->
+    <div class="quick-view-modal" id="quickViewModal">
+      <div class="quick-view-content">
+        <button class="close-quick-view" id="closeQuickView">✕</button>
+        <div class="quick-view-layout">
+          <img class="quick-view-image" id="quickViewImage" src="" alt="Product Image" style="max-width: 300px; max-height: 300px; object-fit: cover; border-radius: 12px;" />
+          <div class="quick-view-details">
+            <h2 id="quickViewName">Product Name</h2>
+            <div class="product-rating">
+              <span class="stars">⭐⭐⭐⭐⭐</span>
+              <span class="review-count">(248 reviews)</span>
+            </div>
+            <p class="quick-view-price" id="quickViewPrice">$149.99</p>
+            <p class="quick-view-description" id="quickViewDescription">
+              Product description goes here
+            </p>
+            <div class="quick-view-features">
+              <h4>Features:</h4>
+              <ul>
+                <li>✓ UV400 Protection</li>
+                <li>✓ Premium Materials</li>
+                <li>✓ Adjustable Fit</li>
+                <li>✓ 1 Year Warranty</li>
+              </ul>
+            </div>
+            <div class="quick-view-actions">
+              <button class="add-to-cart-qv" id="addToCartQV">
+                Add to Cart
+              </button>
+              <button class="wishlist-qv" id="wishlistQV">
+                Add to Wishlist
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparison Modal -->
+    <div class="comparison-modal" id="comparisonModal">
+      <div class="comparison-modal-content">
+        <div class="comparison-header">
+          <h2>Compare Products</h2>
+          <button class="close-comparison" id="closeComparison">✕</button>
+        </div>
+        <div class="comparison-grid" id="comparisonGrid">
+          <!-- Comparison items will be inserted here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Image Lightbox -->
+    <div class="lightbox" id="lightbox">
+      <button class="close-lightbox" id="closeLightbox">✕</button>
+      <div class="lightbox-content">
+        <img class="lightbox-image" id="lightboxImage" src="" alt="Product Image" style="max-width: 90vw; max-height: 80vh; object-fit: contain; border-radius: 12px;" />
+        <p class="lightbox-caption" id="lightboxCaption">Product Name</p>
+      </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" title="Back to top">↑</button>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+      <div class="spinner"></div>
+      <p>Loading amazing eyewear...</p>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script src="js/features.js"></script>
+  </body>
+</html>
