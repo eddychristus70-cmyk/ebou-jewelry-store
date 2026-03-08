@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /netlify/
+Disallow: /utils/
+
+Sitemap: https://www.eboujewelery.shop/sitemap.xml
