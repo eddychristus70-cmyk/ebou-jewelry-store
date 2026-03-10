@@ -237,7 +237,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const imgName = img ? img.getAttribute("src").split("/").pop() : null;
         if (imgName) {
           try {
-            const resp = await fetch("./products.json");
+            const resp = await fetch("./products.json?v=3");
             if (resp.ok) {
               const products = await resp.json();
               const found = products.find(
@@ -343,7 +343,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Build tag list from products.json and sync data-tags on cards
   (async function syncTagsAndRender() {
     try {
-      const resp = await fetch("./products.json");
+      const resp = await fetch("./products.json?v=3");
       if (!resp.ok) return;
       const products = await resp.json();
       // keep a local copy for the suggestions/autocomplete
