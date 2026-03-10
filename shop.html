@@ -1086,7 +1086,7 @@
         const productsGrid = document.querySelector(".products-grid");
         if (!productsGrid) return;
 
-        fetch("./products.json")
+        fetch("./products.json?v=3")
           .then((response) => response.json())
           .then((products) => {
             // Clear existing hardcoded products

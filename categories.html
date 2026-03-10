@@ -511,7 +511,7 @@
             applyFilters();
           });
 
-        fetch("./products.json")
+        fetch("./products.json?v=3")
           .then((response) => {
             if (!response.ok) throw new Error("Network error");
             return response.json();
