@@ -1,13 +1,56 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // --- Dark Mode Toggle ---
+  (function initTheme() {
+    var THEME_KEY = "ebouTheme";
+    var html = document.documentElement;
+    var toggle = document.getElementById("theme-toggle");
+
+    function getPreferredTheme() {
+      var stored = localStorage.getItem(THEME_KEY);
+      if (stored === "dark" || stored === "light") return stored;
+      if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        return "dark";
+      }
+      return "light";
+    }
+
+    function applyTheme(theme) {
+      html.setAttribute("data-theme", theme);
+      localStorage.setItem(THEME_KEY, theme);
+    }
+
+    applyTheme(getPreferredTheme());
+
+    if (toggle) {
+      toggle.addEventListener("click", function () {
+        var current = html.getAttribute("data-theme");
+        applyTheme(current === "dark" ? "light" : "dark");
+      });
+    }
+
+    if (window.matchMedia) {
+      try {
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function (e) {
+          if (!localStorage.getItem(THEME_KEY)) {
+            applyTheme(e.matches ? "dark" : "light");
+          }
+        });
+      } catch (err) { /* older browsers */ }
+    }
+  })();
+
   // Update user icon link based on login state
   (function () {
     try {
-      const session = JSON.parse(sessionStorage.getItem("ebouAuthSession") || "{}");
+      const session = JSON.parse(
+        sessionStorage.getItem("ebouAuthSession") || "{}",
+      );
       const profileLink = document.querySelector(".profile-link");
       if (profileLink) {
-        profileLink.href = session && session.email
-          ? "customer-dashboard.html"
-          : "jumia-login.html";
+        profileLink.href =
+          session && session.email
+            ? "customer-dashboard.html"
+            : "jumia-login.html";
       }
     } catch (e) {}
   })();
@@ -20,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     // Prevent header search form from submitting (we handle search client-side)
     const headerSearchForm = document.querySelector(
-      ".search-container .search-form"
+      ".search-container .search-form",
     );
     if (headerSearchForm) {
       headerSearchForm.addEventListener("submit", function (e) {
@@ -96,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Try to find any element containing a numeric price
       let priceSource = container.querySelector(
-        ".price, .new-price, div.price, span.new-price"
+        ".price, .new-price, div.price, span.new-price",
       );
       let priceText = priceSource
         ? priceSource.textContent.trim()
@@ -111,7 +154,10 @@ document.addEventListener("DOMContentLoaded", function () {
         // Remove existing price-like elements to avoid duplicates
         // but keep .original-price and .discount-badge
         container.querySelectorAll(".price, .new-price").forEach(function (n) {
-          if (!n.classList.contains("original-price") && !n.classList.contains("discount-badge")) {
+          if (
+            !n.classList.contains("original-price") &&
+            !n.classList.contains("discount-badge")
+          ) {
             n.remove();
           }
         });
@@ -152,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // interactive controls.
   document.querySelectorAll(".product-card").forEach(function (card) {
     const hasInnerInteractive = !!card.querySelector(
-      "a, button, input, select, textarea"
+      "a, button, input, select, textarea",
     );
     if (!hasInnerInteractive) {
       if (!card.hasAttribute("tabindex")) card.setAttribute("tabindex", "0");
@@ -241,7 +287,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (resp.ok) {
               const products = await resp.json();
               const found = products.find(
-                (p) => p.img && p.img.split("/").pop() === imgName
+                (p) => p.img && p.img.split("/").pop() === imgName,
               );
               if (found) id = found.id;
             }
@@ -484,13 +530,13 @@ document.addEventListener("DOMContentLoaded", function () {
             const row = document.createElement("div");
             row.className = "rv-item";
             row.innerHTML = `<div class="rv-meta"><strong>${escapeHtml(
-              r.name || "Anonymous"
+              r.name || "Anonymous",
             )}</strong> — <span class="rv-rating">${renderStarsInline(
-              r.rating
+              r.rating,
             )}</span> <span class="rv-date">${new Date(
-              r.createdAt
+              r.createdAt,
             ).toLocaleDateString()}</span></div><div class="rv-text">${escapeHtml(
-              r.text || ""
+              r.text || "",
             )}</div>`;
             el.appendChild(row);
           });
@@ -631,7 +677,7 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
       suggestionState.index = Math.min(
         items.length - 1,
-        suggestionState.index + 1
+        suggestionState.index + 1,
       );
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
@@ -654,7 +700,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     // update active class
     items.forEach((it, i) =>
-      it.classList.toggle("active", i === suggestionState.index)
+      it.classList.toggle("active", i === suggestionState.index),
     );
     const active = items[suggestionState.index];
     if (active) {
@@ -676,7 +722,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let debounceTimeout = null;
     function updateCount() {
       const visible = productCards.filter(
-        (c) => !c.classList.contains("product-hidden")
+        (c) => !c.classList.contains("product-hidden"),
       ).length;
       const total = productCards.length;
       if (productCountEl) {
@@ -775,7 +821,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // highlight so the user can quickly find it.
       try {
         const visibleCards = productCards.filter(
-          (c) => !c.classList.contains("product-hidden")
+          (c) => !c.classList.contains("product-hidden"),
         );
         if (qTokens.length > 0 && visibleCards.length > 0) {
           // If configured, go straight to the product page when there's
@@ -811,7 +857,7 @@ document.addEventListener("DOMContentLoaded", function () {
               first.classList.add("search-highlight");
               setTimeout(
                 () => first.classList.remove("search-highlight"),
-                1400
+                1400,
               );
             }
           }
@@ -836,11 +882,11 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!el || !token) return;
       const re = new RegExp(
         "(" + token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")",
-        "ig"
+        "ig",
       );
       el.innerHTML = el.innerHTML.replace(
         re,
-        '<span class="highlight">$1</span>'
+        '<span class="highlight">$1</span>',
       );
     }
 
@@ -914,7 +960,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "Cart loaded:",
         cart,
         "Item count:",
-        Object.keys(cart).length
+        Object.keys(cart).length,
       );
     } catch (e) {
       cart = {};
@@ -1498,14 +1544,14 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("URL parameter detected:", window.location.search);
     console.log(
       "Cart in localStorage BEFORE clear:",
-      localStorage.getItem(CART_KEY)
+      localStorage.getItem(CART_KEY),
     );
 
     localStorage.removeItem(CART_KEY);
 
     console.log(
       "Cart in localStorage AFTER clear:",
-      localStorage.getItem(CART_KEY)
+      localStorage.getItem(CART_KEY),
     );
     window.history.replaceState({}, document.title, window.location.pathname);
     console.log("=== CART CLEARED ===");
@@ -1559,7 +1605,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (contactForm) {
     // Generate CSRF token for contact form
     const contactCSRFToken = Array.from(
-      crypto.getRandomValues(new Uint8Array(32))
+      crypto.getRandomValues(new Uint8Array(32)),
     )
       .map((b) => b.toString(16).padStart(2, "0"))
       .join("");
@@ -1664,7 +1710,7 @@ document.addEventListener("DOMContentLoaded", function () {
       } else {
         setStatus(
           "We couldn't send your message. Please try again or use WhatsApp/email.",
-          "error"
+          "error",
         );
       }
 

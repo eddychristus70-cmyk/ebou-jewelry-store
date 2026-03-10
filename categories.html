@@ -1,21 +1,38 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shop by Category — Necklaces, Earrings, Bracelets | Ebou Jewelry</title>
+    <title>
+      Shop by Category — Necklaces, Earrings, Bracelets | Ebou Jewelry
+    </title>
     <link rel="icon" type="image/jpeg" href="./images/goldlogo2.jpeg" />
-    <meta name="description" content="Shop by category at Ebou Jewelry. Find vintage necklaces, designer earrings, luxury bracelets, rings and more from Chanel, Dior, YSL." />
-    <link rel="canonical" href="https://www.eboujewelery.shop/categories.html" />
+    <meta
+      name="description"
+      content="Shop by category at Ebou Jewelry. Find vintage necklaces, designer earrings, luxury bracelets, rings and more from Chanel, Dior, YSL."
+    />
+    <link
+      rel="canonical"
+      href="https://www.eboujewelery.shop/categories.html"
+    />
     <meta property="og:title" content="Shop by Category — Ebou Jewelry" />
-    <meta property="og:description" content="Browse jewelry by category. Necklaces, earrings, bracelets and rings from top designer brands." />
-    <meta property="og:url" content="https://www.eboujewelery.shop/categories.html" />
+    <meta
+      property="og:description"
+      content="Browse jewelry by category. Necklaces, earrings, bracelets and rings from top designer brands."
+    />
+    <meta
+      property="og:url"
+      content="https://www.eboujewelery.shop/categories.html"
+    />
     <meta property="og:type" content="website" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
     />
-    <link rel="stylesheet" href="./style.css?v=2" />
+    <link rel="stylesheet" href="./style.css?v=3" />
+    <script>
+      (function(){try{var t=localStorage.getItem("ebouTheme");if(!t&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}})();
+    </script>
     <script>
       (function () {
         function storageAvailable(type) {
@@ -35,7 +52,7 @@
         ) {
           window.__SKIP_DATADOG_RUM__ = true;
           console.warn(
-            "Datadog RUM: storage unavailable, skipping initialization"
+            "Datadog RUM: storage unavailable, skipping initialization",
           );
         }
       })();
@@ -68,6 +85,10 @@
         </nav>
 
         <div class="header-icon">
+          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+            <i class="fas fa-moon"></i>
+            <i class="fas fa-sun"></i>
+          </button>
           <i class="fas fa-search" id="search-toggle"></i>
           <a
             href="jumia-login.html"
@@ -130,7 +151,7 @@
           window.datadogRum = window.datadogRum || {
             init: function () {
               console.warn(
-                "datadogRum.init skipped due to storage restrictions"
+                "datadogRum.init skipped due to storage restrictions",
               );
             },
             setUser: function () {},
@@ -296,7 +317,7 @@
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const sectionsWrapper = document.getElementById(
-          "category-sections-wrapper"
+          "category-sections-wrapper",
         );
         const summaryGrid = document.getElementById("category-summary-grid");
         const loadingState = document.getElementById("category-loading");
@@ -305,7 +326,7 @@
         const categoryFilter = document.getElementById("category-filter");
         const clearFiltersBtn = document.getElementById("clear-filters");
         const filterResultsCount = document.getElementById(
-          "filter-results-count"
+          "filter-results-count",
         );
 
         const filterState = {
@@ -396,7 +417,7 @@
           const requested = params.get("category");
           if (!requested) return;
           const target = document.getElementById(
-            `category-${slugify(requested)}`
+            `category-${slugify(requested)}`,
           );
           if (target) {
             target.setAttribute("tabindex", "-1");
@@ -412,7 +433,7 @@
         function updateFilterCount() {
           const visibleCards = sectionsWrapper
             ? sectionsWrapper.querySelectorAll(
-                ".product-card:not(.product-hidden)"
+                ".product-card:not(.product-hidden)",
               ).length
             : 0;
           const total = allProductCards.length;
@@ -464,10 +485,10 @@
             .querySelectorAll(".category-section")
             .forEach((section) => {
               const visible = section.querySelectorAll(
-                ".product-card:not(.product-hidden)"
+                ".product-card:not(.product-hidden)",
               ).length;
               const emptyMessage = section.querySelector(
-                ".section-empty-message"
+                ".section-empty-message",
               );
               section.classList.toggle("category-section-empty", visible === 0);
               if (emptyMessage) emptyMessage.hidden = visible !== 0;
@@ -479,7 +500,7 @@
               const slug = pill.dataset.category;
               pill.classList.toggle(
                 "active",
-                slug && slug === filterState.category
+                slug && slug === filterState.category,
               );
             });
           }
@@ -532,7 +553,7 @@
             }, {});
 
             const sortedCategories = Object.keys(grouped).sort((a, b) =>
-              a.localeCompare(b)
+              a.localeCompare(b),
             );
 
             sortedCategories.forEach((category) => {
@@ -564,8 +585,8 @@
                   <h2>${category} favorites</h2>
                   <p class="section-subtitle">
                     ${grouped[category].length} curated item${
-                grouped[category].length === 1 ? "" : "s"
-              } to shop now.
+                      grouped[category].length === 1 ? "" : "s"
+                    } to shop now.
                   </p>
                 </div>
               `;
@@ -593,7 +614,7 @@
             });
 
             allProductCards = Array.from(
-              sectionsWrapper.querySelectorAll(".product-card")
+              sectionsWrapper.querySelectorAll(".product-card"),
             );
             applyFilters();
             focusCategoryFromParam();
