@@ -357,10 +357,11 @@ header {
 /* logo image + text fallback */
 .logo-img {
   height: 36px;
-  width: auto;
+  width: 36px;
   margin-right: 8px;
   display: inline-block;
-  border-radius: 2.5rem;
+  border-radius: 50%;
+  object-fit: cover;
 }
 .logo-text {
   vertical-align: middle;
