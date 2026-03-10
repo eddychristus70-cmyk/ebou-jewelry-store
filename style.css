@@ -356,8 +356,8 @@ header {
 
 /* logo image + text fallback */
 .logo-img {
-  height: 36px;
-  width: 36px;
+  height: 52px;
+  width: 52px;
   margin-right: 8px;
   display: inline-block;
   border-radius: 50%;
@@ -2308,13 +2308,15 @@ body {
 /* Responsive logo sizing for small screens */
 @media (max-width: 480px) {
   .logo-img {
-    height: 28px; /* slightly smaller on small phones */
+    height: 42px;
+    width: 42px;
   }
 }
 
 @media (max-width: 360px) {
   .logo-img {
-    height: 24px; /* very small devices */
+    height: 36px;
+    width: 36px;
   }
   .logo-text {
     font-size: 0.95rem; /* keep text readable but compact */
