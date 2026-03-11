@@ -9,9 +9,6 @@
       href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
     />
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script>
-      (function(){try{var t=localStorage.getItem("ebouTheme");if(!t&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}})();
-    </script>
     <style>
       :root {
         --primary: #e50f65;
@@ -23,18 +20,6 @@
         --muted: #616e7c;
         --shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
         --green: #00a884;
-      }
-
-      [data-theme="dark"] {
-        --primary: #f43f8b;
-        --accent: #ff8c42;
-        --secondary: #7c5cff;
-        --border: #2e2e42;
-        --card: #1e1e2e;
-        --text: #e4e4e7;
-        --muted: #9ca3af;
-        --shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-        --green: #34d399;
       }
 
       * {
@@ -565,127 +550,9 @@
         margin-right: 12px;
       }
 
-      /* Dark mode overrides */
-      [data-theme="dark"] body {
-        background: linear-gradient(165deg, #0e0e1a 0%, #121218 45%, #121212 100%);
-      }
-
-      [data-theme="dark"] .account-row {
-        background: #1a1a2e;
-      }
-
-      [data-theme="dark"] .account-row:hover {
-        background: #252538;
-      }
-
-      [data-theme="dark"] .auth-dialog {
-        background: #1e1e2e;
-        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
-      }
-
-      [data-theme="dark"] .mode-toggle {
-        background: #1a1a2e;
-      }
-
-      [data-theme="dark"] .auth-tab {
-        color: var(--muted);
-      }
-
-      [data-theme="dark"] .auth-tab.active {
-        background: #252538;
-        color: var(--primary);
-      }
-
-      [data-theme="dark"] .input-wrapper input,
-      [data-theme="dark"] .input-wrapper textarea {
-        background: #1a1a2e;
-        border-color: var(--border);
-        color: var(--text);
-      }
-
-      [data-theme="dark"] .modal-close {
-        background: rgba(255, 255, 255, 0.1);
-        color: var(--text);
-      }
-
-      [data-theme="dark"] .google-btn {
-        background: #1a1a2e;
-        border-color: var(--border);
-        color: var(--text);
-      }
-
-      [data-theme="dark"] .google-btn:hover {
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-      }
-
-      [data-theme="dark"] .social-divider::before,
-      [data-theme="dark"] .social-divider::after {
-        background: var(--border);
-      }
-
-      [data-theme="dark"] .whatsapp-btn {
-        background: #1a1a2e;
-        border-color: var(--green);
-      }
-
-      [data-theme="dark"] .assist-link {
-        background: rgba(244, 63, 139, 0.1);
-      }
-
-      [data-theme="dark"] .ghost-btn {
-        border-color: var(--border);
-        color: var(--muted);
-      }
-
-      [data-theme="dark"] .info-icon {
-        background: rgba(244, 63, 139, 0.15);
-      }
-
-      /* Dark mode toggle */
-      .theme-toggle-float {
-        position: fixed;
-        top: 16px;
-        right: 16px;
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 50%;
-        width: 42px;
-        height: 42px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        font-size: 1.1rem;
-        color: var(--text);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-        transition: transform 0.3s ease;
-      }
-
-      .theme-toggle-float:hover {
-        transform: rotate(15deg);
-        color: var(--primary);
-      }
-
-      .theme-toggle-float .fa-sun {
-        display: none;
-      }
-
-      [data-theme="dark"] .theme-toggle-float .fa-sun {
-        display: inline-block;
-        color: #fbbf24;
-      }
-
-      [data-theme="dark"] .theme-toggle-float .fa-moon {
-        display: none;
-      }
     </style>
   </head>
   <body>
-    <button class="theme-toggle-float" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
-      <i class="fas fa-moon"></i>
-      <i class="fas fa-sun"></i>
-    </button>
     <main class="account-shell">
       <header class="account-header">
         <a href="index.html" onclick="if(history.length>1){history.back();return false;}" class="back-btn">
@@ -1780,21 +1647,6 @@
           feedback.style.display = "none";
         }, 3000);
       }
-    </script>
-    <script>
-      (function () {
-        var THEME_KEY = "ebouTheme";
-        var toggle = document.getElementById("theme-toggle");
-        if (toggle) {
-          toggle.addEventListener("click", function () {
-            var html = document.documentElement;
-            var current = html.getAttribute("data-theme");
-            var next = current === "dark" ? "light" : "dark";
-            html.setAttribute("data-theme", next);
-            localStorage.setItem(THEME_KEY, next);
-          });
-        }
-      })();
     </script>
   </body>
 </html>

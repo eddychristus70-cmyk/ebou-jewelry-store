@@ -14,9 +14,6 @@
       href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
     />
     <link rel="stylesheet" href="./style.css?v=3" />
-    <script>
-      (function(){try{var t=localStorage.getItem("ebouTheme");if(!t&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}})();
-    </script>
     <style>
       .product-reviews {
         max-width: 800px;
@@ -67,27 +64,6 @@
         color: #fbbf24;
       }
 
-      /* Dark mode overrides for product page */
-      [data-theme="dark"] .review-card {
-        background: var(--surface-color);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-      }
-
-      [data-theme="dark"] .review-form-card {
-        background: var(--surface-color) !important;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
-      }
-
-      [data-theme="dark"] #review-form input,
-      [data-theme="dark"] #review-form textarea {
-        background: var(--input-bg) !important;
-        border-color: var(--border-color) !important;
-        color: var(--dark-color) !important;
-      }
-
-      [data-theme="dark"] #not-found {
-        color: var(--dark-color);
-      }
     </style>
   </head>
   <body>
@@ -101,10 +77,6 @@
           />
           <span class="logo-text">EbouJewelry</span>
         </a>
-        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
-          <i class="fas fa-moon"></i>
-          <i class="fas fa-sun"></i>
-        </button>
       </div>
     </header>
 
@@ -266,22 +238,6 @@
       </div>
     </main>
 
-    <script>
-      // Dark mode toggle for product page
-      (function () {
-        var THEME_KEY = "ebouTheme";
-        var toggle = document.getElementById("theme-toggle");
-        if (toggle) {
-          toggle.addEventListener("click", function () {
-            var html = document.documentElement;
-            var current = html.getAttribute("data-theme");
-            var next = current === "dark" ? "light" : "dark";
-            html.setAttribute("data-theme", next);
-            localStorage.setItem(THEME_KEY, next);
-          });
-        }
-      })();
-    </script>
     <script>
       // product.html client-side renderer
       (async function () {

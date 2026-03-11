@@ -1,44 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // --- Dark Mode Toggle ---
-  (function initTheme() {
-    var THEME_KEY = "ebouTheme";
-    var html = document.documentElement;
-    var toggle = document.getElementById("theme-toggle");
-
-    function getPreferredTheme() {
-      var stored = localStorage.getItem(THEME_KEY);
-      if (stored === "dark" || stored === "light") return stored;
-      if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-        return "dark";
-      }
-      return "light";
-    }
-
-    function applyTheme(theme) {
-      html.setAttribute("data-theme", theme);
-      localStorage.setItem(THEME_KEY, theme);
-    }
-
-    applyTheme(getPreferredTheme());
-
-    if (toggle) {
-      toggle.addEventListener("click", function () {
-        var current = html.getAttribute("data-theme");
-        applyTheme(current === "dark" ? "light" : "dark");
-      });
-    }
-
-    if (window.matchMedia) {
-      try {
-        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function (e) {
-          if (!localStorage.getItem(THEME_KEY)) {
-            applyTheme(e.matches ? "dark" : "light");
-          }
-        });
-      } catch (err) { /* older browsers */ }
-    }
-  })();
-
   // Update user icon link based on login state
   (function () {
     try {
