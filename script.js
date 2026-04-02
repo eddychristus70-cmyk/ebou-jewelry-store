@@ -17,10 +17,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const menuBtn = document.querySelector(".mobile-menu-btn");
   const navLinks = document.querySelector(".nav-links");
+  const navOverlay = document.getElementById("nav-overlay");
+  const navClose = document.getElementById("nav-close");
+
+  function openNav() {
+    if (navLinks) navLinks.classList.add("active");
+    if (navOverlay) navOverlay.classList.add("visible");
+    try { document.body.style.overflow = "hidden"; } catch (e) {}
+  }
+  function closeNav() {
+    if (navLinks) navLinks.classList.remove("active");
+    if (navOverlay) navOverlay.classList.remove("visible");
+    try { document.body.style.overflow = ""; } catch (e) {}
+  }
+
   if (menuBtn && navLinks) {
-    menuBtn.addEventListener("click", function () {
-      navLinks.classList.toggle("active");
+    menuBtn.addEventListener("click", openNav);
+    if (navClose) navClose.addEventListener("click", closeNav);
+    if (navOverlay) navOverlay.addEventListener("click", closeNav);
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && navLinks.classList.contains("active")) closeNav();
     });
+  }
     // Prevent header search form from submitting (we handle search client-side)
     const headerSearchForm = document.querySelector(
       ".search-container .search-form",

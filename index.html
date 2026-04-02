@@ -40,6 +40,9 @@
       name="twitter:description"
       content="Shop luxury vintage and designer jewelry. Authentic Chanel, Dior, YSL pieces at great prices."
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
@@ -90,8 +93,14 @@
         </a>
 
         <nav>
-          <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
+          <div class="nav-overlay" id="nav-overlay"></div>
+          <ul class="nav-links" id="nav-links">
+            <li class="nav-close-item">
+              <button class="nav-close-btn" id="nav-close" aria-label="Close menu">
+                <i class="fas fa-times"></i>
+              </button>
+            </li>
+            <li><a href="index.html" class="active" aria-current="page">Home</a></li>
             <li><a href="categories.html">Category</a></li>
             <li><a href="shop.html">Shop</a></li>
             <li><a href="contact.html">Contact</a></li>
