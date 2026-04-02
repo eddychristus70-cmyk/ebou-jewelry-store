@@ -38,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && navLinks.classList.contains("active")) closeNav();
     });
-  }
     // Prevent header search form from submitting (we handle search client-side)
     const headerSearchForm = document.querySelector(
       ".search-container .search-form",
