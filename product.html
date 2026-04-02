@@ -478,5 +478,78 @@
         }
       })();
     </script>
+
+    <!-- Sticky Add-to-Cart Bar -->
+    <div class="sticky-cart-bar" id="sticky-cart-bar">
+      <div class="sticky-product-info">
+        <div class="sticky-product-name" id="sticky-product-name"></div>
+        <div class="sticky-product-price" id="sticky-product-price"></div>
+      </div>
+      <button class="sticky-add-btn" id="sticky-add-btn">Add to Cart</button>
+    </div>
+    <script>
+      (function () {
+        var buyBtn = document.getElementById("buy-now");
+        var stickyBar = document.getElementById("sticky-cart-bar");
+        if (!buyBtn || !stickyBar) return;
+
+        // Simple cart add function for product page
+        var CART_KEY = "siteCartV1";
+        function addProductToCart() {
+          var title = document.getElementById("product-title").textContent;
+          var priceEl = document.querySelector("#product-price .price");
+          if (!priceEl || title === "Loading...") return;
+          var priceText = priceEl.textContent.replace(/[^\d.]/g, "");
+          var priceNum = parseFloat(priceText) || 0;
+          var imgEl = document.getElementById("product-img");
+          var id = new URLSearchParams(location.search).get("id") || new URLSearchParams(location.search).get("slug") || title;
+
+          var cart = {};
+          try { cart = JSON.parse(localStorage.getItem(CART_KEY)) || {}; } catch (e) {}
+          if (cart[id]) {
+            cart[id].qty = (cart[id].qty || 1) + 1;
+          } else {
+            cart[id] = { id: id, title: title, price: priceEl.textContent, priceNumber: priceNum, img: imgEl ? imgEl.src : "", qty: 1 };
+          }
+          localStorage.setItem(CART_KEY, JSON.stringify(cart));
+
+          // Visual feedback
+          var origText = buyBtn.textContent;
+          buyBtn.textContent = "Added!";
+          buyBtn.style.background = "#1eb981";
+          setTimeout(function () { buyBtn.textContent = origText; buyBtn.style.background = ""; }, 1200);
+        }
+
+        buyBtn.addEventListener("click", addProductToCart);
+
+        // Populate sticky bar with product info once loaded
+        var checkReady = setInterval(function () {
+          var title = document.getElementById("product-title");
+          var price = document.querySelector("#product-price .price");
+          if (title && title.textContent !== "Loading..." && price) {
+            document.getElementById("sticky-product-name").textContent = title.textContent;
+            document.getElementById("sticky-product-price").textContent = price.textContent;
+            clearInterval(checkReady);
+          }
+        }, 200);
+
+        // Show/hide sticky bar based on buy button visibility
+        if ("IntersectionObserver" in window) {
+          var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                stickyBar.classList.remove("visible");
+              } else {
+                stickyBar.classList.add("visible");
+              }
+            });
+          }, { threshold: 0 });
+          observer.observe(buyBtn);
+        }
+
+        // Wire sticky button to add to cart too
+        document.getElementById("sticky-add-btn").addEventListener("click", addProductToCart);
+      })();
+    </script>
   </body>
 </html>

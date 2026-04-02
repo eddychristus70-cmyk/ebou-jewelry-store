@@ -1694,4 +1694,68 @@ document.addEventListener("DOMContentLoaded", function () {
       if (submitBtn) submitBtn.disabled = false;
     });
   }
+
+  // --- Scroll Reveal Animations ---
+  (function initScrollReveal() {
+    // Tag sections for reveal
+    var selectors = [
+      ".featured-categories",
+      ".categories-grid",
+      ".delivery-section",
+      ".contact-cards",
+      ".contact-form-section",
+      ".faq-section",
+      ".site-footer .footer-content"
+    ];
+    selectors.forEach(function (sel) {
+      var el = document.querySelector(sel);
+      if (el) el.classList.add("reveal");
+    });
+
+    // Tag category grid for staggered children
+    var catGrid = document.querySelector(".categories-grid");
+    if (catGrid) { catGrid.classList.add("reveal-stagger"); catGrid.classList.remove("reveal"); }
+
+    // Observe
+    if ("IntersectionObserver" in window) {
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      document.querySelectorAll(".reveal, .reveal-stagger").forEach(function (el) {
+        observer.observe(el);
+      });
+    } else {
+      // Fallback: show everything
+      document.querySelectorAll(".reveal, .reveal-stagger").forEach(function (el) {
+        el.classList.add("visible");
+      });
+    }
+  })();
+
+  // --- Skeleton Loading for Products ---
+  (function initSkeletonLoading() {
+    var grid = document.querySelector(".products-grid");
+    if (!grid || grid.children.length > 0) return; // skip if already has content
+    // Show 8 skeleton cards
+    for (var i = 0; i < 8; i++) {
+      var card = document.createElement("div");
+      card.className = "skeleton-card";
+      card.innerHTML = '<div class="skeleton-img"></div><div class="skeleton-text medium"></div><div class="skeleton-text short"></div><div class="skeleton-price"></div>';
+      grid.appendChild(card);
+    }
+    // Observe for when real cards replace skeletons
+    var mo = new MutationObserver(function () {
+      var skeletons = grid.querySelectorAll(".skeleton-card");
+      if (grid.querySelector(".product-card") && skeletons.length) {
+        skeletons.forEach(function (s) { s.remove(); });
+        mo.disconnect();
+      }
+    });
+    mo.observe(grid, { childList: true });
+  })();
 });
