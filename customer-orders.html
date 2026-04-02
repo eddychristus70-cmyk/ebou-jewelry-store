@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -27,8 +27,8 @@
       }
 
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          sans-serif;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         min-height: 100vh;
         color: var(--dark);
@@ -478,7 +478,6 @@
           flex: 1;
         }
       }
-
     </style>
   </head>
   <body>
@@ -489,7 +488,16 @@
             <i class="fas fa-box"></i>
             <h1>My Orders</h1>
           </div>
-          <a href="index.html" onclick="if(history.length>1){history.back();return false;}" class="back-btn">
+          <a
+            href="index.html"
+            onclick="
+              if (history.length > 1) {
+                history.back();
+                return false;
+              }
+            "
+            class="back-btn"
+          >
             <i class="fas fa-arrow-left"></i>
             Back
           </a>
@@ -560,7 +568,7 @@
       // Get customer email from sessionStorage (same as checkout/login pages)
       const SESSION_KEY = "ebouAuthSession";
       const sessionData = JSON.parse(
-        sessionStorage.getItem(SESSION_KEY) || "{}"
+        sessionStorage.getItem(SESSION_KEY) || "{}",
       );
       const customerEmail = sessionData.email || "";
 
@@ -570,7 +578,7 @@
 
         // Filter orders by customer email
         const customerOrders = allOrders.filter(
-          (order) => order.customerEmail === customerEmail
+          (order) => order.customerEmail === customerEmail,
         );
 
         return customerOrders;
@@ -627,7 +635,7 @@
                             <div class="order-date">
                                 <i class="fas fa-calendar"></i>
                                 ${new Date(
-                                  order.date || Date.now()
+                                  order.date || Date.now(),
                                 ).toLocaleDateString("en-US", {
                                   year: "numeric",
                                   month: "long",
@@ -660,7 +668,7 @@
                                   item.price * item.quantity
                                 ).toFixed(2)}</div>
                             </div>
-                        `
+                        `,
                                 )
                                 .join("")
                             : "<p>No items</p>"
@@ -670,7 +678,7 @@
                     <div class="order-footer">
                         <div class="order-total">
                             Total: <span style="color: var(--primary);">₵${parseFloat(
-                              order.total || 0
+                              order.total || 0,
                             ).toFixed(2)}</span>
                         </div>
                         <div class="order-actions">
@@ -689,7 +697,7 @@
                         ${generateTimeline(order.status || "pending")}
                     </div>
                 </div>
-            `
+            `,
           )
           .join("");
       }
@@ -699,7 +707,7 @@
         const total = orders.length;
         const delivered = orders.filter((o) => o.status === "delivered").length;
         const inProgress = orders.filter((o) =>
-          ["pending", "processing", "shipped"].includes(o.status)
+          ["pending", "processing", "shipped"].includes(o.status),
         ).length;
 
         document.getElementById("total-orders").textContent = total;
@@ -757,7 +765,7 @@
             order.customerName
           }\nEmail: ${order.customerEmail}\nPhone: ${
             order.customerPhone
-          }\n\nShipping Address:\n${order.shippingAddress || "N/A"}`
+          }\n\nShipping Address:\n${order.shippingAddress || "N/A"}`,
         );
       }
 

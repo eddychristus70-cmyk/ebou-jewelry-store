@@ -1,11 +1,21 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Inbox - Ebou Jewelry</title>
-    <link rel="icon" type="image/png" sizes="48x48" href="./images/favicon-48x48.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="./images/favicon-192x192.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="48x48"
+      href="./images/favicon-48x48.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="./images/favicon-192x192.png"
+    />
     <link rel="apple-touch-icon" href="./images/apple-touch-icon.png" />
     <link
       rel="stylesheet"
@@ -30,8 +40,8 @@
       }
 
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          sans-serif;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         min-height: 100vh;
         color: var(--dark);
@@ -421,7 +431,6 @@
           padding: 20px;
         }
       }
-
     </style>
   </head>
   <body>
@@ -432,7 +441,16 @@
             <i class="fas fa-inbox"></i>
             <h1>My Inbox</h1>
           </div>
-          <a href="index.html" onclick="if(history.length>1){history.back();return false;}" class="back-btn">
+          <a
+            href="index.html"
+            onclick="
+              if (history.length > 1) {
+                history.back();
+                return false;
+              }
+            "
+            class="back-btn"
+          >
             <i class="fas fa-arrow-left"></i>
             Back
           </a>
@@ -514,7 +532,7 @@
 
       const SESSION_KEY = "ebouAuthSession";
       const sessionData = JSON.parse(
-        sessionStorage.getItem(SESSION_KEY) || "{}"
+        sessionStorage.getItem(SESSION_KEY) || "{}",
       );
       const customerEmail = sessionData.email || "";
 
@@ -525,20 +543,20 @@
       function clearMyMessages() {
         if (
           confirm(
-            "Are you sure you want to delete ALL your messages? This cannot be undone!"
+            "Are you sure you want to delete ALL your messages? This cannot be undone!",
           )
         ) {
           const storedMessages = JSON.parse(
-            localStorage.getItem("contactMessages") || "[]"
+            localStorage.getItem("contactMessages") || "[]",
           );
           const otherMessages = storedMessages.filter(
             (msg) =>
               msg.email &&
-              msg.email.toLowerCase() !== customerEmail.toLowerCase()
+              msg.email.toLowerCase() !== customerEmail.toLowerCase(),
           );
           localStorage.setItem(
             "contactMessages",
-            JSON.stringify(otherMessages)
+            JSON.stringify(otherMessages),
           );
           allMessages = [];
           selectedMessageIndex = -1;
@@ -582,13 +600,14 @@
       // Load customer messages
       function loadMessages() {
         const storedMessages = JSON.parse(
-          localStorage.getItem("contactMessages") || "[]"
+          localStorage.getItem("contactMessages") || "[]",
         );
 
         // Filter messages by customer email
         let customerMessages = storedMessages.filter(
           (msg) =>
-            msg.email && msg.email.toLowerCase() === customerEmail.toLowerCase()
+            msg.email &&
+            msg.email.toLowerCase() === customerEmail.toLowerCase(),
         );
 
         // Remove duplicates - keep only unique messages by ID
@@ -607,7 +626,7 @@
                 // Only add reply if it doesn't exist
                 if (
                   !existing.replies.some(
-                    (r) => r.date === reply.date && r.message === reply.message
+                    (r) => r.date === reply.date && r.message === reply.message,
                   )
                 ) {
                   existing.replies.push(reply);
@@ -627,7 +646,7 @@
 
         if (allMessages.length === 0) {
           const totalMessages = JSON.parse(
-            localStorage.getItem("contactMessages") || "[]"
+            localStorage.getItem("contactMessages") || "[]",
           ).length;
           listContainer.innerHTML = `
                     <div class="empty-state" style="padding: 40px 20px;">
@@ -644,7 +663,7 @@
         // Sort by date (newest first)
         allMessages.sort(
           (a, b) =>
-            new Date(b.date || b.createdAt) - new Date(a.date || a.createdAt)
+            new Date(b.date || b.createdAt) - new Date(a.date || a.createdAt),
         );
 
         listContainer.innerHTML = allMessages
@@ -670,7 +689,7 @@
                         <div class="message-date">
                             <i class="fas fa-calendar"></i>
                             ${new Date(
-                              msg.date || msg.createdAt || Date.now()
+                              msg.date || msg.createdAt || Date.now(),
                             ).toLocaleDateString()}
                         </div>
                         <div class="message-preview">${
@@ -712,7 +731,7 @@
                         <div class="detail-meta-item">
                             <i class="fas fa-calendar"></i>
                             ${new Date(
-                              message.date || message.createdAt || Date.now()
+                              message.date || message.createdAt || Date.now(),
                             ).toLocaleString()}
                         </div>
                         <div class="detail-meta-item">
@@ -730,7 +749,7 @@
                                 ${(message.name || "You").split(" ")[0]}
                             </span>
                             <span class="thread-time">${new Date(
-                              message.date || message.createdAt
+                              message.date || message.createdAt,
                             ).toLocaleString()}</span>
                         </div>
                         <div class="thread-content">${
@@ -758,12 +777,12 @@
                                     }
                                 </span>
                                 <span class="thread-time">${new Date(
-                                  reply.date
+                                  reply.date,
                                 ).toLocaleString()}</span>
                             </div>
                             <div class="thread-content">${reply.message}</div>
                         </div>
-                    `
+                    `,
                             )
                             .join("")
                         : ""
@@ -847,7 +866,7 @@
       function updateMessageInStorage(index, updatedMessage) {
         console.log("updateMessageInStorage called");
         const allStoredMessages = JSON.parse(
-          localStorage.getItem("contactMessages") || "[]"
+          localStorage.getItem("contactMessages") || "[]",
         );
         console.log("All stored messages:", allStoredMessages.length);
 
@@ -858,7 +877,7 @@
               (msg.date === updatedMessage.date ||
                 msg.createdAt === updatedMessage.createdAt ||
                 msg.date === updatedMessage.createdAt ||
-                msg.createdAt === updatedMessage.date))
+                msg.createdAt === updatedMessage.date)),
         );
 
         console.log("Found message at globalIndex:", globalIndex);
@@ -867,7 +886,7 @@
           allStoredMessages[globalIndex] = updatedMessage;
           localStorage.setItem(
             "contactMessages",
-            JSON.stringify(allStoredMessages)
+            JSON.stringify(allStoredMessages),
           );
           console.log("Message updated in localStorage successfully");
         } else {

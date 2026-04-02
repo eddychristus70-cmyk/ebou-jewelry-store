@@ -1,11 +1,21 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Reviews - Ebou Jewelry</title>
-    <link rel="icon" type="image/png" sizes="48x48" href="./images/favicon-48x48.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="./images/favicon-192x192.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="48x48"
+      href="./images/favicon-48x48.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="./images/favicon-192x192.png"
+    />
     <link rel="apple-touch-icon" href="./images/apple-touch-icon.png" />
     <link
       rel="stylesheet"
@@ -30,8 +40,8 @@
       }
 
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          sans-serif;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         min-height: 100vh;
         color: var(--dark);
@@ -260,7 +270,6 @@
           gap: 8px;
         }
       }
-
     </style>
   </head>
   <body>
@@ -279,7 +288,16 @@
           </div>
           <div style="display: flex; align-items: center; gap: 12px">
             <span class="stats-badge" id="review-count">0 reviews</span>
-            <a href="index.html" onclick="if(history.length>1){history.back();return false;}" class="back-btn">
+            <a
+              href="index.html"
+              onclick="
+                if (history.length > 1) {
+                  history.back();
+                  return false;
+                }
+              "
+              class="back-btn"
+            >
               <i class="fas fa-arrow-left"></i>
               Back
             </a>
@@ -442,12 +460,12 @@
         };
 
         const reviews = JSON.parse(
-          localStorage.getItem(`reviews_${customerEmail}`) || "[]"
+          localStorage.getItem(`reviews_${customerEmail}`) || "[]",
         );
         reviews.unshift(review);
         localStorage.setItem(
           `reviews_${customerEmail}`,
-          JSON.stringify(reviews)
+          JSON.stringify(reviews),
         );
 
         // Reset form
@@ -463,7 +481,7 @@
       // Load reviews
       function loadReviews() {
         const reviews = JSON.parse(
-          localStorage.getItem(`reviews_${customerEmail}`) || "[]"
+          localStorage.getItem(`reviews_${customerEmail}`) || "[]",
         );
         const container = document.getElementById("reviews-container");
         const countBadge = document.getElementById("review-count");
@@ -494,17 +512,17 @@
                                   review.product
                                 }</div>
                                 <div class="review-date">${new Date(
-                                  review.date
+                                  review.date,
                                 ).toLocaleDateString()}</div>
                             </div>
                             <div class="review-rating">
                                 ${"★".repeat(review.rating)}${"☆".repeat(
-                          5 - review.rating
-                        )}
+                                  5 - review.rating,
+                                )}
                             </div>
                             <div class="review-text">${review.text}</div>
                         </div>
-                    `
+                    `,
                       )
                       .join("")}
                 </div>

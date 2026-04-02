@@ -4,8 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Account - Ebou Jewelry</title>
-    <link rel="icon" type="image/png" sizes="48x48" href="./images/favicon-48x48.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="./images/favicon-192x192.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="48x48"
+      href="./images/favicon-48x48.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="./images/favicon-192x192.png"
+    />
     <link rel="apple-touch-icon" href="./images/apple-touch-icon.png" />
     <link
       rel="stylesheet"
@@ -109,7 +119,9 @@
         font-weight: 600;
         cursor: pointer;
         text-decoration: none;
-        transition: background 0.2s ease, color 0.2s ease;
+        transition:
+          background 0.2s ease,
+          color 0.2s ease;
       }
 
       .back-btn:hover {
@@ -552,13 +564,21 @@
         height: 18px;
         margin-right: 12px;
       }
-
     </style>
   </head>
   <body>
     <main class="account-shell">
       <header class="account-header">
-        <a href="index.html" onclick="if(history.length>1){history.back();return false;}" class="back-btn">
+        <a
+          href="index.html"
+          onclick="
+            if (history.length > 1) {
+              history.back();
+              return false;
+            }
+          "
+          class="back-btn"
+        >
           <i class="fas fa-arrow-left"></i>
           Back
         </a>
@@ -983,7 +1003,7 @@
         } else {
           // No items in cart, go to home page
           setTimeout(() => {
-            window.location.href = 'index.html';
+            window.location.href = "index.html";
           }, 1000);
         }
       }
@@ -1227,7 +1247,6 @@
           }
         }
 
-
         async function syncProfileStorage(payload) {
           const body = JSON.stringify({ ...payload, cart: getCartSnapshot() });
           for (const endpoint of PROFILE_ENDPOINTS) {
@@ -1420,7 +1439,7 @@
             window.location.href = CHECKOUT_PAGE;
           } else {
             // No items in cart, go to home page
-            window.location.href = 'index.html';
+            window.location.href = "index.html";
           }
         }
 
@@ -1624,7 +1643,6 @@
         }
 
         updateAccountView();
-
       });
 
       // Feedback message function (global scope)
