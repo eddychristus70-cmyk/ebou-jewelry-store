@@ -1633,6 +1633,27 @@ document.addEventListener("DOMContentLoaded", function () {
         source: "contact.html",
       };
 
+      // Always save to localStorage so admin and customer inboxes can display messages
+      var messageWithTimestamp = {
+        ...payload,
+        createdAt: new Date().toISOString(),
+        id:
+          "msg-" +
+          Date.now() +
+          "-" +
+          Math.random().toString(36).substr(2, 9),
+      };
+
+      try {
+        var stored = localStorage.getItem("contactMessages") || "[]";
+        var messages = JSON.parse(stored);
+        messages.push(messageWithTimestamp);
+        localStorage.setItem("contactMessages", JSON.stringify(messages));
+        console.log("Message saved to localStorage:", messageWithTimestamp);
+      } catch (err) {
+        console.warn("localStorage save failed", err);
+      }
+
       let success = false;
       for (const endpoint of endpoints) {
         try {
@@ -1655,30 +1676,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
 
-      // Local fallback: save to localStorage for development
+      // If API also failed, still count localStorage save as success
       if (!success) {
         try {
-          const messageWithTimestamp = {
-            ...payload,
-            createdAt: new Date().toISOString(),
-            id:
-              "msg-" +
-              Date.now() +
-              "-" +
-              Math.random().toString(36).substr(2, 9),
-          };
-
-          // Store in localStorage
-          const stored = localStorage.getItem("contactMessages") || "[]";
-          const messages = JSON.parse(stored);
-          messages.push(messageWithTimestamp);
-          localStorage.setItem("contactMessages", JSON.stringify(messages));
-
-          success = true;
-          console.log("Message saved locally:", messageWithTimestamp);
-        } catch (err) {
-          console.warn("Local storage fallback failed", err);
-        }
+          var check = JSON.parse(localStorage.getItem("contactMessages") || "[]");
+          if (check.some(function(m) { return m.id === messageWithTimestamp.id; })) {
+            success = true;
+          }
+        } catch (err) {}
       }
 
       if (success) {
