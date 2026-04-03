@@ -152,7 +152,7 @@ exports.handler = async function (event) {
   };
 
   try {
-    contactStore.appendMessage(entry);
+    await contactStore.appendMessage(entry);
   } catch (err) {
     console.error("contact message save error", err);
     return {

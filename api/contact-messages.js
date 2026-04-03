@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
   }
 
   const limit = Number.parseInt(req.query?.limit, 10);
-  const messages = contactStore.getMessages(
+  const messages = await contactStore.getMessages(
     Number.isNaN(limit) ? undefined : limit
   );
 

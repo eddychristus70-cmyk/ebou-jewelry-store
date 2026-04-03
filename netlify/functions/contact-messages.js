@@ -39,7 +39,7 @@ exports.handler = async function (event) {
   }
 
   const limit = Number.parseInt((event.queryStringParameters || {}).limit, 10);
-  const messages = contactStore.getMessages(
+  const messages = await contactStore.getMessages(
     Number.isNaN(limit) ? undefined : limit
   );
 

@@ -1593,8 +1593,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const statusEl = document.getElementById("contact-status");
     const submitBtn = contactForm.querySelector("button[type='submit']");
     const endpoints = [
-      "/.netlify/functions/contact-message",
       "/api/contact-message",
+      "/.netlify/functions/contact-message",
     ];
 
     function setStatus(message, type) {

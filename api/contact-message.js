@@ -159,7 +159,7 @@ module.exports = async (req, res) => {
   };
 
   try {
-    contactStore.appendMessage(entry);
+    await contactStore.appendMessage(entry);
   } catch (err) {
     console.error("contact message save error", err);
     res.status(500).json({ error: "Unable to save contact message" });

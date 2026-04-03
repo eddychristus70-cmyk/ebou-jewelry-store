@@ -1007,71 +1007,103 @@
           setStatus("Loading messages…");
           const limitParam = limitSelect.value;
 
-          // Load directly from localStorage (primary storage)
+          // 1. Load from localStorage
+          let localMessages = [];
           try {
-            console.log("Loading messages from localStorage...");
             const localStored = localStorage.getItem("contactMessages");
             if (localStored) {
-              let localMessages = JSON.parse(localStored);
-              console.log(
-                "Found messages in localStorage:",
-                localMessages.length
-              );
-
-              if (Array.isArray(localMessages) && localMessages.length > 0) {
-                // Remove duplicates
-                const uniqueMessagesMap = new Map();
-                localMessages.forEach((msg) => {
-                  const key =
-                    msg.id ||
-                    `${msg.email}-${msg.date || msg.createdAt}-${msg.topic}`;
-                  if (!uniqueMessagesMap.has(key)) {
-                    uniqueMessagesMap.set(key, msg);
-                  } else {
-                    // If duplicate found, merge replies if any
-                    const existing = uniqueMessagesMap.get(key);
-                    if (msg.replies && msg.replies.length > 0) {
-                      existing.replies = existing.replies || [];
-                      msg.replies.forEach((reply) => {
-                        // Only add reply if it doesn't exist
-                        if (
-                          !existing.replies.some(
-                            (r) =>
-                              r.date === reply.date &&
-                              r.message === reply.message
-                          )
-                        ) {
-                          existing.replies.push(reply);
-                        }
-                      });
-                    }
-                  }
-                });
-                allMessages = Array.from(uniqueMessagesMap.values());
-
-                const limit = Number.parseInt(limitParam, 10);
-                if (!Number.isNaN(limit) && limit > 0) {
-                  allMessages = allMessages.slice(0, limit);
-                }
-                populateTopicFilter(allMessages);
-                applyFilters();
-                setStatus(
-                  `Loaded ${allMessages.length} message${
-                    allMessages.length === 1 ? "" : "s"
-                  } from inbox.`
-                );
-                return;
-              }
+              const parsed = JSON.parse(localStored);
+              if (Array.isArray(parsed)) localMessages = parsed;
             }
           } catch (err) {
             console.error("Error loading from localStorage:", err);
           }
 
-          // If localStorage is empty, show empty state
-          allMessages = [];
+          // 2. Fetch from server API (messages from other browsers/devices)
+          let serverMessages = [];
+          const endpoints = [
+            "/api/contact-messages",
+            "/.netlify/functions/contact-messages",
+          ];
+          for (const endpoint of endpoints) {
+            try {
+              const res = await fetch(endpoint);
+              if (res.ok) {
+                const data = await res.json();
+                if (data && Array.isArray(data.messages)) {
+                  serverMessages = data.messages;
+                  console.log("Fetched", serverMessages.length, "messages from", endpoint);
+                  break;
+                }
+              }
+            } catch (err) {
+              console.warn("API fetch failed:", endpoint, err);
+            }
+          }
+
+          // 3. Merge localStorage + server, preferring localStorage entries (they have replies/read state)
+          const uniqueMessagesMap = new Map();
+          // Add localStorage messages first (they have local state like replies, readByAdmin)
+          localMessages.forEach((msg) => {
+            const key =
+              msg.id ||
+              `${msg.email}-${msg.date || msg.createdAt}-${msg.topic}`;
+            if (!uniqueMessagesMap.has(key)) {
+              uniqueMessagesMap.set(key, msg);
+            } else {
+              const existing = uniqueMessagesMap.get(key);
+              if (msg.replies && msg.replies.length > 0) {
+                existing.replies = existing.replies || [];
+                msg.replies.forEach((reply) => {
+                  if (
+                    !existing.replies.some(
+                      (r) =>
+                        r.date === reply.date &&
+                        r.message === reply.message
+                    )
+                  ) {
+                    existing.replies.push(reply);
+                  }
+                });
+              }
+            }
+          });
+          // Add server messages (only new ones not already in localStorage)
+          serverMessages.forEach((msg) => {
+            const key =
+              msg.id ||
+              `${msg.email}-${msg.date || msg.createdAt}-${msg.topic}`;
+            if (!uniqueMessagesMap.has(key)) {
+              uniqueMessagesMap.set(key, msg);
+            }
+          });
+
+          allMessages = Array.from(uniqueMessagesMap.values());
+
+          // Save merged data back to localStorage so badges and other features work
+          if (serverMessages.length > 0 && allMessages.length > localMessages.length) {
+            try {
+              localStorage.setItem("contactMessages", JSON.stringify(allMessages));
+            } catch (err) {
+              console.warn("Failed to save merged messages to localStorage:", err);
+            }
+          }
+
+          const limit = Number.parseInt(limitParam, 10);
+          if (!Number.isNaN(limit) && limit > 0) {
+            allMessages = allMessages.slice(0, limit);
+          }
           populateTopicFilter(allMessages);
           applyFilters();
-          setStatus("No messages found.");
+          if (allMessages.length > 0) {
+            setStatus(
+              `Loaded ${allMessages.length} message${
+                allMessages.length === 1 ? "" : "s"
+              } from inbox.`
+            );
+          } else {
+            setStatus("No messages found.");
+          }
         }
 
         searchInput.addEventListener("input", () => applyFilters());
