@@ -933,58 +933,84 @@
       }
 
       // Sign in with Google (global scope)
-      function signInWithGoogle(userData) {
-        const accounts = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+      async function signInWithGoogle(userData) {
+        let accounts;
+        try {
+          const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+          accounts = Array.isArray(raw) ? raw : Object.values(raw);
+        } catch (e) {
+          accounts = [];
+        }
 
-        // Check if account exists or create new one
-        let userAccount = accounts[userData.email];
+        const email = userData.email.toLowerCase();
+        let idx = accounts.findIndex((a) => a.email === email);
+        let isNewAccount = false;
 
-        if (!userAccount) {
-          // Create new account for Google user
-          userAccount = {
-            email: userData.email,
-            password: null, // Google users don't need passwords
+        if (idx === -1) {
+          accounts.push({
+            email,
+            hash: null,
+            createdAt: new Date().toISOString(),
+            isGoogleUser: true,
+            googleId: userData.googleId,
             profile: {
               name: userData.name,
-              email: userData.email,
+              email,
               phone: "",
               address: "",
               profilePicture: userData.picture || "",
             },
-            googleId: userData.googleId,
-            createdAt: new Date().toISOString(),
-            isGoogleUser: true,
-          };
-
-          // Save new account
-          accounts[userData.email] = userAccount;
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(accounts));
-
+          });
+          isNewAccount = true;
           alert("Account created successfully with Google!");
         } else {
-          // Update existing account with Google info if not already linked
-          if (!userAccount.googleId) {
-            userAccount.googleId = userData.googleId;
-            userAccount.isGoogleUser = true;
-            userAccount.profile.profilePicture =
-              userData.picture || userAccount.profile.profilePicture;
-
-            accounts[userData.email] = userAccount;
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(accounts));
+          if (!accounts[idx].googleId) {
+            accounts[idx].googleId = userData.googleId;
+            accounts[idx].isGoogleUser = true;
+            if (accounts[idx].profile) {
+              accounts[idx].profile.profilePicture =
+                userData.picture || accounts[idx].profile.profilePicture;
+            }
           }
-
           alert("Welcome back!");
         }
 
-        // Create session
-        const sessionData = {
-          email: userData.email,
-          loginTime: new Date().toISOString(),
-          csrfToken: sessionStorage.getItem("customerCSRFToken"),
-          isGoogleUser: true,
-        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(accounts));
 
-        sessionStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
+        // Sync profile to server (Redis)
+        const profile = accounts.find((a) => a.email === email)?.profile || {};
+        const body = JSON.stringify({
+          email,
+          name: profile.name || userData.name || "",
+          phone: profile.phone || "",
+          address: profile.address || "",
+          isGoogleUser: true,
+          cart: getCartSnapshot(),
+        });
+        for (const endpoint of PROFILE_ENDPOINTS) {
+          try {
+            const resp = await fetch(endpoint, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body,
+            });
+            if (resp.ok) break;
+          } catch (err) {
+            console.warn("Google profile sync failed:", endpoint, err);
+          }
+        }
+
+        // Create session
+        sessionStorage.setItem(
+          SESSION_KEY,
+          JSON.stringify({
+            email,
+            lastLogin: new Date().toISOString(),
+            expiry: Date.now() + 4 * 60 * 60 * 1000,
+            lastActivity: Date.now(),
+            isGoogleUser: true,
+          }),
+        );
 
         // Redirect based on cart state
         const postSignupCheckout = localStorage.getItem(
@@ -996,12 +1022,10 @@
             window.location.href = CHECKOUT_PAGE;
           }, 1000);
         } else if (cartHasPendingItems()) {
-          // Cart has items, redirect to checkout
           setTimeout(() => {
             window.location.href = CHECKOUT_PAGE;
           }, 1000);
         } else {
-          // No items in cart, go to home page
           setTimeout(() => {
             window.location.href = "index.html";
           }, 1000);

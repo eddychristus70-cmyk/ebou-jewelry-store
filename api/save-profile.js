@@ -50,6 +50,7 @@ module.exports = async (req, res) => {
     address,
     cartSnapshot: cart,
     loginAt: new Date().toISOString(),
+    isGoogleUser: Boolean(payload.isGoogleUser),
     meta: {
       userAgent: req.headers["user-agent"] || "",
       referer: req.headers.referer || req.headers.referrer || "",
