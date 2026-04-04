@@ -1,4 +1,69 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // --- Hero Slideshow ---
+  (function () {
+    const hero = document.getElementById("hero-slideshow");
+    if (!hero) return;
+
+    const slides = hero.querySelectorAll(".hero-slide");
+    const dots = hero.querySelectorAll(".hero-dot");
+    const prevBtn = hero.querySelector(".hero-prev");
+    const nextBtn = hero.querySelector(".hero-next");
+    if (slides.length < 2) return;
+
+    let current = 0;
+    let interval = null;
+    var DELAY = 5000;
+
+    function goTo(index) {
+      slides[current].classList.remove("active");
+      dots[current].classList.remove("active");
+      current = (index + slides.length) % slides.length;
+      slides[current].classList.add("active");
+      dots[current].classList.add("active");
+    }
+
+    function next() { goTo(current + 1); }
+    function prev() { goTo(current - 1); }
+
+    function startAuto() {
+      stopAuto();
+      interval = setInterval(next, DELAY);
+    }
+
+    function stopAuto() {
+      if (interval) { clearInterval(interval); interval = null; }
+    }
+
+    if (nextBtn) nextBtn.addEventListener("click", function () { stopAuto(); next(); startAuto(); });
+    if (prevBtn) prevBtn.addEventListener("click", function () { stopAuto(); prev(); startAuto(); });
+
+    dots.forEach(function (dot) {
+      dot.addEventListener("click", function () {
+        stopAuto();
+        goTo(parseInt(dot.dataset.slide, 10));
+        startAuto();
+      });
+    });
+
+    // Pause on hover
+    hero.addEventListener("mouseenter", stopAuto);
+    hero.addEventListener("mouseleave", startAuto);
+
+    // Touch swipe support
+    var touchStartX = 0;
+    hero.addEventListener("touchstart", function (e) { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+    hero.addEventListener("touchend", function (e) {
+      var diff = e.changedTouches[0].screenX - touchStartX;
+      if (Math.abs(diff) > 50) {
+        stopAuto();
+        if (diff > 0) prev(); else next();
+        startAuto();
+      }
+    }, { passive: true });
+
+    startAuto();
+  })();
+
   // Update user icon link based on login state
   (function () {
     try {

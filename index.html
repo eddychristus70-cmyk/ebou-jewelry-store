@@ -225,17 +225,43 @@
 
     <!--hero section-->
 
-    <section class="hero">
-      <div class="hero-content">
-        <h1 id="main-content">Premium products for your lifestyle</h1>
-        <p>
-          Discover our curated collection of high quality product that elevate
-          your everyday life
-        </p>
-        <div class="hero-btns">
-          <a href="shop.html" class="btn btn-primary"> Shop Now </a>
+    <section class="hero" id="hero-slideshow">
+      <div class="hero-slides">
+        <div class="hero-slide active" style="background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('./images/back2.jpg')">
+          <div class="hero-content">
+            <h1 id="main-content">Premium Products for Your Lifestyle</h1>
+            <p>Discover our curated collection of high-quality jewelry that elevates your everyday life</p>
+            <div class="hero-btns">
+              <a href="shop.html" class="btn btn-primary">Shop Now</a>
+            </div>
+          </div>
+        </div>
+        <div class="hero-slide" style="background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('./images/back1.jpg')">
+          <div class="hero-content">
+            <h1>Handcrafted With Love</h1>
+            <p>Each piece is carefully designed and handmade to bring out your unique beauty</p>
+            <div class="hero-btns">
+              <a href="categories.html" class="btn btn-primary">Explore Collections</a>
+            </div>
+          </div>
+        </div>
+        <div class="hero-slide" style="background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('./images/background 6.webp')">
+          <div class="hero-content">
+            <h1>New Arrivals Are Here</h1>
+            <p>Be the first to discover the latest trends in earrings, bangles, necklaces and more</p>
+            <div class="hero-btns">
+              <a href="shop.html" class="btn btn-primary">Shop New In</a>
+            </div>
+          </div>
         </div>
       </div>
+      <div class="hero-dots">
+        <button class="hero-dot active" data-slide="0" aria-label="Slide 1"></button>
+        <button class="hero-dot" data-slide="1" aria-label="Slide 2"></button>
+        <button class="hero-dot" data-slide="2" aria-label="Slide 3"></button>
+      </div>
+      <button class="hero-arrow hero-prev" aria-label="Previous slide"><i class="fas fa-chevron-left"></i></button>
+      <button class="hero-arrow hero-next" aria-label="Next slide"><i class="fas fa-chevron-right"></i></button>
     </section>
 
     <!--featured category-->
