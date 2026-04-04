@@ -1351,6 +1351,7 @@
 
         async function fetchMessages() {
           const limitParam = limitSelect.value;
+          setStatus("Loading messages...");
 
           // 1. Load from localStorage
           let localMessages = [];
@@ -1363,34 +1364,36 @@
           } catch (err) {
             console.error("Error loading from localStorage:", err);
           }
+          console.log("Local messages:", localMessages.length);
 
           // 2. Fetch from server API
           let serverMessages = [];
-          const endpoints = [
-            "/api/contact-messages",
-            "/.netlify/functions/contact-messages",
-          ];
-          for (const endpoint of endpoints) {
-            try {
-              const res = await fetch(endpoint);
-              if (res.ok) {
-                const data = await res.json();
-                if (data && Array.isArray(data.messages)) {
-                  serverMessages = data.messages;
-                  break;
-                }
+          try {
+            const res = await fetch("/api/contact-messages");
+            if (res.ok) {
+              const data = await res.json();
+              if (data && Array.isArray(data.messages)) {
+                serverMessages = data.messages;
+                console.log("Server messages:", serverMessages.length);
               }
-            } catch (err) {
-              console.warn("API fetch failed:", endpoint, err);
+            } else {
+              console.warn("API returned status:", res.status);
+              setStatus("API error: " + res.status, "error");
             }
+          } catch (err) {
+            console.warn("API fetch failed:", err);
+            setStatus("API fetch failed", "error");
           }
 
-          // 3. Merge
+          // 3. Merge — use email+createdAt as dedup key for both sources
           const uniqueMessagesMap = new Map();
+          function getKey(msg) {
+            return `${(msg.email || "").toLowerCase()}-${msg.createdAt || msg.date || ""}-${(msg.topic || "").toLowerCase()}`;
+          }
+
+          // Add local messages first (they have reply/read state)
           localMessages.forEach((msg) => {
-            const key =
-              msg.id ||
-              `${msg.email}-${msg.date || msg.createdAt}-${msg.topic}`;
+            const key = getKey(msg);
             if (!uniqueMessagesMap.has(key)) {
               uniqueMessagesMap.set(key, msg);
             } else {
@@ -1410,14 +1413,14 @@
               }
             }
           });
+          // Add server messages (skip duplicates)
           serverMessages.forEach((msg) => {
-            const key =
-              msg.id ||
-              `${msg.email}-${msg.date || msg.createdAt}-${msg.topic}`;
+            const key = getKey(msg);
             if (!uniqueMessagesMap.has(key)) uniqueMessagesMap.set(key, msg);
           });
 
           allMessages = Array.from(uniqueMessagesMap.values());
+          console.log("Total merged messages:", allMessages.length);
 
           // Sort newest first
           allMessages.sort(
@@ -1425,10 +1428,7 @@
           );
 
           // Save merged data back to localStorage
-          if (
-            serverMessages.length > 0 &&
-            allMessages.length > localMessages.length
-          ) {
+          if (serverMessages.length > 0) {
             try {
               localStorage.setItem(
                 "contactMessages",
