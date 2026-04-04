@@ -57,7 +57,7 @@ module.exports = async (req, res) => {
   };
 
   try {
-    profileStore.appendProfile(entry);
+    await profileStore.appendProfile(entry);
     res.status(200).json({ success: true });
   } catch (err) {
     console.error("save-profile error", err);

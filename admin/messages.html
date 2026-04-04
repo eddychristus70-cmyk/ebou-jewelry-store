@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -28,19 +28,31 @@
         --gray-100: #f3f4f6;
         --gray-50: #f9fafb;
         --white: #ffffff;
-        --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-        --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
-        --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-        --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+        --shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+        --shadow-md:
+          0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-lg:
+          0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
         --radius: 12px;
         --radius-sm: 8px;
         --radius-xs: 6px;
       }
 
-      * { box-sizing: border-box; margin: 0; padding: 0; }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
       body {
-        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        font-family:
+          "Inter",
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          sans-serif;
         background: var(--gray-50);
         min-height: 100vh;
         color: var(--dark);
@@ -90,7 +102,8 @@
         gap: 6px;
       }
 
-      .topbar-nav a, .topbar-nav button {
+      .topbar-nav a,
+      .topbar-nav button {
         font-size: 0.85rem;
         font-weight: 600;
         padding: 8px 14px;
@@ -104,15 +117,23 @@
         position: relative;
       }
 
-      .topbar-nav a:hover { background: var(--gray-100); color: var(--dark); }
-      .topbar-nav a.active { background: var(--primary-light); color: var(--primary); }
+      .topbar-nav a:hover {
+        background: var(--gray-100);
+        color: var(--dark);
+      }
+      .topbar-nav a.active {
+        background: var(--primary-light);
+        color: var(--primary);
+      }
 
       .topbar-nav .logout-btn {
         background: var(--gray-100);
         color: var(--danger);
       }
 
-      .topbar-nav .logout-btn:hover { background: #fef2f2; }
+      .topbar-nav .logout-btn:hover {
+        background: #fef2f2;
+      }
 
       .admin-messages-badge {
         position: absolute;
@@ -171,7 +192,7 @@
         outline: none;
         border-color: var(--primary);
         background: var(--white);
-        box-shadow: 0 0 0 3px rgba(229,15,101,0.08);
+        box-shadow: 0 0 0 3px rgba(229, 15, 101, 0.08);
       }
 
       .ctrl-select {
@@ -204,13 +225,32 @@
         transition: all 0.15s;
       }
 
-      .ctrl-btn:hover { border-color: var(--gray-300); background: var(--gray-50); }
-      .ctrl-btn.primary { background: var(--primary); color: white; border-color: var(--primary); }
-      .ctrl-btn.primary:hover { background: var(--primary-hover); }
-      .ctrl-btn.danger { color: var(--danger); }
-      .ctrl-btn.danger:hover { background: #fef2f2; border-color: var(--danger); }
-      .ctrl-btn.warning { color: var(--warning); }
-      .ctrl-btn.warning:hover { background: #fffbeb; border-color: var(--warning); }
+      .ctrl-btn:hover {
+        border-color: var(--gray-300);
+        background: var(--gray-50);
+      }
+      .ctrl-btn.primary {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+      .ctrl-btn.primary:hover {
+        background: var(--primary-hover);
+      }
+      .ctrl-btn.danger {
+        color: var(--danger);
+      }
+      .ctrl-btn.danger:hover {
+        background: #fef2f2;
+        border-color: var(--danger);
+      }
+      .ctrl-btn.warning {
+        color: var(--warning);
+      }
+      .ctrl-btn.warning:hover {
+        background: #fffbeb;
+        border-color: var(--warning);
+      }
 
       .controls-right {
         display: flex;
@@ -224,7 +264,9 @@
         color: var(--gray-500);
       }
 
-      .status-text.error { color: var(--danger); }
+      .status-text.error {
+        color: var(--danger);
+      }
 
       /* ── Inbox Layout ── */
       .inbox {
@@ -234,10 +276,18 @@
       }
 
       @media (max-width: 1024px) {
-        .inbox { grid-template-columns: 1fr; }
-        .detail-panel { display: none; }
-        .detail-panel.active { display: flex; }
-        .message-list.hidden { display: none; }
+        .inbox {
+          grid-template-columns: 1fr;
+        }
+        .detail-panel {
+          display: none;
+        }
+        .detail-panel.active {
+          display: flex;
+        }
+        .message-list.hidden {
+          display: none;
+        }
       }
 
       /* ── Message List ── */
@@ -257,11 +307,19 @@
         position: relative;
       }
 
-      .msg-card:hover { background: var(--gray-50); }
-      .msg-card.selected { background: var(--primary-light); }
+      .msg-card:hover {
+        background: var(--gray-50);
+      }
+      .msg-card.selected {
+        background: var(--primary-light);
+      }
 
-      .msg-card.unread { background: #fefce8; }
-      .msg-card.unread.selected { background: var(--primary-light); }
+      .msg-card.unread {
+        background: #fefce8;
+      }
+      .msg-card.unread.selected {
+        background: var(--primary-light);
+      }
 
       .msg-avatar {
         width: 40px;
@@ -301,7 +359,9 @@
         color: var(--dark);
       }
 
-      .msg-card.unread .msg-name { font-weight: 700; }
+      .msg-card.unread .msg-name {
+        font-weight: 700;
+      }
 
       .msg-time {
         font-size: 0.75rem;
@@ -330,7 +390,9 @@
         text-overflow: ellipsis;
       }
 
-      .msg-card.unread .msg-preview { color: var(--gray-700); }
+      .msg-card.unread .msg-preview {
+        color: var(--gray-700);
+      }
 
       .unread-dot {
         width: 8px;
@@ -359,8 +421,12 @@
         gap: 12px;
       }
 
-      .empty-state i { font-size: 2.5rem; }
-      .empty-state p { font-size: 0.95rem; }
+      .empty-state i {
+        font-size: 2.5rem;
+      }
+      .empty-state p {
+        font-size: 0.95rem;
+      }
 
       /* ── Detail Panel ── */
       .detail-panel {
@@ -380,7 +446,9 @@
         gap: 12px;
       }
 
-      .detail-empty i { font-size: 2.5rem; }
+      .detail-empty i {
+        font-size: 2.5rem;
+      }
 
       .detail-top {
         background: var(--white);
@@ -446,7 +514,9 @@
         text-decoration: none;
       }
 
-      .detail-contact-item a:hover { text-decoration: underline; }
+      .detail-contact-item a:hover {
+        text-decoration: underline;
+      }
 
       .detail-message-body {
         padding: 24px;
@@ -488,7 +558,7 @@
 
       .thread-bubble.admin {
         background: var(--primary-light);
-        border: 1px solid rgba(229,15,101,0.15);
+        border: 1px solid rgba(229, 15, 101, 0.15);
         margin-left: auto;
       }
 
@@ -503,8 +573,12 @@
         margin-bottom: 4px;
       }
 
-      .thread-bubble.admin .thread-sender { color: var(--primary); }
-      .thread-bubble.customer .thread-sender { color: var(--success); }
+      .thread-bubble.admin .thread-sender {
+        color: var(--primary);
+      }
+      .thread-bubble.customer .thread-sender {
+        color: var(--success);
+      }
 
       .thread-date {
         font-size: 0.72rem;
@@ -530,7 +604,10 @@
         gap: 6px;
       }
 
-      .reply-section h3 i { color: var(--gray-400); font-size: 0.8rem; }
+      .reply-section h3 i {
+        color: var(--gray-400);
+        font-size: 0.8rem;
+      }
 
       .quick-replies {
         display: flex;
@@ -573,7 +650,7 @@
       .reply-textarea:focus {
         outline: none;
         border-color: var(--primary);
-        box-shadow: 0 0 0 3px rgba(229,15,101,0.08);
+        box-shadow: 0 0 0 3px rgba(229, 15, 101, 0.08);
       }
 
       .reply-actions {
@@ -601,7 +678,9 @@
         color: white;
       }
 
-      .reply-btn.send:hover { background: var(--primary-hover); }
+      .reply-btn.send:hover {
+        background: var(--primary-hover);
+      }
 
       .reply-btn.outline {
         background: var(--white);
@@ -609,9 +688,15 @@
         border-color: var(--gray-200);
       }
 
-      .reply-btn.outline:hover { border-color: var(--gray-300); background: var(--gray-50); }
+      .reply-btn.outline:hover {
+        border-color: var(--gray-300);
+        background: var(--gray-50);
+      }
 
-      .reply-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+      .reply-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
 
       .reply-status {
         font-size: 0.82rem;
@@ -635,7 +720,9 @@
       }
 
       @media (max-width: 1024px) {
-        .back-btn { display: inline-flex; }
+        .back-btn {
+          display: inline-flex;
+        }
       }
 
       /* ── Scrollbar ── */
@@ -669,8 +756,14 @@
         <a href="orders.html"><i class="fas fa-box"></i> Orders</a>
         <a href="messages.html" class="active">
           <i class="fas fa-envelope"></i> Messages
-          <span class="admin-messages-badge" id="admin-messages-badge" style="display:none;">0</span>
+          <span
+            class="admin-messages-badge"
+            id="admin-messages-badge"
+            style="display: none"
+            >0</span
+          >
         </a>
+        <a href="customers.html"><i class="fas fa-users"></i> Customers</a>
         <button class="logout-btn" onclick="logout()">
           <i class="fas fa-arrow-right-from-bracket"></i> Logout
         </button>
@@ -681,7 +774,12 @@
     <div class="controls">
       <div class="search-wrap">
         <i class="fas fa-search"></i>
-        <input type="search" id="message-search" class="search-input" placeholder="Search messages..." />
+        <input
+          type="search"
+          id="message-search"
+          class="search-input"
+          placeholder="Search messages..."
+        />
       </div>
       <select id="topic-filter" class="ctrl-select">
         <option value="all">All topics</option>
@@ -694,10 +792,18 @@
       </select>
       <div class="controls-right">
         <span id="messages-status" class="status-text">Ready.</span>
-        <button class="ctrl-btn" id="refresh-messages"><i class="fas fa-arrows-rotate"></i> Refresh</button>
-        <button class="ctrl-btn primary" id="export-messages"><i class="fas fa-download"></i> Export</button>
-        <button class="ctrl-btn warning" onclick="archiveMessages()"><i class="fas fa-box-archive"></i></button>
-        <button class="ctrl-btn danger" onclick="clearAllMessages()"><i class="fas fa-trash"></i></button>
+        <button class="ctrl-btn" id="refresh-messages">
+          <i class="fas fa-arrows-rotate"></i> Refresh
+        </button>
+        <button class="ctrl-btn primary" id="export-messages">
+          <i class="fas fa-download"></i> Export
+        </button>
+        <button class="ctrl-btn warning" onclick="archiveMessages()">
+          <i class="fas fa-box-archive"></i>
+        </button>
+        <button class="ctrl-btn danger" onclick="clearAllMessages()">
+          <i class="fas fa-trash"></i>
+        </button>
       </div>
     </div>
 
@@ -720,34 +826,43 @@
     <script>
       // Avatar color palette
       const avatarColors = [
-        '#e50f65', '#7c3aed', '#2563eb', '#0891b2', '#059669',
-        '#d97706', '#dc2626', '#7c2d12', '#4338ca', '#0d9488'
+        "#e50f65",
+        "#7c3aed",
+        "#2563eb",
+        "#0891b2",
+        "#059669",
+        "#d97706",
+        "#dc2626",
+        "#7c2d12",
+        "#4338ca",
+        "#0d9488",
       ];
 
       function getAvatarColor(name) {
         let hash = 0;
-        for (let i = 0; i < (name || '').length; i++) {
+        for (let i = 0; i < (name || "").length; i++) {
           hash = name.charCodeAt(i) + ((hash << 5) - hash);
         }
         return avatarColors[Math.abs(hash) % avatarColors.length];
       }
 
       function getInitials(name) {
-        if (!name) return '?';
+        if (!name) return "?";
         const parts = name.trim().split(/\s+/);
-        if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+        if (parts.length >= 2)
+          return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
         return parts[0][0].toUpperCase();
       }
 
       function timeAgo(dateStr) {
-        if (!dateStr) return '';
+        if (!dateStr) return "";
         const d = new Date(dateStr);
         const now = new Date();
         const diff = (now - d) / 1000;
-        if (diff < 60) return 'just now';
-        if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
-        if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
-        if (diff < 604800) return Math.floor(diff / 86400) + 'd ago';
+        if (diff < 60) return "just now";
+        if (diff < 3600) return Math.floor(diff / 60) + "m ago";
+        if (diff < 86400) return Math.floor(diff / 3600) + "h ago";
+        if (diff < 604800) return Math.floor(diff / 86400) + "d ago";
         return d.toLocaleDateString();
       }
 
@@ -790,20 +905,30 @@
 
         function normalizeDate(value) {
           if (!value) return "—";
-          try { return new Date(value).toLocaleString(); } catch (e) { return value; }
+          try {
+            return new Date(value).toLocaleString();
+          } catch (e) {
+            return value;
+          }
         }
 
         function populateTopicFilter(messages) {
-          const topics = new Set(messages.map((msg) => msg.topic || "General inquiries"));
+          const topics = new Set(
+            messages.map((msg) => msg.topic || "General inquiries"),
+          );
           const current = topicFilter.value || "all";
           topicFilter.innerHTML = '<option value="all">All topics</option>';
-          Array.from(topics).sort().forEach((topic) => {
-            const count = messages.filter((m) => (m.topic || "General inquiries") === topic).length;
-            const option = document.createElement("option");
-            option.value = topic;
-            option.textContent = `${topic} (${count})`;
-            topicFilter.appendChild(option);
-          });
+          Array.from(topics)
+            .sort()
+            .forEach((topic) => {
+              const count = messages.filter(
+                (m) => (m.topic || "General inquiries") === topic,
+              ).length;
+              const option = document.createElement("option");
+              option.value = topic;
+              option.textContent = `${topic} (${count})`;
+              topicFilter.appendChild(option);
+            });
           if ([...topicFilter.options].some((o) => o.value === current)) {
             topicFilter.value = current;
           }
@@ -813,7 +938,9 @@
           if (!msg.readByAdmin) return true;
           if (msg.replies && msg.replies.length > 0) {
             return msg.replies.some(
-              (r) => r.sender === "customer" && new Date(r.date) > new Date(msg.adminLastRead || 0)
+              (r) =>
+                r.sender === "customer" &&
+                new Date(r.date) > new Date(msg.adminLastRead || 0),
             );
           }
           return false;
@@ -849,21 +976,23 @@
             const replyCount = (msg.replies || []).length;
 
             card.innerHTML = `
-              ${isUnread(msg) ? '<div class="unread-dot"></div>' : ''}
+              ${isUnread(msg) ? '<div class="unread-dot"></div>' : ""}
               <div class="msg-avatar" style="background:${color}">${initials}</div>
               <div class="msg-body">
                 <div class="msg-header">
-                  <span class="msg-name">${sanitizeInput(msg.name) || 'Unknown'}</span>
+                  <span class="msg-name">${sanitizeInput(msg.name) || "Unknown"}</span>
                   <span class="msg-time">${timeAgo(msg.createdAt)}</span>
                 </div>
-                <span class="msg-topic">${sanitizeInput(msg.topic) || 'General'}</span>
-                <div class="msg-preview">${sanitizeInput((msg.message || '').slice(0, 90))}${(msg.message || '').length > 90 ? '...' : ''}</div>
-                ${replyCount > 0 ? `<span class="msg-reply-count"><i class="fas fa-reply"></i> ${replyCount} repl${replyCount === 1 ? 'y' : 'ies'}</span>` : ''}
+                <span class="msg-topic">${sanitizeInput(msg.topic) || "General"}</span>
+                <div class="msg-preview">${sanitizeInput((msg.message || "").slice(0, 90))}${(msg.message || "").length > 90 ? "..." : ""}</div>
+                ${replyCount > 0 ? `<span class="msg-reply-count"><i class="fas fa-reply"></i> ${replyCount} repl${replyCount === 1 ? "y" : "ies"}</span>` : ""}
               </div>`;
 
             card.addEventListener("click", () => {
               selectedId = msgId;
-              messageList.querySelectorAll(".msg-card").forEach((c) => c.classList.remove("selected"));
+              messageList
+                .querySelectorAll(".msg-card")
+                .forEach((c) => c.classList.remove("selected"));
               card.classList.add("selected");
               card.classList.remove("unread");
               const dot = card.querySelector(".unread-dot");
@@ -884,16 +1013,21 @@
               if (dot) dot.remove();
             }
             showDetail(messages[0]);
-            selectedId = messages[0].id || messages[0].createdAt + (messages[0].email || "");
+            selectedId =
+              messages[0].id ||
+              messages[0].createdAt + (messages[0].email || "");
           }
         }
 
         function showDetail(message) {
           // Mark message as read
-          const messages = JSON.parse(localStorage.getItem("contactMessages") || "[]");
+          const messages = JSON.parse(
+            localStorage.getItem("contactMessages") || "[]",
+          );
           const msgIndex = messages.findIndex(
-            (m) => (m.id && m.id === message.id) ||
-              (m.email === message.email && m.createdAt === message.createdAt)
+            (m) =>
+              (m.id && m.id === message.id) ||
+              (m.email === message.email && m.createdAt === message.createdAt),
           );
           if (msgIndex !== -1) {
             messages[msgIndex].readByAdmin = true;
@@ -905,18 +1039,22 @@
           const color = getAvatarColor(message.name);
           const initials = getInitials(message.name);
 
-          let threadHTML = '';
+          let threadHTML = "";
           if (message.replies && message.replies.length > 0) {
             threadHTML = `
               <div class="thread-section">
                 <div class="thread-title">Conversation (${message.replies.length})</div>
-                ${message.replies.map((reply) => `
-                  <div class="thread-bubble ${reply.sender === 'admin' ? 'admin' : 'customer'}">
-                    <div class="thread-sender">${reply.sender === 'admin' ? 'You' : sanitizeInput(message.name || 'Customer')}</div>
-                    <div>${sanitizeInput(reply.message || '').replace(/\n/g, '<br>')}</div>
+                ${message.replies
+                  .map(
+                    (reply) => `
+                  <div class="thread-bubble ${reply.sender === "admin" ? "admin" : "customer"}">
+                    <div class="thread-sender">${reply.sender === "admin" ? "You" : sanitizeInput(message.name || "Customer")}</div>
+                    <div>${sanitizeInput(reply.message || "").replace(/\n/g, "<br>")}</div>
                     <div class="thread-date">${normalizeDate(reply.date)}</div>
                   </div>
-                `).join('')}
+                `,
+                  )
+                  .join("")}
               </div>`;
           }
 
@@ -928,29 +1066,33 @@
               <div class="detail-sender">
                 <div class="detail-avatar" style="background:${color}">${initials}</div>
                 <div class="detail-sender-info">
-                  <h2>${sanitizeInput(message.name) || 'Unknown contact'}</h2>
+                  <h2>${sanitizeInput(message.name) || "Unknown contact"}</h2>
                   <p>${timeAgo(message.createdAt)} &middot; ${normalizeDate(message.createdAt)}</p>
                 </div>
               </div>
               <div class="detail-contacts">
                 <div class="detail-contact-item">
                   <i class="fas fa-envelope"></i>
-                  <a href="mailto:${sanitizeInput(message.email)}">${sanitizeInput(message.email) || '—'}</a>
+                  <a href="mailto:${sanitizeInput(message.email)}">${sanitizeInput(message.email) || "—"}</a>
                 </div>
-                ${message.phone ? `
+                ${
+                  message.phone
+                    ? `
                   <div class="detail-contact-item">
                     <i class="fas fa-phone"></i>
                     <span>${sanitizeInput(message.phone)}</span>
-                  </div>` : ''}
+                  </div>`
+                    : ""
+                }
                 <div class="detail-contact-item">
                   <i class="fas fa-tag"></i>
-                  <span>${sanitizeInput(message.topic) || 'General'}</span>
+                  <span>${sanitizeInput(message.topic) || "General"}</span>
                 </div>
               </div>
             </div>
 
             <div class="detail-message-body">
-              <div class="message-bubble">${sanitizeInput((message.message || '').trim()) || 'No message provided.'}</div>
+              <div class="message-bubble">${sanitizeInput((message.message || "").trim()) || "No message provided."}</div>
             </div>
 
             ${threadHTML}
@@ -976,7 +1118,7 @@
                   <button type="button" class="reply-btn outline" id="copy-email-btn">
                     <i class="fas fa-copy"></i> Copy
                   </button>
-                  <button type="button" class="reply-btn outline" id="whatsapp-btn" ${!message.phone ? 'disabled' : ''}>
+                  <button type="button" class="reply-btn outline" id="whatsapp-btn" ${!message.phone ? "disabled" : ""}>
                     <i class="fab fa-whatsapp"></i> WhatsApp
                   </button>
                 </div>
@@ -985,7 +1127,8 @@
             </div>`;
 
           // Quick reply templates
-          const quickReplyBtns = detailPanel.querySelectorAll(".quick-reply-btn");
+          const quickReplyBtns =
+            detailPanel.querySelectorAll(".quick-reply-btn");
           const replyTextarea = detailPanel.querySelector("#reply-message");
 
           const templates = {
@@ -997,84 +1140,155 @@
 
           quickReplyBtns.forEach((btn) => {
             btn.addEventListener("click", () => {
-              if (templates[btn.dataset.template]) replyTextarea.value = templates[btn.dataset.template];
+              if (templates[btn.dataset.template])
+                replyTextarea.value = templates[btn.dataset.template];
             });
           });
 
           // Send to Inbox
-          detailPanel.querySelector("#send-to-inbox-btn")?.addEventListener("click", () => {
-            const submittedToken = detailPanel.querySelector("#admin-reply-csrf")?.value;
-            const storedToken = sessionStorage.getItem("adminReplyCSRFToken");
-            if (submittedToken && storedToken && submittedToken !== storedToken) {
-              alert("Invalid security token. Please refresh the page.");
-              return;
-            }
-            const replyText = sanitizeInput(replyTextarea.value.trim());
-            if (!replyText) { alert("Please type a reply first"); return; }
+          detailPanel
+            .querySelector("#send-to-inbox-btn")
+            ?.addEventListener("click", () => {
+              const submittedToken =
+                detailPanel.querySelector("#admin-reply-csrf")?.value;
+              const storedToken = sessionStorage.getItem("adminReplyCSRFToken");
+              if (
+                submittedToken &&
+                storedToken &&
+                submittedToken !== storedToken
+              ) {
+                alert("Invalid security token. Please refresh the page.");
+                return;
+              }
+              const replyText = sanitizeInput(replyTextarea.value.trim());
+              if (!replyText) {
+                alert("Please type a reply first");
+                return;
+              }
 
-            saveReplyToMessage(message, replyText);
-            if (!message.replies) message.replies = [];
-            message.replies.push({ sender: "admin", message: replyText, date: new Date().toISOString() });
+              saveReplyToMessage(message, replyText);
+              if (!message.replies) message.replies = [];
+              message.replies.push({
+                sender: "admin",
+                message: replyText,
+                date: new Date().toISOString(),
+              });
 
-            const s = detailPanel.querySelector("#reply-status");
-            if (s) { s.textContent = "Sent to customer inbox"; s.style.color = "var(--success)"; setTimeout(() => { s.textContent = ""; }, 3000); }
-            replyTextarea.value = "";
-            showDetail(message);
-          });
+              const s = detailPanel.querySelector("#reply-status");
+              if (s) {
+                s.textContent = "Sent to customer inbox";
+                s.style.color = "var(--success)";
+                setTimeout(() => {
+                  s.textContent = "";
+                }, 3000);
+              }
+              replyTextarea.value = "";
+              showDetail(message);
+            });
 
           // Send Email
-          detailPanel.querySelector("#send-email-btn")?.addEventListener("click", () => {
-            const submittedToken = detailPanel.querySelector("#admin-reply-csrf")?.value;
-            const storedToken = sessionStorage.getItem("adminReplyCSRFToken");
-            if (submittedToken && storedToken && submittedToken !== storedToken) {
-              alert("Invalid security token. Please refresh the page.");
-              return;
-            }
-            const replyText = sanitizeInput(replyTextarea.value.trim());
-            if (!replyText) { alert("Please type a reply first"); return; }
-            saveReplyToMessage(message, replyText);
-            const subject = `Re: ${message.topic || "Your inquiry"} - Ebou Jewelry`;
-            window.location.href = `mailto:${message.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(replyText)}`;
-            const s = detailPanel.querySelector("#reply-status");
-            if (s) { s.textContent = "Reply saved & email opened"; s.style.color = "var(--success)"; }
-            replyTextarea.value = "";
-            setTimeout(() => fetchMessages(), 100);
-          });
+          detailPanel
+            .querySelector("#send-email-btn")
+            ?.addEventListener("click", () => {
+              const submittedToken =
+                detailPanel.querySelector("#admin-reply-csrf")?.value;
+              const storedToken = sessionStorage.getItem("adminReplyCSRFToken");
+              if (
+                submittedToken &&
+                storedToken &&
+                submittedToken !== storedToken
+              ) {
+                alert("Invalid security token. Please refresh the page.");
+                return;
+              }
+              const replyText = sanitizeInput(replyTextarea.value.trim());
+              if (!replyText) {
+                alert("Please type a reply first");
+                return;
+              }
+              saveReplyToMessage(message, replyText);
+              const subject = `Re: ${message.topic || "Your inquiry"} - Ebou Jewelry`;
+              window.location.href = `mailto:${message.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(replyText)}`;
+              const s = detailPanel.querySelector("#reply-status");
+              if (s) {
+                s.textContent = "Reply saved & email opened";
+                s.style.color = "var(--success)";
+              }
+              replyTextarea.value = "";
+              setTimeout(() => fetchMessages(), 100);
+            });
 
           // Copy to Email
-          detailPanel.querySelector("#copy-email-btn")?.addEventListener("click", async () => {
-            const submittedToken = detailPanel.querySelector("#admin-reply-csrf")?.value;
-            const storedToken = sessionStorage.getItem("adminReplyCSRFToken");
-            if (submittedToken && storedToken && submittedToken !== storedToken) {
-              alert("Invalid security token. Please refresh the page.");
-              return;
-            }
-            const replyText = sanitizeInput(replyTextarea.value.trim());
-            if (!replyText) { alert("Please type a reply first"); return; }
-            const emailContent = `To: ${message.email}\nSubject: Re: ${message.topic || "Your inquiry"} - Ebou Jewelry\n\n${replyText}`;
-            try {
-              await navigator.clipboard.writeText(emailContent);
-              const s = detailPanel.querySelector("#reply-status");
-              if (s) { s.textContent = "Copied to clipboard"; s.style.color = "var(--success)"; setTimeout(() => { s.textContent = ""; }, 3000); }
-            } catch (err) { alert("Could not copy to clipboard"); }
-          });
+          detailPanel
+            .querySelector("#copy-email-btn")
+            ?.addEventListener("click", async () => {
+              const submittedToken =
+                detailPanel.querySelector("#admin-reply-csrf")?.value;
+              const storedToken = sessionStorage.getItem("adminReplyCSRFToken");
+              if (
+                submittedToken &&
+                storedToken &&
+                submittedToken !== storedToken
+              ) {
+                alert("Invalid security token. Please refresh the page.");
+                return;
+              }
+              const replyText = sanitizeInput(replyTextarea.value.trim());
+              if (!replyText) {
+                alert("Please type a reply first");
+                return;
+              }
+              const emailContent = `To: ${message.email}\nSubject: Re: ${message.topic || "Your inquiry"} - Ebou Jewelry\n\n${replyText}`;
+              try {
+                await navigator.clipboard.writeText(emailContent);
+                const s = detailPanel.querySelector("#reply-status");
+                if (s) {
+                  s.textContent = "Copied to clipboard";
+                  s.style.color = "var(--success)";
+                  setTimeout(() => {
+                    s.textContent = "";
+                  }, 3000);
+                }
+              } catch (err) {
+                alert("Could not copy to clipboard");
+              }
+            });
 
           // WhatsApp
-          detailPanel.querySelector("#whatsapp-btn")?.addEventListener("click", () => {
-            const submittedToken = detailPanel.querySelector("#admin-reply-csrf")?.value;
-            const storedToken = sessionStorage.getItem("adminReplyCSRFToken");
-            if (submittedToken && storedToken && submittedToken !== storedToken) {
-              alert("Invalid security token. Please refresh the page.");
-              return;
-            }
-            const replyText = sanitizeInput(replyTextarea.value.trim());
-            if (!replyText) { alert("Please type a reply first"); return; }
-            const phone = message.phone?.replace(/[^0-9+]/g, "");
-            if (!phone) { alert("No phone number available"); return; }
-            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(replyText)}`, "_blank");
-            const s = detailPanel.querySelector("#reply-status");
-            if (s) { s.textContent = "WhatsApp opened"; s.style.color = "var(--success)"; }
-          });
+          detailPanel
+            .querySelector("#whatsapp-btn")
+            ?.addEventListener("click", () => {
+              const submittedToken =
+                detailPanel.querySelector("#admin-reply-csrf")?.value;
+              const storedToken = sessionStorage.getItem("adminReplyCSRFToken");
+              if (
+                submittedToken &&
+                storedToken &&
+                submittedToken !== storedToken
+              ) {
+                alert("Invalid security token. Please refresh the page.");
+                return;
+              }
+              const replyText = sanitizeInput(replyTextarea.value.trim());
+              if (!replyText) {
+                alert("Please type a reply first");
+                return;
+              }
+              const phone = message.phone?.replace(/[^0-9+]/g, "");
+              if (!phone) {
+                alert("No phone number available");
+                return;
+              }
+              window.open(
+                `https://wa.me/${phone}?text=${encodeURIComponent(replyText)}`,
+                "_blank",
+              );
+              const s = detailPanel.querySelector("#reply-status");
+              if (s) {
+                s.textContent = "WhatsApp opened";
+                s.style.color = "var(--success)";
+              }
+            });
         }
 
         // Save reply to localStorage
@@ -1090,23 +1304,27 @@
                     (msg.date === message.date ||
                       msg.createdAt === message.createdAt ||
                       msg.date === message.createdAt ||
-                      msg.createdAt === message.date))
+                      msg.createdAt === message.date)),
               );
               if (messageIndex !== -1) {
-                if (!allStoredMessages[messageIndex].replies) allStoredMessages[messageIndex].replies = [];
+                if (!allStoredMessages[messageIndex].replies)
+                  allStoredMessages[messageIndex].replies = [];
                 allStoredMessages[messageIndex].replies.push({
                   sender: "admin",
                   message: replyText,
                   date: new Date().toISOString(),
                 });
-                localStorage.setItem("contactMessages", JSON.stringify(allStoredMessages));
+                localStorage.setItem(
+                  "contactMessages",
+                  JSON.stringify(allStoredMessages),
+                );
                 window.dispatchEvent(
                   new StorageEvent("storage", {
                     key: "contactMessages",
                     oldValue: localStored,
                     newValue: localStorage.getItem("contactMessages"),
                     storageArea: localStorage,
-                  })
+                  }),
                 );
               }
             }
@@ -1119,12 +1337,16 @@
           const query = searchInput.value.trim().toLowerCase();
           const topicValue = topicFilter.value;
           filteredMessages = allMessages.filter((msg) => {
-            const matchesTopic = topicValue === "all" || (msg.topic || "") === topicValue;
-            const blob = `${msg.name || ""} ${msg.email || ""} ${msg.phone || ""} ${msg.message || ""}`.toLowerCase();
+            const matchesTopic =
+              topicValue === "all" || (msg.topic || "") === topicValue;
+            const blob =
+              `${msg.name || ""} ${msg.email || ""} ${msg.phone || ""} ${msg.message || ""}`.toLowerCase();
             return matchesTopic && (!query || blob.includes(query));
           });
           renderTable(filteredMessages);
-          setStatus(`${filteredMessages.length} of ${allMessages.length} messages`);
+          setStatus(
+            `${filteredMessages.length} of ${allMessages.length} messages`,
+          );
         }
 
         async function fetchMessages() {
@@ -1144,7 +1366,10 @@
 
           // 2. Fetch from server API
           let serverMessages = [];
-          const endpoints = ["/api/contact-messages", "/.netlify/functions/contact-messages"];
+          const endpoints = [
+            "/api/contact-messages",
+            "/.netlify/functions/contact-messages",
+          ];
           for (const endpoint of endpoints) {
             try {
               const res = await fetch(endpoint);
@@ -1163,7 +1388,9 @@
           // 3. Merge
           const uniqueMessagesMap = new Map();
           localMessages.forEach((msg) => {
-            const key = msg.id || `${msg.email}-${msg.date || msg.createdAt}-${msg.topic}`;
+            const key =
+              msg.id ||
+              `${msg.email}-${msg.date || msg.createdAt}-${msg.topic}`;
             if (!uniqueMessagesMap.has(key)) {
               uniqueMessagesMap.set(key, msg);
             } else {
@@ -1171,7 +1398,12 @@
               if (msg.replies && msg.replies.length > 0) {
                 existing.replies = existing.replies || [];
                 msg.replies.forEach((reply) => {
-                  if (!existing.replies.some((r) => r.date === reply.date && r.message === reply.message)) {
+                  if (
+                    !existing.replies.some(
+                      (r) =>
+                        r.date === reply.date && r.message === reply.message,
+                    )
+                  ) {
                     existing.replies.push(reply);
                   }
                 });
@@ -1179,22 +1411,35 @@
             }
           });
           serverMessages.forEach((msg) => {
-            const key = msg.id || `${msg.email}-${msg.date || msg.createdAt}-${msg.topic}`;
+            const key =
+              msg.id ||
+              `${msg.email}-${msg.date || msg.createdAt}-${msg.topic}`;
             if (!uniqueMessagesMap.has(key)) uniqueMessagesMap.set(key, msg);
           });
 
           allMessages = Array.from(uniqueMessagesMap.values());
 
           // Sort newest first
-          allMessages.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+          allMessages.sort(
+            (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0),
+          );
 
           // Save merged data back to localStorage
-          if (serverMessages.length > 0 && allMessages.length > localMessages.length) {
-            try { localStorage.setItem("contactMessages", JSON.stringify(allMessages)); } catch (err) {}
+          if (
+            serverMessages.length > 0 &&
+            allMessages.length > localMessages.length
+          ) {
+            try {
+              localStorage.setItem(
+                "contactMessages",
+                JSON.stringify(allMessages),
+              );
+            } catch (err) {}
           }
 
           const limit = Number.parseInt(limitParam, 10);
-          if (!Number.isNaN(limit) && limit > 0) allMessages = allMessages.slice(0, limit);
+          if (!Number.isNaN(limit) && limit > 0)
+            allMessages = allMessages.slice(0, limit);
 
           populateTopicFilter(allMessages);
           applyFilters();
@@ -1207,8 +1452,13 @@
 
         exportBtn.addEventListener("click", () => {
           const data = filteredMessages.length ? filteredMessages : allMessages;
-          if (!data.length) { setStatus("Nothing to export."); return; }
-          const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+          if (!data.length) {
+            setStatus("Nothing to export.");
+            return;
+          }
+          const blob = new Blob([JSON.stringify(data, null, 2)], {
+            type: "application/json",
+          });
           const url = URL.createObjectURL(blob);
           const link = document.createElement("a");
           link.href = url;
@@ -1232,12 +1482,16 @@
         // Unread badge
         function updateAdminMessagesBadge() {
           try {
-            const contactMessages = JSON.parse(localStorage.getItem("contactMessages") || "[]");
+            const contactMessages = JSON.parse(
+              localStorage.getItem("contactMessages") || "[]",
+            );
             const unreadCount = contactMessages.filter((msg) => {
               if (!msg.readByAdmin) return true;
               if (msg.replies && msg.replies.length > 0) {
                 return msg.replies.some(
-                  (r) => r.sender === "customer" && new Date(r.date) > new Date(msg.adminLastRead || 0)
+                  (r) =>
+                    r.sender === "customer" &&
+                    new Date(r.date) > new Date(msg.adminLastRead || 0),
                 );
               }
               return false;
@@ -1257,14 +1511,23 @@
 
       // Session Check
       function checkAuthentication() {
-        const session = JSON.parse(localStorage.getItem("adminSession") || "{}");
-        if (!session.isLoggedIn || !session.expiry || session.expiry < Date.now()) {
+        const session = JSON.parse(
+          localStorage.getItem("adminSession") || "{}",
+        );
+        if (
+          !session.isLoggedIn ||
+          !session.expiry ||
+          session.expiry < Date.now()
+        ) {
           localStorage.removeItem("adminSession");
           window.location.href = "login.html";
           return false;
         }
         const inactivityLimit = 30 * 60 * 1000;
-        if (session.lastActivity && Date.now() - session.lastActivity > inactivityLimit) {
+        if (
+          session.lastActivity &&
+          Date.now() - session.lastActivity > inactivityLimit
+        ) {
           localStorage.removeItem("adminSession");
           alert("Session expired due to inactivity. Please log in again.");
           window.location.href = "login.html";
@@ -1279,15 +1542,22 @@
         if (confirm("Archive all current messages?")) {
           const currentMessages = localStorage.getItem("contactMessages");
           if (currentMessages) {
-            localStorage.setItem(`archivedMessages_${new Date().toISOString()}`, currentMessages);
+            localStorage.setItem(
+              `archivedMessages_${new Date().toISOString()}`,
+              currentMessages,
+            );
             localStorage.removeItem("contactMessages");
             setTimeout(() => window.location.reload(), 500);
-          } else { alert("No messages to archive."); }
+          } else {
+            alert("No messages to archive.");
+          }
         }
       }
 
       function clearAllMessages() {
-        if (confirm("Permanently DELETE ALL messages? This cannot be undone!")) {
+        if (
+          confirm("Permanently DELETE ALL messages? This cannot be undone!")
+        ) {
           localStorage.removeItem("contactMessages");
           setTimeout(() => window.location.reload(), 500);
         }
@@ -1300,7 +1570,8 @@
         }
       }
 
-      if (!checkAuthentication()) {}
+      if (!checkAuthentication()) {
+      }
     </script>
   </body>
 </html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -28,8 +28,8 @@
       }
 
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          sans-serif;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         min-height: 100vh;
         padding: 20px;
@@ -623,8 +623,6 @@
     </style>
   </head>
   <body>
-
-
     <div id="content" class="dashboard-container" style="display: none">
       <div class="dashboard-header">
         <div class="dashboard-title">
@@ -655,6 +653,7 @@
               >0</span
             >
           </a>
+          <a href="customers.html">Customers</a>
           <button
             onclick="logout()"
             style="
@@ -863,7 +862,7 @@
             }</span>
             <span class="item-price">${formatCurrency(item.price || 0)}</span>
           </div>
-        `
+        `,
           )
           .join("");
 
@@ -1003,7 +1002,7 @@
           "delivered",
         ];
         const paid = orders.filter((o) =>
-          paidStatuses.includes(o.status)
+          paidStatuses.includes(o.status),
         ).length;
         const pending = orders.filter((o) => o.status === "pending").length;
         const revenue = orders
@@ -1043,7 +1042,7 @@
               (o.orderId || "").toLowerCase().includes(query) ||
               (o.customer?.name || "").toLowerCase().includes(query) ||
               (o.customer?.email || "").toLowerCase().includes(query) ||
-              (o.customer?.phone || "").toLowerCase().includes(query)
+              (o.customer?.phone || "").toLowerCase().includes(query),
           );
         }
 
@@ -1077,7 +1076,7 @@
                 console.log(
                   "Loaded",
                   localOrders.length,
-                  "orders from localStorage"
+                  "orders from localStorage",
                 );
               }
             }
@@ -1088,16 +1087,15 @@
           allOrders = data.sort(
             (a, b) =>
               new Date(b.updatedAt || b.createdAt) -
-              new Date(a.updatedAt || a.createdAt)
+              new Date(a.updatedAt || a.createdAt),
           );
 
           updateStats(allOrders);
           filterOrders();
 
           const lastUpdate = new Date().toLocaleTimeString("en-GB");
-          document.getElementById(
-            "status"
-          ).innerHTML = `<i class="fas fa-check-circle"></i> Updated at ${lastUpdate}`;
+          document.getElementById("status").innerHTML =
+            `<i class="fas fa-check-circle"></i> Updated at ${lastUpdate}`;
         } catch (err) {
           console.error(err);
           document.getElementById("status").innerHTML =
@@ -1145,7 +1143,7 @@
 
         const csv = [headers, ...rows]
           .map((row) =>
-            row.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(",")
+            row.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(","),
           )
           .join("\n");
         const blob = new Blob([csv], { type: "text/csv" });
@@ -1245,7 +1243,7 @@
             if (localStored) {
               const localOrders = JSON.parse(localStored);
               const localIndex = localOrders.findIndex(
-                (o) => o.orderId === orderId || o.id === orderId
+                (o) => o.orderId === orderId || o.id === orderId,
               );
               if (localIndex !== -1) {
                 localOrders[localIndex].status = newStatus;
@@ -1254,7 +1252,7 @@
                 console.log(
                   "Order status updated in localStorage:",
                   orderId,
-                  newStatus
+                  newStatus,
                 );
               }
             }
@@ -1284,7 +1282,7 @@
         function updateAdminMessagesBadge() {
           try {
             const contactMessages = JSON.parse(
-              localStorage.getItem("contactMessages") || "[]"
+              localStorage.getItem("contactMessages") || "[]",
             );
             // Count messages that haven't been read by admin or have new customer replies
             const unreadCount = contactMessages.filter((msg) => {
@@ -1295,7 +1293,7 @@
                 const hasNewCustomerReply = msg.replies.some(
                   (r) =>
                     r.sender === "customer" &&
-                    new Date(r.date) > new Date(msg.adminLastRead || 0)
+                    new Date(r.date) > new Date(msg.adminLastRead || 0),
                 );
                 return hasNewCustomerReply;
               }
@@ -1324,7 +1322,7 @@
       // Session Check - Protect Page
       function checkAuthentication() {
         const session = JSON.parse(
-          localStorage.getItem("adminSession") || "{}"
+          localStorage.getItem("adminSession") || "{}",
         );
 
         // Check if session exists and is valid

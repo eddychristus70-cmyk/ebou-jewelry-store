@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Customers — Ebou Jewelry Admin</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #e50f65;
+        --primary-light: #fdf2f8;
+        --primary-hover: #c90d58;
+        --success: #10b981;
+        --danger: #ef4444;
+        --dark: #111827;
+        --gray-700: #374151;
+        --gray-600: #4b5563;
+        --gray-500: #6b7280;
+        --gray-400: #9ca3af;
+        --gray-300: #d1d5db;
+        --gray-200: #e5e7eb;
+        --gray-100: #f3f4f6;
+        --gray-50: #f9fafb;
+        --white: #ffffff;
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+        --radius: 12px;
+        --radius-sm: 8px;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family:
+          "Inter",
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          sans-serif;
+        background: var(--gray-50);
+        min-height: 100vh;
+        color: var(--dark);
+        line-height: 1.5;
+      }
+
+      .topbar {
+        background: var(--white);
+        border-bottom: 1px solid var(--gray-200);
+        padding: 0 24px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .topbar-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .topbar-left i {
+        font-size: 1.3rem;
+        color: var(--primary);
+      }
+      .topbar-left h1 {
+        font-size: 1.15rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .topbar-nav {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .topbar-nav a,
+      .topbar-nav button {
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding: 8px 14px;
+        border-radius: var(--radius-sm);
+        text-decoration: none;
+        color: var(--gray-600);
+        border: none;
+        background: none;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+
+      .topbar-nav a:hover {
+        background: var(--gray-100);
+        color: var(--dark);
+      }
+      .topbar-nav a.active {
+        background: var(--primary-light);
+        color: var(--primary);
+      }
+      .topbar-nav .logout-btn {
+        background: var(--gray-100);
+        color: var(--danger);
+      }
+      .topbar-nav .logout-btn:hover {
+        background: #fef2f2;
+      }
+
+      .controls {
+        padding: 16px 24px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        border-bottom: 1px solid var(--gray-200);
+        background: var(--white);
+      }
+
+      .search-wrap {
+        position: relative;
+        flex: 1;
+        min-width: 200px;
+        max-width: 400px;
+      }
+      .search-wrap i {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray-400);
+        font-size: 0.85rem;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 9px 12px 9px 36px;
+        border: 1.5px solid var(--gray-200);
+        border-radius: var(--radius-sm);
+        font-size: 0.875rem;
+        background: var(--gray-50);
+        transition: all 0.15s;
+        color: var(--dark);
+      }
+
+      .search-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        background: var(--white);
+        box-shadow: 0 0 0 3px rgba(229, 15, 101, 0.08);
+      }
+
+      .controls-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-left: auto;
+      }
+
+      .ctrl-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border: 1.5px solid var(--gray-200);
+        border-radius: var(--radius-sm);
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        background: var(--white);
+        color: var(--gray-700);
+        transition: all 0.15s;
+      }
+
+      .ctrl-btn:hover {
+        border-color: var(--gray-300);
+        background: var(--gray-50);
+      }
+
+      .status-text {
+        font-size: 0.8rem;
+        color: var(--gray-500);
+      }
+
+      .stats-bar {
+        display: flex;
+        gap: 20px;
+        padding: 16px 24px;
+        background: var(--white);
+        border-bottom: 1px solid var(--gray-200);
+      }
+
+      .stat-card {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 18px;
+        background: var(--gray-50);
+        border-radius: var(--radius-sm);
+      }
+
+      .stat-card i {
+        font-size: 1.1rem;
+        color: var(--primary);
+      }
+      .stat-card .stat-value {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--dark);
+      }
+      .stat-card .stat-label {
+        font-size: 0.75rem;
+        color: var(--gray-500);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .customer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 16px;
+        padding: 24px;
+      }
+
+      .customer-card {
+        background: var(--white);
+        border-radius: var(--radius);
+        border: 1px solid var(--gray-200);
+        padding: 20px;
+        transition: box-shadow 0.15s;
+      }
+
+      .customer-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      .customer-top {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 14px;
+      }
+
+      .customer-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: white;
+        flex-shrink: 0;
+        text-transform: uppercase;
+      }
+
+      .customer-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .customer-name {
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: var(--dark);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .customer-email {
+        font-size: 0.82rem;
+        color: var(--gray-500);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .customer-details {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .customer-detail {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.82rem;
+        color: var(--gray-600);
+      }
+
+      .customer-detail i {
+        color: var(--gray-400);
+        font-size: 0.78rem;
+        width: 16px;
+        text-align: center;
+      }
+
+      .customer-badges {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 20px;
+      }
+
+      .badge.logins {
+        background: #dbeafe;
+        color: #1e40af;
+      }
+      .badge.google {
+        background: #fef3c7;
+        color: #92400e;
+      }
+      .badge.new {
+        background: #d1fae5;
+        color: #065f46;
+      }
+
+      .empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 24px;
+        color: var(--gray-400);
+        gap: 12px;
+      }
+
+      .empty-state i {
+        font-size: 3rem;
+      }
+      .empty-state p {
+        font-size: 1rem;
+      }
+
+      @media (max-width: 640px) {
+        .customer-grid {
+          grid-template-columns: 1fr;
+          padding: 16px;
+        }
+        .stats-bar {
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-left">
+        <i class="fas fa-gem"></i>
+        <div><h1>Customers</h1></div>
+      </div>
+      <nav class="topbar-nav">
+        <a href="orders.html"><i class="fas fa-box"></i> Orders</a>
+        <a href="messages.html"><i class="fas fa-envelope"></i> Messages</a>
+        <a href="customers.html" class="active"
+          ><i class="fas fa-users"></i> Customers</a
+        >
+        <button class="logout-btn" onclick="logout()">
+          <i class="fas fa-arrow-right-from-bracket"></i> Logout
+        </button>
+      </nav>
+    </header>
+
+    <div class="controls">
+      <div class="search-wrap">
+        <i class="fas fa-search"></i>
+        <input
+          type="search"
+          id="customer-search"
+          class="search-input"
+          placeholder="Search by name, email, phone..."
+        />
+      </div>
+      <div class="controls-right">
+        <span id="status-text" class="status-text">Loading...</span>
+        <button class="ctrl-btn" id="refresh-btn">
+          <i class="fas fa-arrows-rotate"></i> Refresh
+        </button>
+      </div>
+    </div>
+
+    <div class="stats-bar" id="stats-bar">
+      <div class="stat-card">
+        <i class="fas fa-users"></i>
+        <div>
+          <div class="stat-value" id="total-customers">0</div>
+          <div class="stat-label">Total Customers</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <i class="fas fa-user-plus"></i>
+        <div>
+          <div class="stat-value" id="new-today">0</div>
+          <div class="stat-label">New Today</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <i class="fas fa-clock"></i>
+        <div>
+          <div class="stat-value" id="active-week">0</div>
+          <div class="stat-label">Active This Week</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="customer-grid" id="customer-grid">
+      <div class="empty-state">
+        <i class="far fa-user-circle"></i>
+        <p>Loading customers...</p>
+      </div>
+    </div>
+
+    <script>
+      const avatarColors = [
+        "#e50f65",
+        "#7c3aed",
+        "#2563eb",
+        "#0891b2",
+        "#059669",
+        "#d97706",
+        "#dc2626",
+        "#7c2d12",
+        "#4338ca",
+        "#0d9488",
+      ];
+
+      function getAvatarColor(name) {
+        let hash = 0;
+        for (let i = 0; i < (name || "").length; i++)
+          hash = name.charCodeAt(i) + ((hash << 5) - hash);
+        return avatarColors[Math.abs(hash) % avatarColors.length];
+      }
+
+      function getInitials(name) {
+        if (!name) return "?";
+        const parts = name.trim().split(/\s+/);
+        if (parts.length >= 2)
+          return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+        return parts[0][0].toUpperCase();
+      }
+
+      function timeAgo(dateStr) {
+        if (!dateStr) return "";
+        const d = new Date(dateStr);
+        const now = new Date();
+        const diff = (now - d) / 1000;
+        if (diff < 60) return "just now";
+        if (diff < 3600) return Math.floor(diff / 60) + "m ago";
+        if (diff < 86400) return Math.floor(diff / 3600) + "h ago";
+        if (diff < 604800) return Math.floor(diff / 86400) + "d ago";
+        return d.toLocaleDateString();
+      }
+
+      function sanitize(str) {
+        if (!str) return "";
+        const div = document.createElement("div");
+        div.textContent = str;
+        return div.innerHTML;
+      }
+
+      let allCustomers = [];
+      const grid = document.getElementById("customer-grid");
+      const searchInput = document.getElementById("customer-search");
+      const statusText = document.getElementById("status-text");
+
+      async function fetchCustomers() {
+        statusText.textContent = "Loading...";
+
+        const endpoints = [
+          "/api/get-customers",
+          "/.netlify/functions/get-customers",
+        ];
+        let profiles = [];
+
+        for (const endpoint of endpoints) {
+          try {
+            const res = await fetch(endpoint);
+            if (res.ok) {
+              const data = await res.json();
+              if (data && Array.isArray(data.profiles)) {
+                profiles = data.profiles;
+                break;
+              }
+            }
+          } catch (err) {
+            console.warn("API fetch failed:", endpoint, err);
+          }
+        }
+
+        allCustomers = profiles;
+        updateStats();
+        applyFilter();
+        statusText.textContent = `${allCustomers.length} customer${allCustomers.length === 1 ? "" : "s"}`;
+      }
+
+      function updateStats() {
+        const now = new Date();
+        const todayStart = new Date(
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate(),
+        );
+        const weekStart = new Date(todayStart);
+        weekStart.setDate(weekStart.getDate() - 7);
+
+        document.getElementById("total-customers").textContent =
+          allCustomers.length;
+        document.getElementById("new-today").textContent = allCustomers.filter(
+          (c) => new Date(c.createdAt || c.loginAt) >= todayStart,
+        ).length;
+        document.getElementById("active-week").textContent =
+          allCustomers.filter((c) => new Date(c.loginAt) >= weekStart).length;
+      }
+
+      function applyFilter() {
+        const query = searchInput.value.trim().toLowerCase();
+        const filtered = allCustomers.filter((c) => {
+          if (!query) return true;
+          const blob =
+            `${c.name || ""} ${c.email || ""} ${c.phone || ""} ${c.address || ""}`.toLowerCase();
+          return blob.includes(query);
+        });
+        renderGrid(filtered);
+      }
+
+      function renderGrid(customers) {
+        if (!customers.length) {
+          grid.innerHTML = `
+            <div class="empty-state" style="grid-column: 1/-1">
+              <i class="far fa-user-circle"></i>
+              <p>No customers found.</p>
+            </div>`;
+          return;
+        }
+
+        grid.innerHTML = customers
+          .map((c) => {
+            const color = getAvatarColor(c.name || c.email);
+            const initials = getInitials(c.name || c.email);
+            const isNew =
+              Date.now() - new Date(c.createdAt || c.loginAt).getTime() <
+              86400000;
+
+            return `
+            <div class="customer-card">
+              <div class="customer-top">
+                <div class="customer-avatar" style="background:${color}">${initials}</div>
+                <div class="customer-info">
+                  <div class="customer-name">${sanitize(c.name) || "No name"}</div>
+                  <div class="customer-email">${sanitize(c.email)}</div>
+                </div>
+              </div>
+              <div class="customer-details">
+                ${c.phone ? `<div class="customer-detail"><i class="fas fa-phone"></i> ${sanitize(c.phone)}</div>` : ""}
+                ${c.address ? `<div class="customer-detail"><i class="fas fa-location-dot"></i> ${sanitize(c.address)}</div>` : ""}
+                <div class="customer-detail"><i class="fas fa-clock"></i> Last login: ${timeAgo(c.loginAt)}</div>
+                ${c.createdAt ? `<div class="customer-detail"><i class="fas fa-calendar"></i> Joined: ${new Date(c.createdAt).toLocaleDateString()}</div>` : ""}
+              </div>
+              <div class="customer-badges">
+                ${c.loginCount > 1 ? `<span class="badge logins"><i class="fas fa-sign-in-alt"></i> ${c.loginCount} logins</span>` : ""}
+                ${c.isGoogleUser ? `<span class="badge google"><i class="fab fa-google"></i> Google</span>` : ""}
+                ${isNew ? `<span class="badge new"><i class="fas fa-sparkles"></i> New</span>` : ""}
+              </div>
+            </div>`;
+          })
+          .join("");
+      }
+
+      searchInput.addEventListener("input", applyFilter);
+      document
+        .getElementById("refresh-btn")
+        .addEventListener("click", fetchCustomers);
+
+      // Auto-refresh every 30 seconds
+      setInterval(fetchCustomers, 30000);
+
+      fetchCustomers();
+
+      // Session check
+      function checkAuthentication() {
+        const session = JSON.parse(
+          localStorage.getItem("adminSession") || "{}",
+        );
+        if (
+          !session.isLoggedIn ||
+          !session.expiry ||
+          session.expiry < Date.now()
+        ) {
+          localStorage.removeItem("adminSession");
+          window.location.href = "login.html";
+          return false;
+        }
+        const inactivityLimit = 30 * 60 * 1000;
+        if (
+          session.lastActivity &&
+          Date.now() - session.lastActivity > inactivityLimit
+        ) {
+          localStorage.removeItem("adminSession");
+          alert("Session expired due to inactivity.");
+          window.location.href = "login.html";
+          return false;
+        }
+        session.lastActivity = Date.now();
+        localStorage.setItem("adminSession", JSON.stringify(session));
+        return true;
+      }
+
+      function logout() {
+        if (confirm("Are you sure you want to logout?")) {
+          localStorage.removeItem("adminSession");
+          window.location.href = "login.html";
+        }
+      }
+
+      if (!checkAuthentication()) {
+      }
+    </script>
+  </body>
+</html>
