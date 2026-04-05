@@ -576,12 +576,12 @@
       }
 
       // Refresh messages manually
-      function refreshMessages() {
+      async function refreshMessages() {
         const btn = event.target.closest("button");
         const icon = btn.querySelector("i");
         icon.classList.add("fa-spin");
 
-        loadMessages();
+        await loadMessages();
 
         // If a message is selected, refresh its detail view
         if (selectedMessageIndex >= 0) {
@@ -597,36 +597,69 @@
         }, 500);
       }
 
-      // Load customer messages
-      function loadMessages() {
-        const storedMessages = JSON.parse(
-          localStorage.getItem("contactMessages") || "[]",
-        );
+      // Load customer messages from localStorage + API
+      async function loadMessages() {
+        // 1. Load from localStorage
+        let localMessages = [];
+        try {
+          const storedMessages = JSON.parse(
+            localStorage.getItem("contactMessages") || "[]",
+          );
+          localMessages = storedMessages.filter(
+            (msg) =>
+              msg.email &&
+              msg.email.toLowerCase() === customerEmail.toLowerCase(),
+          );
+        } catch (err) {
+          console.error("Error loading from localStorage:", err);
+        }
 
-        // Filter messages by customer email
-        let customerMessages = storedMessages.filter(
-          (msg) =>
-            msg.email &&
-            msg.email.toLowerCase() === customerEmail.toLowerCase(),
-        );
+        // 2. Fetch from server API
+        let serverMessages = [];
+        try {
+          const res = await fetch(
+            "/api/customer-messages?email=" + encodeURIComponent(customerEmail),
+          );
+          if (res.ok) {
+            const data = await res.json();
+            if (data && Array.isArray(data.messages)) {
+              serverMessages = data.messages;
+              console.log("Server messages:", serverMessages.length);
+            }
+          }
+        } catch (err) {
+          console.warn("API fetch failed:", err);
+        }
 
-        // Remove duplicates - keep only unique messages by ID
+        // 3. Merge and deduplicate
         const uniqueMessagesMap = new Map();
-        customerMessages.forEach((msg) => {
-          const key =
-            msg.id || `${msg.email}-${msg.date || msg.createdAt}-${msg.topic}`;
+        function getKey(msg) {
+          return `${(msg.email || "").toLowerCase()}-${msg.createdAt || msg.date || ""}-${(msg.topic || "").toLowerCase()}`;
+        }
+
+        // Local messages first (they have read state)
+        localMessages.forEach((msg) => {
+          const key = getKey(msg);
+          if (!uniqueMessagesMap.has(key)) {
+            uniqueMessagesMap.set(key, msg);
+          }
+        });
+
+        // Server messages — merge replies into existing or add new
+        serverMessages.forEach((msg) => {
+          const key = getKey(msg);
           if (!uniqueMessagesMap.has(key)) {
             uniqueMessagesMap.set(key, msg);
           } else {
-            // If duplicate found, merge replies if any
+            // Merge server replies into local message
             const existing = uniqueMessagesMap.get(key);
             if (msg.replies && msg.replies.length > 0) {
               existing.replies = existing.replies || [];
               msg.replies.forEach((reply) => {
-                // Only add reply if it doesn't exist
                 if (
                   !existing.replies.some(
-                    (r) => r.date === reply.date && r.message === reply.message,
+                    (r) =>
+                      r.date === reply.date && r.message === reply.message,
                   )
                 ) {
                   existing.replies.push(reply);
@@ -637,6 +670,26 @@
         });
 
         allMessages = Array.from(uniqueMessagesMap.values());
+
+        // Save merged data back to localStorage
+        if (serverMessages.length > 0) {
+          try {
+            const allStored = JSON.parse(
+              localStorage.getItem("contactMessages") || "[]",
+            );
+            // Update the customer's messages in the full store
+            const otherMessages = allStored.filter(
+              (msg) =>
+                !msg.email ||
+                msg.email.toLowerCase() !== customerEmail.toLowerCase(),
+            );
+            localStorage.setItem(
+              "contactMessages",
+              JSON.stringify([...otherMessages, ...allMessages]),
+            );
+          } catch (err) {}
+        }
+
         displayMessagesList();
       }
 
@@ -804,17 +857,14 @@
       }
 
       // Send customer reply
-      function sendReply(event, messageIndex) {
+      async function sendReply(event, messageIndex) {
         event.preventDefault();
 
-        console.log("sendReply called with messageIndex:", messageIndex);
-
-        // CSRF token validation (backwards compatible)
+        // CSRF token validation
         const form = event.target;
         const submittedToken = form.querySelector(".reply-csrf-token")?.value;
         const storedToken = sessionStorage.getItem("inboxCSRFToken");
 
-        // Only validate if both tokens exist
         if (submittedToken && storedToken && submittedToken !== storedToken) {
           alert("Invalid security token. Please refresh the page.");
           return;
@@ -823,39 +873,45 @@
         const textarea = document.getElementById("customer-reply");
         const replyText = sanitizeInput(textarea.value.trim());
 
-        console.log("Reply text:", replyText);
-
-        if (!replyText) {
-          console.log("No reply text, returning");
-          return;
-        }
+        if (!replyText) return;
 
         const message = allMessages[messageIndex];
-        console.log("Original message:", message);
 
-        // Add reply to message
-        if (!message.replies) {
-          message.replies = [];
+        // Save reply to server (Redis)
+        const messageKey = `${(message.email || "").toLowerCase()}-${message.createdAt || ""}-${(message.topic || "").toLowerCase()}`;
+        try {
+          const res = await fetch("/api/reply-message", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              messageKey,
+              message: replyText,
+              sender: "customer",
+            }),
+          });
+          if (res.ok) {
+            console.log("Reply saved to server");
+          } else {
+            console.warn("Server reply save failed:", res.status);
+          }
+        } catch (err) {
+          console.warn("Server reply save error:", err);
         }
 
+        // Add reply to local message
+        if (!message.replies) message.replies = [];
         message.replies.push({
           sender: "customer",
           message: replyText,
           date: new Date().toISOString(),
         });
 
-        // Reset admin's read status so they see the notification
         message.readByAdmin = false;
 
-        console.log("Updated message with new reply:", message);
-
-        // Update message in storage
+        // Update in localStorage
         updateMessageInStorage(messageIndex, message);
 
-        // Clear the textarea
         textarea.value = "";
-
-        // Refresh display
         displayMessageDetail(message);
         displayMessagesList();
 

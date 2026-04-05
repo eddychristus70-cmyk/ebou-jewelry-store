@@ -93,4 +93,39 @@ async function getMessages(limit) {
   return sorted;
 }
 
-module.exports = { appendMessage, getMessages };
+async function addReply(messageKey, reply) {
+  if (!messageKey || !reply) return false;
+  const data = redis ? await readRedisStore() : readFileStore();
+
+  // Find message by email+createdAt key
+  const index = data.findIndex((msg) => {
+    const key = `${(msg.email || "").toLowerCase()}-${msg.createdAt || ""}-${(msg.topic || "").toLowerCase()}`;
+    return key === messageKey;
+  });
+
+  if (index === -1) return false;
+
+  if (!data[index].replies) data[index].replies = [];
+  data[index].replies.push({
+    sender: reply.sender || "admin",
+    message: reply.message,
+    date: reply.date || new Date().toISOString(),
+  });
+
+  if (redis) {
+    await writeRedisStore(data);
+  } else {
+    writeFileStore(data);
+  }
+  return true;
+}
+
+async function getMessagesByEmail(email) {
+  const data = redis ? await readRedisStore() : readFileStore();
+  if (!email) return [];
+  return data
+    .filter((msg) => (msg.email || "").toLowerCase() === email.toLowerCase())
+    .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+}
+
+module.exports = { appendMessage, getMessages, addReply, getMessagesByEmail };

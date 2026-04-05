@@ -1291,8 +1291,30 @@
             });
         }
 
-        // Save reply to localStorage
-        function saveReplyToMessage(message, replyText) {
+        // Save reply to localStorage AND server API
+        async function saveReplyToMessage(message, replyText) {
+          // Save to server (Redis) so customer can see it
+          const messageKey = `${(message.email || "").toLowerCase()}-${message.createdAt || ""}-${(message.topic || "").toLowerCase()}`;
+          try {
+            const res = await fetch("/api/reply-message", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                messageKey,
+                message: replyText,
+                sender: "admin",
+              }),
+            });
+            if (res.ok) {
+              console.log("Reply saved to server");
+            } else {
+              console.warn("Server reply save failed:", res.status);
+            }
+          } catch (err) {
+            console.warn("Server reply save error:", err);
+          }
+
+          // Also save to localStorage
           try {
             const localStored = localStorage.getItem("contactMessages");
             if (localStored) {
@@ -1318,18 +1340,10 @@
                   "contactMessages",
                   JSON.stringify(allStoredMessages),
                 );
-                window.dispatchEvent(
-                  new StorageEvent("storage", {
-                    key: "contactMessages",
-                    oldValue: localStored,
-                    newValue: localStorage.getItem("contactMessages"),
-                    storageArea: localStorage,
-                  }),
-                );
               }
             }
           } catch (err) {
-            console.error("Could not save reply:", err);
+            console.error("Could not save reply to localStorage:", err);
           }
         }
 
