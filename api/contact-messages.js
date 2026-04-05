@@ -18,6 +18,14 @@ module.exports = async (req, res) => {
     return;
   }
 
+  // If email param is provided, filter messages for that customer
+  const emailFilter = (req.query?.email || "").trim().toLowerCase();
+  if (emailFilter) {
+    const messages = await contactStore.getMessagesByEmail(emailFilter);
+    res.status(200).json({ count: messages.length, messages });
+    return;
+  }
+
   const limit = Number.parseInt(req.query?.limit, 10);
   const messages = await contactStore.getMessages(
     Number.isNaN(limit) ? undefined : limit

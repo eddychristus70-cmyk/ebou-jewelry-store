@@ -980,7 +980,7 @@
         // Save to server API (Redis) for cross-device access
         const profile = accounts.find((a) => a.email === email)?.profile || {};
         try {
-          await fetch("/api/auth-signin", {
+          await fetch("/api/auth", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -1341,10 +1341,11 @@
           // Save to server API (Redis) for cross-device access
           let serverOk = false;
           try {
-            const res = await fetch("/api/auth-signup", {
+            const res = await fetch("/api/auth", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
+                action: "signup",
                 email: normalizedEmail,
                 hash: hashed,
                 profile: profileValues,
@@ -1440,7 +1441,7 @@
           let serverAccount = null;
           let serverError = null;
           try {
-            const res = await fetch("/api/auth-signin", {
+            const res = await fetch("/api/auth", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -1510,10 +1511,11 @@
 
             // Sync local account to server for future cross-device access
             try {
-              await fetch("/api/auth-signup", {
+              await fetch("/api/auth", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
+                  action: "signup",
                   email: normalizedEmail,
                   hash: hashed,
                   profile: localAccount.profile,

@@ -618,7 +618,7 @@
         let serverMessages = [];
         try {
           const res = await fetch(
-            "/api/customer-messages?email=" + encodeURIComponent(customerEmail),
+            "/api/contact-messages?email=" + encodeURIComponent(customerEmail),
           );
           if (res.ok) {
             const data = await res.json();
@@ -658,8 +658,7 @@
               msg.replies.forEach((reply) => {
                 if (
                   !existing.replies.some(
-                    (r) =>
-                      r.date === reply.date && r.message === reply.message,
+                    (r) => r.date === reply.date && r.message === reply.message,
                   )
                 ) {
                   existing.replies.push(reply);

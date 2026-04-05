@@ -1,11 +1,6 @@
 const accountStore = require("../utils/account-store");
 
-module.exports = async (req, res) => {
-  if (req.method !== "POST") {
-    res.status(405).json({ error: "Method not allowed" });
-    return;
-  }
-
+function parseBody(req) {
   let body = req.body;
   if (!body || typeof body === "string") {
     try {
@@ -14,7 +9,17 @@ module.exports = async (req, res) => {
       body = {};
     }
   }
+  return body;
+}
 
+module.exports = async (req, res) => {
+  if (req.method !== "POST") {
+    res.status(405).json({ error: "Method not allowed" });
+    return;
+  }
+
+  const body = parseBody(req);
+  const action = String(body.action || "").trim();
   const email = String(body.email || "").trim().toLowerCase();
   const hash = String(body.hash || "").trim();
   const profile = body.profile || null;
@@ -26,7 +31,31 @@ module.exports = async (req, res) => {
   }
 
   try {
-    // Google sign-in: create or update account
+    // --- SIGNUP ---
+    if (action === "signup") {
+      if (!hash) {
+        res.status(400).json({ error: "Missing password" });
+        return;
+      }
+      const existing = await accountStore.findAccount(email);
+      if (existing) {
+        res.status(409).json({ error: "Account already exists" });
+        return;
+      }
+      const created = await accountStore.createAccount({
+        email,
+        hash,
+        profile: profile || {},
+      });
+      if (created) {
+        res.status(200).json({ success: true });
+      } else {
+        res.status(500).json({ error: "Failed to create account" });
+      }
+      return;
+    }
+
+    // --- GOOGLE SIGN-IN ---
     if (isGoogle) {
       await accountStore.createOrUpdateGoogleAccount(email, profile);
       const account = await accountStore.findAccount(email);
@@ -41,7 +70,7 @@ module.exports = async (req, res) => {
       return;
     }
 
-    // Regular sign-in
+    // --- SIGNIN (default) ---
     if (!hash) {
       res.status(400).json({ error: "Missing password" });
       return;
@@ -58,7 +87,6 @@ module.exports = async (req, res) => {
       return;
     }
 
-    // Update profile if provided
     if (profile) {
       await accountStore.updateAccountProfile(email, profile);
     }
@@ -72,7 +100,7 @@ module.exports = async (req, res) => {
       },
     });
   } catch (err) {
-    console.error("auth-signin error", err);
+    console.error("auth error", err);
     res.status(500).json({ error: "Server error" });
   }
 };
