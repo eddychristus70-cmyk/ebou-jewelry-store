@@ -978,7 +978,7 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify(accounts));
 
         // Save to server API (Redis) for cross-device access
-        const profile = accounts.find((a) => a.email === email)?.profile || {};
+        const googleProfile = accounts.find((a) => a.email === email)?.profile || {};
         try {
           await fetch("/api/auth", {
             method: "POST",
@@ -987,9 +987,9 @@
               email,
               isGoogle: true,
               profile: {
-                name: profile.name || userData.name || "",
-                phone: profile.phone || "",
-                address: profile.address || "",
+                name: googleProfile.name || userData.name || "",
+                phone: googleProfile.phone || "",
+                address: googleProfile.address || "",
               },
             }),
           });
@@ -998,12 +998,11 @@
         }
 
         // Sync profile to server (Redis)
-        const profile = accounts.find((a) => a.email === email)?.profile || {};
-        const body = JSON.stringify({
+        const syncBody = JSON.stringify({
           email,
-          name: profile.name || userData.name || "",
-          phone: profile.phone || "",
-          address: profile.address || "",
+          name: googleProfile.name || userData.name || "",
+          phone: googleProfile.phone || "",
+          address: googleProfile.address || "",
           isGoogleUser: true,
           cart: getCartSnapshot(),
         });
@@ -1012,7 +1011,7 @@
             const resp = await fetch(endpoint, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body,
+              body: syncBody,
             });
             if (resp.ok) break;
           } catch (err) {
