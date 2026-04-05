@@ -753,7 +753,15 @@
         </div>
       </div>
       <nav class="topbar-nav">
-        <a href="orders.html"><i class="fas fa-box"></i> Orders</a>
+        <a href="orders.html" style="position:relative">
+          <i class="fas fa-box"></i> Orders
+          <span
+            class="admin-messages-badge"
+            id="admin-orders-badge"
+            style="display: none"
+            >0</span
+          >
+        </a>
         <a href="messages.html" class="active">
           <i class="fas fa-envelope"></i> Messages
           <span
@@ -1427,10 +1435,32 @@
               }
             }
           });
-          // Add server messages (skip duplicates)
+          // Add server messages — merge replies into existing or add new
           serverMessages.forEach((msg) => {
             const key = getKey(msg);
-            if (!uniqueMessagesMap.has(key)) uniqueMessagesMap.set(key, msg);
+            if (!uniqueMessagesMap.has(key)) {
+              uniqueMessagesMap.set(key, msg);
+            } else {
+              // Merge server replies (including customer replies) into local message
+              const existing = uniqueMessagesMap.get(key);
+              if (msg.replies && msg.replies.length > 0) {
+                existing.replies = existing.replies || [];
+                msg.replies.forEach((reply) => {
+                  if (
+                    !existing.replies.some(
+                      (r) =>
+                        r.date === reply.date && r.message === reply.message,
+                    )
+                  ) {
+                    existing.replies.push(reply);
+                  }
+                });
+                // Sort replies by date
+                existing.replies.sort(
+                  (a, b) => new Date(a.date) - new Date(b.date),
+                );
+              }
+            }
           });
 
           allMessages = Array.from(uniqueMessagesMap.values());
@@ -1493,13 +1523,13 @@
 
         fetchMessages();
 
-        // Unread badge
+        // Unread badge — counts from merged allMessages (local + server)
         function updateAdminMessagesBadge() {
           try {
-            const contactMessages = JSON.parse(
+            const msgs = allMessages.length > 0 ? allMessages : JSON.parse(
               localStorage.getItem("contactMessages") || "[]",
             );
-            const unreadCount = contactMessages.filter((msg) => {
+            const unreadCount = msgs.filter((msg) => {
               if (!msg.readByAdmin) return true;
               if (msg.replies && msg.replies.length > 0) {
                 return msg.replies.some(
@@ -1519,8 +1549,28 @@
           } catch (err) {}
         }
 
+        // Orders badge
+        function updateOrdersBadge() {
+          try {
+            const orders = JSON.parse(
+              localStorage.getItem("ebouOrders") || "[]",
+            );
+            const newOrders = orders.filter(
+              (o) => o.status === "pending" || !o.viewedByAdmin,
+            ).length;
+
+            const badge = document.getElementById("admin-orders-badge");
+            if (badge) {
+              badge.textContent = newOrders;
+              badge.style.display = newOrders > 0 ? "inline-block" : "none";
+            }
+          } catch (err) {}
+        }
+
         updateAdminMessagesBadge();
+        updateOrdersBadge();
         setInterval(updateAdminMessagesBadge, 15000);
+        setInterval(updateOrdersBadge, 15000);
       });
 
       // Session Check
