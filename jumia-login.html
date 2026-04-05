@@ -977,6 +977,26 @@
 
         localStorage.setItem(STORAGE_KEY, JSON.stringify(accounts));
 
+        // Save to server API (Redis) for cross-device access
+        const profile = accounts.find((a) => a.email === email)?.profile || {};
+        try {
+          await fetch("/api/auth-signin", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email,
+              isGoogle: true,
+              profile: {
+                name: profile.name || userData.name || "",
+                phone: profile.phone || "",
+                address: profile.address || "",
+              },
+            }),
+          });
+        } catch (err) {
+          console.warn("Google account server sync failed:", err);
+        }
+
         // Sync profile to server (Redis)
         const profile = accounts.find((a) => a.email === email)?.profile || {};
         const body = JSON.stringify({
@@ -1315,23 +1335,52 @@
             return;
           }
 
-          if (findAccount(email)) {
+          const hashed = await hashPassword(password);
+          const normalizedEmail = email.toLowerCase();
+
+          // Save to server API (Redis) for cross-device access
+          let serverOk = false;
+          try {
+            const res = await fetch("/api/auth-signup", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: normalizedEmail,
+                hash: hashed,
+                profile: profileValues,
+              }),
+            });
+            if (res.ok) {
+              serverOk = true;
+            } else if (res.status === 409) {
+              setError(emailError, "Account already exists.");
+              feedback.textContent = "Try signing in instead.";
+              feedback.className = "form-feedback error";
+              return;
+            }
+          } catch (err) {
+            console.warn("Server signup failed:", err);
+          }
+
+          // Also check localStorage for existing account
+          if (!serverOk && findAccount(email)) {
             setError(emailError, "Account already exists.");
             feedback.textContent = "Try signing in instead.";
             feedback.className = "form-feedback error";
             return;
           }
 
-          const hashed = await hashPassword(password);
-          const normalizedEmail = email.toLowerCase();
+          // Save to localStorage as backup
           const accounts = getAccounts();
-          accounts.push({
-            email: normalizedEmail,
-            hash: hashed,
-            createdAt: new Date().toISOString(),
-            profile: profileValues,
-          });
-          saveAccounts(accounts);
+          if (!accounts.find((a) => a.email === normalizedEmail)) {
+            accounts.push({
+              email: normalizedEmail,
+              hash: hashed,
+              createdAt: new Date().toISOString(),
+              profile: profileValues,
+            });
+            saveAccounts(accounts);
+          }
 
           if (cartHasPendingItems()) {
             sessionStorage.setItem(POST_SIGNUP_CHECKOUT_KEY, "1");
@@ -1344,19 +1393,12 @@
             ...profileValues,
           });
 
-          // Check if should redirect to checkout after successful signup
           const shouldRedirectToCheckout = cartHasPendingItems();
 
           if (shouldRedirectToCheckout) {
-            feedback.textContent = synced
-              ? "Account created! Redirecting to checkout..."
-              : "Account created! Please sign in to continue checkout.";
-            feedback.className = synced
-              ? "form-feedback success"
-              : "form-feedback success";
-
-            if (synced) {
-              // Auto-signin the new account and redirect
+            feedback.textContent = "Account created! Redirecting to checkout...";
+            feedback.className = "form-feedback success";
+            if (synced || serverOk) {
               setTimeout(() => {
                 window.location.href = CHECKOUT_PAGE;
               }, 1500);
@@ -1365,12 +1407,10 @@
               emailInput.focus();
             }
           } else {
-            feedback.textContent = synced
+            feedback.textContent = serverOk
               ? "Account created! Please sign in."
-              : "Account created but syncing failed. We'll retry when you sign in.";
-            feedback.className = synced
-              ? "form-feedback success"
-              : "form-feedback error";
+              : "Account created locally. Please sign in.";
+            feedback.className = "form-feedback success";
             setMode("signin");
             emailInput.focus();
           }
@@ -1393,20 +1433,93 @@
             return;
           }
 
-          const account = findAccount(email);
-          if (!account) {
-            setError(emailError, "No account found. Try signing up.");
-            feedback.textContent = "Account not found.";
-            feedback.className = "form-feedback error";
-            return;
+          const hashed = await hashPassword(password);
+          const normalizedEmail = email.toLowerCase();
+
+          // Try server API first (Redis — works cross-device)
+          let serverAccount = null;
+          let serverError = null;
+          try {
+            const res = await fetch("/api/auth-signin", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: normalizedEmail,
+                hash: hashed,
+                profile: profileValues.name ? profileValues : null,
+              }),
+            });
+            if (res.ok) {
+              const data = await res.json();
+              serverAccount = data.account;
+            } else if (res.status === 404) {
+              serverError = "not_found";
+            } else if (res.status === 401) {
+              serverError = "wrong_password";
+            }
+          } catch (err) {
+            console.warn("Server signin failed, trying local:", err);
           }
 
-          const hashed = await hashPassword(password);
-          if (hashed !== account.hash) {
+          // If server says wrong password, don't try local
+          if (serverError === "wrong_password") {
             setError(passwordError, "Incorrect password.");
             feedback.textContent = "Incorrect credentials.";
             feedback.className = "form-feedback error";
             return;
+          }
+
+          // Fall back to localStorage if server didn't find account
+          let account = null;
+          if (serverAccount) {
+            account = {
+              email: serverAccount.email,
+              profile: serverAccount.profile,
+            };
+            // Save to localStorage for offline access
+            const accounts = getAccounts();
+            const idx = accounts.findIndex((a) => a.email === normalizedEmail);
+            if (idx === -1) {
+              accounts.push({
+                email: normalizedEmail,
+                hash: hashed,
+                createdAt: serverAccount.createdAt || new Date().toISOString(),
+                profile: serverAccount.profile,
+              });
+            } else {
+              accounts[idx].hash = hashed;
+              accounts[idx].profile = serverAccount.profile;
+            }
+            saveAccounts(accounts);
+          } else {
+            // Try localStorage
+            const localAccount = findAccount(email);
+            if (!localAccount) {
+              setError(emailError, "No account found. Try signing up.");
+              feedback.textContent = "Account not found.";
+              feedback.className = "form-feedback error";
+              return;
+            }
+            if (hashed !== localAccount.hash) {
+              setError(passwordError, "Incorrect password.");
+              feedback.textContent = "Incorrect credentials.";
+              feedback.className = "form-feedback error";
+              return;
+            }
+            account = localAccount;
+
+            // Sync local account to server for future cross-device access
+            try {
+              await fetch("/api/auth-signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  email: normalizedEmail,
+                  hash: hashed,
+                  profile: localAccount.profile,
+                }),
+              });
+            } catch (err) {}
           }
 
           const mergedProfile = {
@@ -1419,20 +1532,20 @@
             !account.profile ||
             isProfileDifferent(account.profile, mergedProfile)
           ) {
-            persistProfileLocally(account.email, mergedProfile);
+            persistProfileLocally(normalizedEmail, mergedProfile);
           }
 
           const syncOk = await syncProfileStorage({
-            email: account.email,
+            email: normalizedEmail,
             ...mergedProfile,
           });
 
           sessionStorage.setItem(
             SESSION_KEY,
             JSON.stringify({
-              email: account.email,
+              email: normalizedEmail,
               lastLogin: new Date().toISOString(),
-              expiry: Date.now() + 4 * 60 * 60 * 1000, // 4 hours
+              expiry: Date.now() + 4 * 60 * 60 * 1000,
               lastActivity: Date.now(),
             }),
           );
@@ -1444,12 +1557,8 @@
             sessionStorage.removeItem(POST_SIGNUP_CHECKOUT_KEY);
           }
 
-          feedback.textContent = syncOk
-            ? "Signed in successfully."
-            : "Signed in, but profile sync failed. We'll retry automatically.";
-          feedback.className = syncOk
-            ? "form-feedback success"
-            : "form-feedback error";
+          feedback.textContent = "Signed in successfully.";
+          feedback.className = "form-feedback success";
 
           updateAccountView();
           closeModal();
@@ -1459,10 +1568,8 @@
             sessionStorage.removeItem(POST_SIGNUP_CHECKOUT_KEY);
             window.location.href = CHECKOUT_PAGE;
           } else if (cartHasPendingItems()) {
-            // Cart has items, redirect to checkout
             window.location.href = CHECKOUT_PAGE;
           } else {
-            // No items in cart, go to home page
             window.location.href = "index.html";
           }
         }
