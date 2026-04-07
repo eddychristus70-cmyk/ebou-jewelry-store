@@ -1550,13 +1550,21 @@
         }
 
         // Orders badge
-        function updateOrdersBadge() {
+        async function updateOrdersBadge() {
           try {
-            const orders = JSON.parse(
-              localStorage.getItem("ebouOrders") || "[]",
-            );
+            let orders = [];
+            try {
+              const res = await fetch("/api/orders");
+              if (res.ok) {
+                const payload = await res.json();
+                orders = Array.isArray(payload) ? payload : payload.orders || [];
+              }
+            } catch {
+              orders = JSON.parse(localStorage.getItem("orders") || "[]");
+            }
+
             const newOrders = orders.filter(
-              (o) => o.status === "pending" || !o.viewedByAdmin,
+              (o) => o.status === "pending" || o.status === "confirmed" || !o.viewedByAdmin,
             ).length;
 
             const badge = document.getElementById("admin-orders-badge");

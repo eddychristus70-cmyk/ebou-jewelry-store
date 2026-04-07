@@ -1287,16 +1287,21 @@
         loadOrders();
 
         // Count unread messages for admin
-        function updateAdminMessagesBadge() {
+        async function updateAdminMessagesBadge() {
           try {
-            const contactMessages = JSON.parse(
-              localStorage.getItem("contactMessages") || "[]",
-            );
-            // Count messages that haven't been read by admin or have new customer replies
+            let contactMessages = [];
+            try {
+              const res = await fetch("/api/contact-messages");
+              if (res.ok) {
+                const payload = await res.json();
+                contactMessages = Array.isArray(payload) ? payload : payload.messages || [];
+              }
+            } catch {
+              contactMessages = JSON.parse(localStorage.getItem("contactMessages") || "[]");
+            }
+
             const unreadCount = contactMessages.filter((msg) => {
-              // New message not read by admin
               if (!msg.readByAdmin) return true;
-              // Has customer replies after admin last read
               if (msg.replies && msg.replies.length > 0) {
                 const hasNewCustomerReply = msg.replies.some(
                   (r) =>
@@ -1308,12 +1313,10 @@
               return false;
             }).length;
 
-            if (unreadCount > 0) {
-              const badge = document.getElementById("admin-messages-badge");
-              if (badge) {
-                badge.textContent = unreadCount;
-                badge.style.display = "block";
-              }
+            const badge = document.getElementById("admin-messages-badge");
+            if (badge) {
+              badge.textContent = unreadCount;
+              badge.style.display = unreadCount > 0 ? "block" : "none";
             }
           } catch (err) {
             console.error("Error counting admin messages:", err);

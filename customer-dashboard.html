@@ -655,10 +655,10 @@
         }
         loadDashboardData();
 
-        // Auto-refresh dashboard every 10 seconds to update message badges
+        // Auto-refresh dashboard every 30 seconds to update badges
         setInterval(() => {
           loadDashboardData();
-        }, 10000);
+        }, 30000);
 
         // Listen for storage changes (when messages are updated in another tab)
         window.addEventListener("storage", (e) => {
@@ -739,140 +739,87 @@
       }
 
       // Load dashboard statistics
-      function loadDashboardData() {
-        // Load orders count
-        const orders = JSON.parse(localStorage.getItem("orders") || "[]");
-        const userOrders = orders.filter(
-          (order) =>
-            order.customerEmail &&
-            order.customerEmail.toLowerCase() === customerEmail.toLowerCase(),
-        );
+      async function loadDashboardData() {
+        // Load orders count from API
+        let userOrders = [];
+        try {
+          const res = await fetch("/api/orders");
+          if (res.ok) {
+            const payload = await res.json();
+            const allOrders = Array.isArray(payload) ? payload : payload.orders || [];
+            userOrders = allOrders.filter(
+              (order) => {
+                const email = order.customerEmail || (order.customer && order.customer.email) || "";
+                return email.toLowerCase() === customerEmail.toLowerCase();
+              }
+            );
+          }
+        } catch {
+          const orders = JSON.parse(localStorage.getItem("orders") || "[]");
+          userOrders = orders.filter(
+            (order) =>
+              order.customerEmail &&
+              order.customerEmail.toLowerCase() === customerEmail.toLowerCase(),
+          );
+        }
         document.getElementById("orders-count").textContent = userOrders.length;
 
-        // Load messages count
-        const messages = JSON.parse(
-          localStorage.getItem("contactMessages") || "[]",
-        );
-        const userMessages = messages.filter(
-          (msg) =>
-            msg.email &&
-            msg.email.toLowerCase() === customerEmail.toLowerCase(),
-        );
+        // Load messages from API
+        let userMessages = [];
+        try {
+          const res = await fetch("/api/customer-messages?email=" + encodeURIComponent(customerEmail));
+          if (res.ok) {
+            const payload = await res.json();
+            userMessages = Array.isArray(payload) ? payload : payload.messages || [];
+          }
+        } catch {
+          const messages = JSON.parse(localStorage.getItem("contactMessages") || "[]");
+          userMessages = messages.filter(
+            (msg) =>
+              msg.email &&
+              msg.email.toLowerCase() === customerEmail.toLowerCase(),
+          );
+        }
 
-        console.log("Total user messages:", userMessages.length);
-        console.log("User messages:", userMessages);
-
-        // Count ALL messages with admin replies (regardless of readByCustomer flag)
+        // Count unread messages (admin replies customer hasn't read)
         let unreadCount = 0;
         userMessages.forEach((msg) => {
-          console.log(
-            "Checking message:",
-            msg.id || msg.email,
-            "replies:",
-            msg.replies,
-          );
           if (msg.replies && msg.replies.length > 0) {
-            console.log(
-              "Full replies array:",
-              JSON.stringify(msg.replies, null, 2),
-            );
-            const adminReplies = msg.replies.filter(
-              (r) => r.sender === "admin",
-            );
-            console.log("Admin replies found:", adminReplies.length);
-            const hasAdminReply = adminReplies.length > 0;
-            console.log(
-              "Has admin reply:",
-              hasAdminReply,
-              "readByCustomer:",
-              msg.readByCustomer,
-            );
-
-            // Count as unread if there are admin replies AND customer hasn't read
-            // OR if there are NEW admin replies after the last time customer read
-            if (hasAdminReply) {
+            const adminReplies = msg.replies.filter((r) => r.sender === "admin");
+            if (adminReplies.length > 0) {
               if (!msg.readByCustomer) {
-                console.log(
-                  "✓ Message has never been read - counts as unread!",
-                );
                 unreadCount++;
               } else if (msg.lastReadTime) {
-                // Check if there are admin replies AFTER the last read time
                 const newAdminReplies = adminReplies.filter(
                   (r) => new Date(r.date) > new Date(msg.lastReadTime),
                 );
-                if (newAdminReplies.length > 0) {
-                  console.log(
-                    "✓ Found",
-                    newAdminReplies.length,
-                    "NEW admin replies since last read!",
-                  );
-                  unreadCount++;
-                } else {
-                  console.log("✗ All admin replies were read already");
-                }
+                if (newAdminReplies.length > 0) unreadCount++;
               } else {
-                // Has been read but no lastReadTime recorded
-                // This is an old message from before we tracked read times
-                // Check if the MOST RECENT reply is from admin (within last 24 hours = likely new)
                 const mostRecentReply = adminReplies[adminReplies.length - 1];
                 const replyAge = Date.now() - new Date(mostRecentReply.date);
-                const oneDayInMs = 24 * 60 * 60 * 1000;
-
-                if (replyAge < oneDayInMs) {
-                  console.log(
-                    "⚠ Message has recent admin reply (within 24h) - showing badge!",
-                  );
-                  unreadCount++;
-                } else {
-                  console.log(
-                    "⚠ Message was read but no timestamp - admin reply is old, not counting",
-                  );
-                }
+                if (replyAge < 24 * 60 * 60 * 1000) unreadCount++;
               }
             }
-          } else {
-            console.log("No replies on this message");
           }
         });
 
-        console.log("=== FINAL UNREAD COUNT:", unreadCount, "===");
-
         document.getElementById("messages-count").textContent = unreadCount;
 
-        // ALWAYS try to show/hide badges based on count
         const messagesBadge = document.getElementById("messages-badge");
         const inboxBadge = document.getElementById("inbox-badge");
 
-        console.log("messagesBadge element:", messagesBadge);
-        console.log("inboxBadge element:", inboxBadge);
-
         if (unreadCount > 0) {
-          console.log("Showing badges for", unreadCount, "unread messages");
           if (messagesBadge) {
             messagesBadge.textContent = unreadCount;
             messagesBadge.style.display = "inline-block";
-            console.log(
-              "Messages badge display set to:",
-              messagesBadge.style.display,
-            );
           }
           if (inboxBadge) {
             inboxBadge.textContent = unreadCount;
             inboxBadge.style.display = "block";
-            console.log(
-              "Inbox badge display set to:",
-              inboxBadge.style.display,
-            );
           }
         } else {
-          console.log("No unread messages, hiding badges");
-          if (messagesBadge) {
-            messagesBadge.style.display = "none";
-          }
-          if (inboxBadge) {
-            inboxBadge.style.display = "none";
-          }
+          if (messagesBadge) messagesBadge.style.display = "none";
+          if (inboxBadge) inboxBadge.style.display = "none";
         }
 
         // Load wishlist count
