@@ -124,12 +124,14 @@
 /* Contact page hero background */
 .contact-page .hero {
   background-image:
-    linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+    linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
     url("./images/contact2.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  min-height: 600px;
+  min-height: 420px;
+  height: auto;
+  max-height: none;
 }
 
 .hero-content {
@@ -2526,13 +2528,22 @@ body {
 }
 .contact-hero {
   text-align: left;
-  min-height: 0;
   padding: 80px 20px;
+  height: auto;
+  max-height: none;
+  min-height: 380px;
 }
 .contact-hero .hero-content {
   text-align: left;
   align-items: flex-start;
-  gap: 10px;
+  gap: 14px;
+  max-width: 700px;
+}
+.contact-hero h1 {
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+.contact-hero p {
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 .contact-panels {
   padding: 60px 0;
