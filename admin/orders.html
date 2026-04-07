@@ -1055,15 +1055,17 @@
         try {
           let data = [];
           try {
-            const res = await fetch("/.netlify/functions/orders");
+            const res = await fetch("/api/orders");
             if (res.ok) {
               const payload = await res.json();
               data = Array.isArray(payload) ? payload : payload.orders || [];
             }
           } catch {
-            const res = await fetch("../orders.json");
-            const payload = await res.json();
-            data = Array.isArray(payload) ? payload : [];
+            try {
+              const res = await fetch("../orders.json");
+              const payload = await res.json();
+              data = Array.isArray(payload) ? payload : [];
+            } catch {}
           }
 
           // Also load orders from localStorage (local development fallback)
@@ -1237,6 +1239,17 @@
           allOrders[orderIndex].status = newStatus;
           allOrders[orderIndex].updatedAt = new Date().toISOString();
 
+          // Persist status change to server (Redis)
+          try {
+            fetch("/api/orders", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ orderId, status: newStatus }),
+            }).catch(err => console.warn("Server status update failed:", err));
+          } catch (err) {
+            console.warn("Could not update order on server", err);
+          }
+
           // Update localStorage if order is stored there
           try {
             const localStored = localStorage.getItem("orders");
@@ -1249,11 +1262,6 @@
                 localOrders[localIndex].status = newStatus;
                 localOrders[localIndex].updatedAt = new Date().toISOString();
                 localStorage.setItem("orders", JSON.stringify(localOrders));
-                console.log(
-                  "Order status updated in localStorage:",
-                  orderId,
-                  newStatus,
-                );
               }
             }
           } catch (err) {

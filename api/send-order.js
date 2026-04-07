@@ -135,7 +135,7 @@ module.exports = async (req, res) => {
 
   const deliveryFee = body.deliveryFee ?? body.delivery ?? "";
   try {
-    orderStore.appendOrder({
+    await orderStore.appendOrder({
       orderId,
       customer,
       items,

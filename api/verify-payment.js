@@ -73,7 +73,7 @@ module.exports = async (req, res) => {
       paidAt: txn.paid_at || new Date().toISOString(),
     };
 
-    orderStore.appendOrder(orderData);
+    await orderStore.appendOrder(orderData);
 
     return res.status(200).json({
       verified: true,

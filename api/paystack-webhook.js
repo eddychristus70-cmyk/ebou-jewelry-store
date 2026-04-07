@@ -164,7 +164,7 @@ module.exports = async (req, res) => {
 
     // Persist locally
     try {
-      orderStore.appendOrder({
+      await orderStore.appendOrder({
         orderId,
         customer,
         items,
@@ -177,7 +177,7 @@ module.exports = async (req, res) => {
         source: "paystack-webhook",
         createdAt: meta.createdAt || new Date().toISOString(),
         raw: {
-          webhookEvent: eventName,
+          webhookEvent: event,
           paystackId: verified.data && verified.data.id,
         },
       });
