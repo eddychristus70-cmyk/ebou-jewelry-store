@@ -490,6 +490,32 @@
         color: #ef4444;
       }
 
+      .forgot-link {
+        margin: -4px 0 0;
+        text-align: right;
+        font-size: 0.85rem;
+      }
+      .forgot-link a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .forgot-link a:hover {
+        text-decoration: underline;
+      }
+      .reset-panel {
+        display: flex;
+        flex-direction: column;
+      }
+      .reset-step {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .reset-step.hidden {
+        display: none !important;
+      }
+
       .hidden {
         display: none !important;
       }
@@ -761,9 +787,10 @@
               </button>
             </div>
             <p class="error-message" id="password-error" role="alert"></p>
+            <p class="forgot-link" id="forgot-link">
+              <a href="#" id="forgot-trigger">Forgot Password?</a>
+            </p>
           </div>
-
-          <div class="input-field" id="confirm-field">
             <label for="confirm-password">Confirm password</label>
             <div class="input-wrapper">
               <input
@@ -857,6 +884,81 @@
           ></div>
 
           <p class="form-feedback" id="form-feedback" role="status"></p>
+
+          <!-- Password Reset Panel (hidden by default) -->
+          <div id="reset-panel" class="reset-panel hidden">
+            <!-- Step 1: Enter email -->
+            <div id="reset-step-email" class="reset-step">
+              <p style="margin:0 0 12px;color:#6b7280;font-size:0.95rem;">
+                Enter your email to receive a 6-digit reset code.
+              </p>
+              <div class="input-field">
+                <label for="reset-email">Email address</label>
+                <div class="input-wrapper">
+                  <input type="email" id="reset-email" placeholder="name@example.com" required />
+                  <i class="fas fa-envelope field-icon" aria-hidden="true"></i>
+                </div>
+                <p class="error-message" id="reset-email-error" role="alert"></p>
+              </div>
+              <button type="button" class="primary-btn" id="send-code-btn">Send Reset Code</button>
+            </div>
+
+            <!-- Step 2: Enter code + new password -->
+            <div id="reset-step-code" class="reset-step hidden">
+              <p style="margin:0 0 12px;color:#6b7280;font-size:0.95rem;">
+                Enter the 6-digit code sent to your email and choose a new password.
+              </p>
+              <div class="input-field">
+                <label for="reset-code">6-Digit Code</label>
+                <div class="input-wrapper">
+                  <input type="text" id="reset-code" placeholder="000000" maxlength="6" inputmode="numeric" pattern="[0-9]{6}" required />
+                  <i class="fas fa-key field-icon" aria-hidden="true"></i>
+                </div>
+                <p class="error-message" id="reset-code-error" role="alert"></p>
+              </div>
+              <div class="input-field">
+                <label for="reset-new-password">New Password</label>
+                <div class="input-wrapper">
+                  <input type="password" id="reset-new-password" placeholder="New password" autocomplete="new-password" required />
+                  <i class="fas fa-lock field-icon" aria-hidden="true"></i>
+                  <button type="button" class="password-toggle" id="toggle-reset-password" title="Show/hide">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+                <p class="error-message" id="reset-password-error" role="alert"></p>
+              </div>
+              <div class="input-field">
+                <label for="reset-confirm-password">Confirm New Password</label>
+                <div class="input-wrapper">
+                  <input type="password" id="reset-confirm-password" placeholder="Repeat new password" autocomplete="new-password" required />
+                  <i class="fas fa-lock field-icon" aria-hidden="true"></i>
+                </div>
+                <p class="error-message" id="reset-confirm-error" role="alert"></p>
+              </div>
+              <button type="button" class="primary-btn" id="verify-code-btn">Reset Password</button>
+            </div>
+
+            <!-- Step 3: Success -->
+            <div id="reset-step-done" class="reset-step hidden" style="text-align:center;padding:20px 0;">
+              <i class="fas fa-check-circle" style="font-size:2.5rem;color:#10b981;margin-bottom:12px;"></i>
+              <p style="font-weight:700;font-size:1.1rem;color:#111827;">Password reset successfully!</p>
+              <p style="color:#6b7280;font-size:0.9rem;margin-top:6px;">You can now sign in with your new password.</p>
+              <button type="button" class="primary-btn" id="back-to-signin-btn" style="margin-top:16px;">Back to Sign In</button>
+            </div>
+
+            <!-- Fallback: no email service -->
+            <div id="reset-step-fallback" class="reset-step hidden" style="text-align:center;padding:20px 0;">
+              <i class="fas fa-exclamation-triangle" style="font-size:2rem;color:#f59e0b;margin-bottom:12px;"></i>
+              <p style="color:#6b7280;font-size:0.95rem;">
+                Email delivery is not available at this time.<br />
+                Please contact support via <a href="contact.html" style="color:#e50f65;">our contact page</a>
+                or WhatsApp to reset your password.
+              </p>
+              <button type="button" class="primary-btn" id="fallback-back-btn" style="margin-top:16px;">Back to Sign In</button>
+            </div>
+
+            <p class="form-feedback" id="reset-feedback" role="status"></p>
+          </div>
         </form>
       </div>
     </div>
@@ -1148,6 +1250,11 @@
           if (nextMode === "signin" && emailInput.value.trim()) {
             preloadProfileFields(emailInput.value.trim().toLowerCase());
           }
+          // Hide forgot link in signup, hide reset panel
+          const forgotEl = document.getElementById("forgot-link");
+          if (forgotEl) forgotEl.classList.toggle("hidden", nextMode !== "signin");
+          const rp = document.getElementById("reset-panel");
+          if (rp) rp.classList.add("hidden");
         }
 
         function openModal(defaultMode = "signin") {
@@ -1771,6 +1878,195 @@
           googleBtn.addEventListener("click", function () {
             // The Google Sign-In will be handled by the g_id_onload div automatically
             // This button is just for visual purposes - the actual sign-in is triggered by Google's library
+          });
+        }
+
+        // --- Forgot Password Handlers ---
+        function enterResetMode() {
+          document.getElementById("reset-panel").classList.remove("hidden");
+          document.getElementById("reset-step-email").classList.remove("hidden");
+          document.getElementById("reset-step-code").classList.add("hidden");
+          document.getElementById("reset-step-done").classList.add("hidden");
+          document.getElementById("reset-step-fallback").classList.add("hidden");
+          document.getElementById("reset-feedback").textContent = "";
+          // Pre-fill email if already entered
+          const mainEmail = document.getElementById("login-email").value.trim();
+          if (mainEmail) document.getElementById("reset-email").value = mainEmail;
+          // Hide normal form fields
+          document.querySelectorAll(".form-box .input-field, .form-box .primary-btn, .form-box .forgot-link, .form-box .toggle-link, .form-box .divider, .form-box .google-btn, .profile-section").forEach(el => {
+            if (!el.closest("#reset-panel")) el.style.display = "none";
+          });
+        }
+
+        function exitResetMode() {
+          document.getElementById("reset-panel").classList.add("hidden");
+          // Show normal form fields again
+          document.querySelectorAll(".form-box .input-field, .form-box .primary-btn, .form-box .forgot-link, .form-box .toggle-link, .form-box .divider, .form-box .google-btn, .profile-section").forEach(el => {
+            if (!el.closest("#reset-panel")) el.style.display = "";
+          });
+          // Clear reset fields
+          document.getElementById("reset-email").value = "";
+          document.getElementById("reset-code") && (document.getElementById("reset-code").value = "");
+          document.getElementById("reset-new-password") && (document.getElementById("reset-new-password").value = "");
+          document.getElementById("reset-confirm-password") && (document.getElementById("reset-confirm-password").value = "");
+          document.getElementById("reset-feedback").textContent = "";
+          // Clear error messages
+          ["reset-email-error","reset-code-error","reset-password-error","reset-confirm-error"].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = "";
+          });
+        }
+
+        // Forgot Password? link
+        const forgotTrigger = document.querySelector("#forgot-link a");
+        if (forgotTrigger) {
+          forgotTrigger.addEventListener("click", function (e) {
+            e.preventDefault();
+            enterResetMode();
+          });
+        }
+
+        // Send Code button
+        const sendCodeBtn = document.getElementById("send-code-btn");
+        if (sendCodeBtn) {
+          sendCodeBtn.addEventListener("click", async function () {
+            const email = document.getElementById("reset-email").value.trim().toLowerCase();
+            const emailErr = document.getElementById("reset-email-error");
+            const fb = document.getElementById("reset-feedback");
+            emailErr.textContent = "";
+            fb.textContent = "";
+
+            if (!email || !email.includes("@")) {
+              emailErr.textContent = "Please enter a valid email address.";
+              return;
+            }
+
+            sendCodeBtn.disabled = true;
+            sendCodeBtn.textContent = "Sending...";
+
+            try {
+              const resp = await fetch("/api/auth", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ action: "request-reset", email }),
+              });
+              const data = await resp.json();
+
+              if (data.googleUser) {
+                fb.textContent = "This account uses Google Sign-In. Please use the Google button to log in.";
+                fb.style.color = "#f59e0b";
+                sendCodeBtn.disabled = false;
+                sendCodeBtn.textContent = "Send Reset Code";
+                return;
+              }
+
+              if (data.emailSent) {
+                // Sent successfully - go to code step
+                document.getElementById("reset-step-email").classList.add("hidden");
+                document.getElementById("reset-step-code").classList.remove("hidden");
+                fb.textContent = "Code sent! Check your email (including spam folder).";
+                fb.style.color = "#10b981";
+              } else {
+                // SendGrid not configured - show fallback
+                document.getElementById("reset-step-email").classList.add("hidden");
+                document.getElementById("reset-step-fallback").classList.remove("hidden");
+              }
+            } catch (err) {
+              fb.textContent = "Network error. Please try again.";
+              fb.style.color = "#ef4444";
+            } finally {
+              sendCodeBtn.disabled = false;
+              sendCodeBtn.textContent = "Send Reset Code";
+            }
+          });
+        }
+
+        // Verify Code + Reset Password button
+        const verifyCodeBtn = document.getElementById("verify-code-btn");
+        if (verifyCodeBtn) {
+          verifyCodeBtn.addEventListener("click", async function () {
+            const email = document.getElementById("reset-email").value.trim().toLowerCase();
+            const code = document.getElementById("reset-code").value.trim();
+            const newPwd = document.getElementById("reset-new-password").value;
+            const confirmPwd = document.getElementById("reset-confirm-password").value;
+            const codeErr = document.getElementById("reset-code-error");
+            const pwdErr = document.getElementById("reset-password-error");
+            const confirmErr = document.getElementById("reset-confirm-error");
+            const fb = document.getElementById("reset-feedback");
+
+            codeErr.textContent = "";
+            pwdErr.textContent = "";
+            confirmErr.textContent = "";
+            fb.textContent = "";
+
+            let valid = true;
+            if (!code || code.length !== 6 || !/^\d{6}$/.test(code)) {
+              codeErr.textContent = "Please enter the 6-digit code.";
+              valid = false;
+            }
+            if (!newPwd || newPwd.length < 6) {
+              pwdErr.textContent = "Password must be at least 6 characters.";
+              valid = false;
+            }
+            if (newPwd !== confirmPwd) {
+              confirmErr.textContent = "Passwords do not match.";
+              valid = false;
+            }
+            if (!valid) return;
+
+            verifyCodeBtn.disabled = true;
+            verifyCodeBtn.textContent = "Resetting...";
+
+            try {
+              const newHash = await hashPassword(newPwd);
+              const resp = await fetch("/api/auth", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ action: "verify-reset", email, code, newHash }),
+              });
+              const data = await resp.json();
+
+              if (resp.ok && data.success) {
+                document.getElementById("reset-step-code").classList.add("hidden");
+                document.getElementById("reset-step-done").classList.remove("hidden");
+                fb.textContent = "";
+              } else {
+                fb.textContent = data.error || "Invalid or expired code. Please try again.";
+                fb.style.color = "#ef4444";
+              }
+            } catch (err) {
+              fb.textContent = "Network error. Please try again.";
+              fb.style.color = "#ef4444";
+            } finally {
+              verifyCodeBtn.disabled = false;
+              verifyCodeBtn.textContent = "Reset Password";
+            }
+          });
+        }
+
+        // Back to Sign In buttons
+        ["back-to-signin-btn", "fallback-back-btn"].forEach(function (id) {
+          const btn = document.getElementById(id);
+          if (btn) {
+            btn.addEventListener("click", function () {
+              exitResetMode();
+            });
+          }
+        });
+
+        // Toggle reset password visibility
+        const toggleResetPwd = document.getElementById("toggle-reset-password");
+        if (toggleResetPwd) {
+          toggleResetPwd.addEventListener("click", function () {
+            const input = document.getElementById("reset-new-password");
+            const icon = toggleResetPwd.querySelector("i");
+            if (input.type === "password") {
+              input.type = "text";
+              icon.classList.replace("fa-eye", "fa-eye-slash");
+            } else {
+              input.type = "password";
+              icon.classList.replace("fa-eye-slash", "fa-eye");
+            }
           });
         }
 

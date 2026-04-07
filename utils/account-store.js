@@ -138,9 +138,84 @@ async function createOrUpdateGoogleAccount(email, profile) {
   return true;
 }
 
+// File-based fallback for reset codes (local dev only)
+const resetCodesMap = new Map();
+
+async function updatePassword(email, newHash) {
+  if (!email || !newHash) return false;
+  const accounts = redis ? await readRedisStore() : readFileStore();
+  const idx = accounts.findIndex((a) => a.email === email.toLowerCase());
+  if (idx === -1) return false;
+
+  accounts[idx].hash = newHash;
+  accounts[idx].passwordChangedAt = new Date().toISOString();
+
+  if (redis) {
+    await writeRedisStore(accounts);
+  } else {
+    writeFileStore(accounts);
+  }
+  return true;
+}
+
+async function storeResetCode(email, code) {
+  const key = "reset-code:" + email.toLowerCase();
+  const value = JSON.stringify({
+    code,
+    email: email.toLowerCase(),
+    createdAt: new Date().toISOString(),
+  });
+
+  if (redis) {
+    try {
+      await redis.set(key, value, { ex: 900 });
+      return true;
+    } catch (err) {
+      console.warn("storeResetCode redis error", err);
+      return false;
+    }
+  }
+
+  // File fallback: in-memory with 15-min timeout
+  resetCodesMap.set(key, { code, email: email.toLowerCase() });
+  setTimeout(() => resetCodesMap.delete(key), 900000);
+  return true;
+}
+
+async function verifyResetCode(email, code) {
+  const key = "reset-code:" + email.toLowerCase();
+
+  if (redis) {
+    try {
+      const raw = await redis.get(key);
+      if (!raw) return false;
+      const data = typeof raw === "string" ? JSON.parse(raw) : raw;
+      if (data.code === code) {
+        await redis.del(key);
+        return true;
+      }
+      return false;
+    } catch (err) {
+      console.warn("verifyResetCode redis error", err);
+      return false;
+    }
+  }
+
+  // File fallback
+  const entry = resetCodesMap.get(key);
+  if (entry && entry.code === code) {
+    resetCodesMap.delete(key);
+    return true;
+  }
+  return false;
+}
+
 module.exports = {
   findAccount,
   createAccount,
   updateAccountProfile,
   createOrUpdateGoogleAccount,
+  updatePassword,
+  storeResetCode,
+  verifyResetCode,
 };
