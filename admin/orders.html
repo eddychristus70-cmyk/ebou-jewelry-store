@@ -630,7 +630,28 @@
           <h1>Vendor Dashboard</h1>
         </div>
         <nav class="admin-nav">
-          <a href="orders.html" class="active">Orders</a>
+          <a href="orders.html" class="active" style="position: relative">
+            Orders
+            <span
+              class="admin-messages-badge"
+              id="admin-orders-badge"
+              style="
+                display: none;
+                position: absolute;
+                top: -6px;
+                right: -10px;
+                background: #f59e0b;
+                color: white;
+                font-size: 0.7rem;
+                padding: 3px 7px;
+                border-radius: 12px;
+                font-weight: 700;
+                min-width: 18px;
+                text-align: center;
+              "
+              >0</span
+            >
+          </a>
           <a href="messages.html" style="position: relative">
             Messages
             <span
@@ -1094,6 +1115,7 @@
 
           updateStats(allOrders);
           filterOrders();
+          if (typeof updateOrdersBadge === "function") updateOrdersBadge();
 
           const lastUpdate = new Date().toLocaleTimeString("en-GB");
           document.getElementById("status").innerHTML =
@@ -1323,11 +1345,21 @@
           }
         }
 
-        updateAdminMessagesBadge();
-        // Update badge every 10 seconds
-        setInterval(updateAdminMessagesBadge, 10000);
+        // New orders badge (pending/confirmed orders)
+        function updateOrdersBadge() {
+          const newOrders = allOrders.filter(
+            o => o.status === "pending" || o.status === "confirmed" || o.status === "processing"
+          ).length;
+          const badge = document.getElementById("admin-orders-badge");
+          if (badge) {
+            badge.textContent = newOrders;
+            badge.style.display = newOrders > 0 ? "block" : "none";
+          }
+        }
 
-        loadOrders();
+        updateAdminMessagesBadge();
+        // Update badges every 10 seconds
+        setInterval(updateAdminMessagesBadge, 10000);
       });
 
       // Session Check - Protect Page

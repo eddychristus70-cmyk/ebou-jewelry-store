@@ -402,7 +402,24 @@
               <i class="fas fa-shopping-bag"></i>
             </div>
             <div>
-              <div class="card-title">My Orders</div>
+              <div class="card-title">
+                My Orders
+                <span
+                  class="notification-badge"
+                  id="orders-badge"
+                  style="
+                    display: none;
+                    margin-left: 8px;
+                    background: #f59e0b;
+                    color: white;
+                    font-size: 0.75rem;
+                    padding: 2px 8px;
+                    border-radius: 12px;
+                    font-weight: 700;
+                  "
+                  >0</span
+                >
+              </div>
               <div class="card-subtitle">Track your purchases</div>
             </div>
           </div>
@@ -410,9 +427,28 @@
             <div class="stat-number" id="orders-count">0</div>
             <p>Total Orders</p>
           </div>
-          <a href="customer-orders.html" class="btn btn-primary">
+          <a href="customer-orders.html" class="btn btn-primary" style="position: relative">
             <i class="fas fa-eye"></i>
             View Orders
+            <span
+              class="inbox-notification-badge"
+              id="orders-btn-badge"
+              style="
+                display: none;
+                position: absolute;
+                top: -8px;
+                right: -8px;
+                background: #f59e0b;
+                color: white;
+                font-size: 0.7rem;
+                padding: 2px 7px;
+                border-radius: 10px;
+                font-weight: 700;
+                min-width: 18px;
+                text-align: center;
+              "
+              >0</span
+            >
           </a>
         </div>
 
@@ -763,6 +799,22 @@
           );
         }
         document.getElementById("orders-count").textContent = userOrders.length;
+
+        // Count active orders (pending, confirmed, processing, shipped) for badge
+        const activeOrders = userOrders.filter(o => {
+          const s = (o.status || "").toLowerCase();
+          return s === "pending" || s === "confirmed" || s === "processing" || s === "shipped";
+        }).length;
+        const ordersBadge = document.getElementById("orders-badge");
+        const ordersBtnBadge = document.getElementById("orders-btn-badge");
+        if (ordersBadge) {
+          ordersBadge.textContent = activeOrders;
+          ordersBadge.style.display = activeOrders > 0 ? "inline-block" : "none";
+        }
+        if (ordersBtnBadge) {
+          ordersBtnBadge.textContent = activeOrders;
+          ordersBtnBadge.style.display = activeOrders > 0 ? "block" : "none";
+        }
 
         // Load messages from API
         let userMessages = [];
