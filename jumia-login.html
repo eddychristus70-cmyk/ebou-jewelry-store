@@ -791,6 +791,7 @@
               <a href="#" id="forgot-trigger">Forgot Password?</a>
             </p>
           </div>
+          <div class="input-field hidden" id="confirm-field">
             <label for="confirm-password">Confirm password</label>
             <div class="input-wrapper">
               <input
@@ -1890,7 +1891,7 @@
           document.getElementById("reset-step-fallback").classList.add("hidden");
           document.getElementById("reset-feedback").textContent = "";
           // Pre-fill email if already entered
-          const mainEmail = document.getElementById("login-email").value.trim();
+          const mainEmail = document.getElementById("email").value.trim();
           if (mainEmail) document.getElementById("reset-email").value = mainEmail;
           // Hide normal form fields
           document.querySelectorAll(".form-box .input-field, .form-box .primary-btn, .form-box .forgot-link, .form-box .toggle-link, .form-box .divider, .form-box .google-btn, .profile-section").forEach(el => {
