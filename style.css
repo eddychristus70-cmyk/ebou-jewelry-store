@@ -2532,18 +2532,37 @@ body {
   height: auto;
   max-height: none;
   min-height: 380px;
+  color: #fff;
+  display: flex;
+  align-items: center;
 }
 .contact-hero .hero-content {
   text-align: left;
   align-items: flex-start;
   gap: 14px;
   max-width: 700px;
+  opacity: 1;
 }
 .contact-hero h1 {
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+  color: #fff;
 }
 .contact-hero p {
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+  color: rgba(255, 255, 255, 0.95);
+}
+.contact-hero .eyebrow {
+  color: #fbbf24;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.85rem;
+}
+.contact-hero .hero-btns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
 }
 .contact-panels {
   padding: 60px 0;
