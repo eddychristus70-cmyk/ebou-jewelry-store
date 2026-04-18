@@ -1360,6 +1360,9 @@
         updateAdminMessagesBadge();
         // Update badges every 10 seconds
         setInterval(updateAdminMessagesBadge, 10000);
+
+        // Also refresh orders every 30 seconds to get latest
+        setInterval(loadOrders, 30000);
       });
 
       // Session Check - Protect Page
