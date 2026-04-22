@@ -1,7 +1,8 @@
 {
-  "outputDirectory": "public",
-  "rewrites": [
-    { "source": "/", "destination": "/pages/index.html" },
-    { "source": "/(.*)", "destination": "/pages/$1" }
+  "version": 2,
+  "builds": [{ "src": "public/**/*", "use": "@vercel/static" }],
+  "routes": [
+    { "src": "^/$", "dest": "/public/pages/index.html" },
+    { "src": "^/(.*)$", "dest": "/public/pages/$1" }
   ]
 }
