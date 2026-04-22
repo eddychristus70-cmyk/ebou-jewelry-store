@@ -8,15 +8,15 @@
       rel="icon"
       type="image/png"
       sizes="48x48"
-      href="../assets/images/favicon-48x48.png"
+      href="/assets/ages/favicon-48x48.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="192x192"
-      href="../assets/images/favicon-192x192.png"
+      href="/assets/images/favicon-192x192.png"
     />
-    <link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
@@ -427,7 +427,11 @@
             <div class="stat-number" id="orders-count">0</div>
             <p>Total Orders</p>
           </div>
-          <a href="customer-orders.html" class="btn btn-primary" style="position: relative">
+          <a
+            href="customer-orders.html"
+            class="btn btn-primary"
+            style="position: relative"
+          >
             <i class="fas fa-eye"></i>
             View Orders
             <span
@@ -782,13 +786,16 @@
           const res = await fetch("/api/orders");
           if (res.ok) {
             const payload = await res.json();
-            const allOrders = Array.isArray(payload) ? payload : payload.orders || [];
-            userOrders = allOrders.filter(
-              (order) => {
-                const email = order.customerEmail || (order.customer && order.customer.email) || "";
-                return email.toLowerCase() === customerEmail.toLowerCase();
-              }
-            );
+            const allOrders = Array.isArray(payload)
+              ? payload
+              : payload.orders || [];
+            userOrders = allOrders.filter((order) => {
+              const email =
+                order.customerEmail ||
+                (order.customer && order.customer.email) ||
+                "";
+              return email.toLowerCase() === customerEmail.toLowerCase();
+            });
           }
         } catch {
           const orders = JSON.parse(localStorage.getItem("orders") || "[]");
@@ -801,15 +808,21 @@
         document.getElementById("orders-count").textContent = userOrders.length;
 
         // Count active orders (pending, confirmed, processing, shipped) for badge
-        const activeOrders = userOrders.filter(o => {
+        const activeOrders = userOrders.filter((o) => {
           const s = (o.status || "").toLowerCase();
-          return s === "pending" || s === "confirmed" || s === "processing" || s === "shipped";
+          return (
+            s === "pending" ||
+            s === "confirmed" ||
+            s === "processing" ||
+            s === "shipped"
+          );
         }).length;
         const ordersBadge = document.getElementById("orders-badge");
         const ordersBtnBadge = document.getElementById("orders-btn-badge");
         if (ordersBadge) {
           ordersBadge.textContent = activeOrders;
-          ordersBadge.style.display = activeOrders > 0 ? "inline-block" : "none";
+          ordersBadge.style.display =
+            activeOrders > 0 ? "inline-block" : "none";
         }
         if (ordersBtnBadge) {
           ordersBtnBadge.textContent = activeOrders;
@@ -819,13 +832,19 @@
         // Load messages from API
         let userMessages = [];
         try {
-          const res = await fetch("/api/customer-messages?email=" + encodeURIComponent(customerEmail));
+          const res = await fetch(
+            "/api/customer-messages?email=" + encodeURIComponent(customerEmail),
+          );
           if (res.ok) {
             const payload = await res.json();
-            userMessages = Array.isArray(payload) ? payload : payload.messages || [];
+            userMessages = Array.isArray(payload)
+              ? payload
+              : payload.messages || [];
           }
         } catch {
-          const messages = JSON.parse(localStorage.getItem("contactMessages") || "[]");
+          const messages = JSON.parse(
+            localStorage.getItem("contactMessages") || "[]",
+          );
           userMessages = messages.filter(
             (msg) =>
               msg.email &&
@@ -837,7 +856,9 @@
         let unreadCount = 0;
         userMessages.forEach((msg) => {
           if (msg.replies && msg.replies.length > 0) {
-            const adminReplies = msg.replies.filter((r) => r.sender === "admin");
+            const adminReplies = msg.replies.filter(
+              (r) => r.sender === "admin",
+            );
             if (adminReplies.length > 0) {
               if (!msg.readByCustomer) {
                 unreadCount++;

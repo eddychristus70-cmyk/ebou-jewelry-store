@@ -8,15 +8,15 @@
       rel="icon"
       type="image/png"
       sizes="48x48"
-      href="../assets/images/favicon-48x48.png"
+      href="/assets/images/favicon-48x48.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="192x192"
-      href="../assets/images/favicon-192x192.png"
+      href="/assets/images/favicon-192x192.png"
     />
-    <link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
@@ -506,7 +506,6 @@
         text-decoration: underline;
       }
 
-
       .hidden {
         display: none !important;
       }
@@ -876,7 +875,6 @@
           ></div>
 
           <p class="form-feedback" id="form-feedback" role="status"></p>
-
         </form>
       </div>
     </div>
@@ -998,7 +996,8 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify(accounts));
 
         // Save to server API (Redis) for cross-device access
-        const googleProfile = accounts.find((a) => a.email === email)?.profile || {};
+        const googleProfile =
+          accounts.find((a) => a.email === email)?.profile || {};
         try {
           await fetch("/api/auth", {
             method: "POST",
@@ -1170,7 +1169,8 @@
           }
           // Hide forgot link in signup mode
           const forgotEl = document.getElementById("forgot-link");
-          if (forgotEl) forgotEl.classList.toggle("hidden", nextMode !== "signin");
+          if (forgotEl)
+            forgotEl.classList.toggle("hidden", nextMode !== "signin");
         }
 
         function openModal(defaultMode = "signin") {
@@ -1419,7 +1419,8 @@
           const shouldRedirectToCheckout = cartHasPendingItems();
 
           if (shouldRedirectToCheckout) {
-            feedback.textContent = "Account created! Redirecting to checkout...";
+            feedback.textContent =
+              "Account created! Redirecting to checkout...";
             feedback.className = "form-feedback success";
             if (synced || serverOk) {
               setTimeout(() => {
