@@ -1,49 +1,11 @@
-# Fix Messy Page — TODO
+# Product Images, Search, User Icon, Checkout Fix
 
-## Root causes identified
+## Plan Steps:
 
-- [x] CSS paths broken (absolute `/styles/...` failed under `file://`) — FIXED
-- [x] Broken `<img>` tag in index.html first product card — FIXED
-- [x] Nested @media block broke `.mini-cart`, `.toast`, `.drawer-empty` — FIXED
-- [ ] `products.json` missing → shop/categories/product/wishlist pages empty
-- [ ] `script.js` wrong path on index/shop/contact/categories → cart, menu, search dead
-- [ ] Typo paths: `......../assets/...`, `/images/delivery-man-3.jpg`
-- [ ] CSS `url(images/...)` references resolve to wrong location
-- [ ] Mojibake characters (`?` junk instead of `×`, `—`, `₵`)
+- [x] Diagnose: Images fail on file:// (needs Live Server), broken JS links (jumia-\* missing)
+- [ ] 1. Edit public/js/script.js: Fix jumia-login/checkout → ebou\*-login/checkout.html
+- [ ] 2. Test: Live Server on public/index.html → verify search toggle, user icon, cart→checkout
+- [ ] 3. If login/checkout broken: Fix those pages
+- [ ] 4. Deploy/push to Netlify if needed
 
-## Tasks
-
-### 1. Create products.json
-
-- [ ] Build `public/products.json` with 25 products (from shop.html hardcoded data)
-- [ ] Include: id, title, description, price, originalPrice, discount, img, category, tags
-
-### 2. Fix script.js paths
-
-- [ ] `public/index.html` — `script.js` → `js/script.js`
-- [ ] `public/shop.html` — `script.js` → `js/script.js`
-- [ ] `public/contact.html` — `../js/script.js` → `js/script.js`
-- [ ] `public/categories.html` — verify & fix script src
-- [ ] `public/product.html` — add `js/script.js` if missing
-
-### 3. Fix typo paths
-
-- [ ] `public/categories.html` — `......../assets/images/favicon-48x48.png` → `/assets/images/favicon-48x48.png`
-- [ ] `public/categories.html` — `../assets/images/favicon-192x192.png` → `/assets/images/favicon-192x192.png`
-- [ ] `public/index.html` — `/images/delivery-man-3.jpg` → `/assets/images/delivery-man-3.jpg`
-
-### 4. Fix style.css image URLs
-
-- [ ] Replace `url(images/...)` → `url(../assets/images/...)` in `public/styles/style.css`
-
-### 5. Fix mojibake characters
-
-- [ ] Replace junk replacement chars with `×`, `—`, `₵` across all HTML files
-
-## Verification
-
-- [ ] Reload `http://localhost:3000/` — homepage renders, cart works, menu works
-- [ ] `/shop.html` — 25 products render
-- [ ] `/categories.html` — category sections render
-- [ ] `/product.html?id=...` — product details render
-- [ ] `/contact.html` — form layout OK
+**Run:** Right-click public/index.html → Open with Live Server (install extension if missing)
