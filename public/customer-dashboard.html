@@ -1,22 +1,10 @@
 <!doctype html>
-<html lang="
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Dashboard - Ebou Jewelry</title>
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="48x48"
-      href="/assets/images/favicon-48x48.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="192x192"
-      href="/assets/images/favicon-192x192.png"
-    />
-    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png" />
+    <link rel="icon" type="image/jpeg" href="assets/images/goldlogo2.jpeg" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
@@ -677,7 +665,12 @@
 
       // Initialize page
       document.addEventListener("DOMContentLoaded", function () {
-        checkAuthentication();
+        const isAuthenticated = checkAuthentication();
+
+        if (!isAuthenticated) {
+          return;
+        }
+
         loadProducts();
         setupRatingInput();
         handleHashNavigation();
@@ -768,14 +761,19 @@
               </div>
             </div>
           `;
-          return;
+          return false;
         }
 
         // Update last activity
         sessionData.lastActivity = Date.now();
         sessionStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
 
-        document.getElementById("user-email").textContent = customerEmail;
+        const userEmailEl = document.getElementById("user-email");
+        if (userEmailEl) {
+          userEmailEl.textContent = customerEmail;
+        }
+
+        return true;
       }
 
       // Load dashboard statistics

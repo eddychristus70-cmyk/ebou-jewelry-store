@@ -1,11 +1,20 @@
-# Product Images, Search, User Icon, Checkout Fix
+# Cart Fixes TODO
 
-## Plan Steps:
+## Current Progress
 
-- [x] Diagnose: Images fail on file:// (needs Live Server), broken JS links (jumia-\* missing)
-- [ ] 1. Edit public/js/script.js: Fix jumia-login/checkout → ebou\*-login/checkout.html
-- [ ] 2. Test: Live Server on public/index.html → verify search toggle, user icon, cart→checkout
-- [ ] 3. If login/checkout broken: Fix those pages
-- [ ] 4. Deploy/push to Netlify if needed
+- [x] Analyzed files (script.js, shop.html, product.html, products.json)
+- [x] Created detailed plan
+- [x] Got user approval
 
-**Run:** Right-click public/index.html → Open with Live Server (install extension if missing)
+## Implementation Steps
+
+- [x] 1. Add delivery fee input to shop.html cart drawer
+- [ ] 2. Update script.js: remove auto-openCart, rename Shipping→Delivery, handle delivery input
+- [ ] 3. Test functionality
+- [ ] 4. Update other pages if needed (product.html inline cart)
+
+## Testing
+
+- Add item → count updates, no auto-open
+- Change delivery fee → total updates, persists
+- Free delivery option works

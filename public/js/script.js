@@ -8,6 +8,30 @@ document.addEventListener("DOMContentLoaded", function () {
   initHeroSlideshow();
   initCart();
   updateCartUI();
+  normalizeCurrencySymbols();
+
+  function normalizeCurrencySymbols() {
+    const questionMoneyRe = /\?\s*(\d+(?:\.\d+)?)/g; // e.g. "?150", "? 150", "?0.00"
+
+    const selectors = [
+      ".price",
+      ".original-price",
+      "#cart-subtotal",
+      "#cart-total",
+      "#cart-shipping",
+      // also fix any remaining inline promo text that still contains "?<number>"
+      "body",
+    ];
+
+    document.querySelectorAll(selectors.join(", ")).forEach((element) => {
+      const text = element.textContent || "";
+      if (!questionMoneyRe.test(text)) return;
+
+      // reset lastIndex for global regex re-use
+      questionMoneyRe.lastIndex = 0;
+      element.textContent = text.replace(questionMoneyRe, "₵$1");
+    });
+  }
 
   function initNavigation() {
     const navLinks = document.getElementById("nav-links");
@@ -64,16 +88,20 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function getCardText(card) {
-      return [
+      const parts = [
         card.dataset.title,
         card.dataset.description,
         card.dataset.tags,
         card.querySelector("h3")?.textContent,
         card.querySelector("p")?.textContent,
-      ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
+      ].filter(Boolean);
+
+      // Fallback: if dataset/h3/p are missing (or cards are built differently),
+      // still allow search by using the card's visible text.
+      const fallbackText = card.textContent?.trim();
+      if (fallbackText) parts.push(fallbackText);
+
+      return parts.join(" ").replace(/\s+/g, " ").toLowerCase();
     }
 
     function renderSuggestions(matches) {
