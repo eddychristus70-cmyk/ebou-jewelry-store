@@ -64,16 +64,20 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function getCardText(card) {
-      return [
+      const parts = [
         card.dataset.title,
         card.dataset.description,
         card.dataset.tags,
         card.querySelector("h3")?.textContent,
         card.querySelector("p")?.textContent,
-      ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
+      ].filter(Boolean);
+
+      // Fallback: if dataset/h3/p aren't present (or cards are built differently),
+      // search the visible text so filtering still works.
+      const fallbackText = card.textContent?.trim();
+      if (fallbackText) parts.push(fallbackText);
+
+      return parts.join(" ").replace(/\s+/g, " ").toLowerCase();
     }
 
     function renderSuggestions(matches) {
