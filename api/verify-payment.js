@@ -58,9 +58,11 @@ module.exports = async (req, res) => {
     const orderId = order.orderId || txn.metadata?.orderId || reference;
     const orderData = {
       orderId: orderId,
-      customerName: order.customer?.name || txn.metadata?.customerName || "",
-      customerEmail: order.customer?.email || txn.customer?.email || "",
-      customerPhone: order.customer?.phone || "",
+      customer: {
+        name: order.customer?.name || txn.metadata?.customerName || "",
+        email: order.customer?.email || txn.customer?.email || "",
+        phone: order.customer?.phone || "",
+      },
       shippingAddress: order.customer
         ? `${order.customer.address || ""}, ${order.customer.city || ""}, ${order.customer.region || ""}`
         : "",
@@ -69,7 +71,8 @@ module.exports = async (req, res) => {
       total: order.total || (txn.amount / 100).toFixed(2),
       paymentRef: reference,
       paymentStatus: "success",
-      status: "confirmed",
+      paymentChannel: txn.channel || "",
+      status: "paid",
       paidAt: txn.paid_at || new Date().toISOString(),
     };
 
