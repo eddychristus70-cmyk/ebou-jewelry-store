@@ -265,7 +265,7 @@
         }
 
         try {
-          const resp = await fetch("./products.json?v=3");
+          const resp = await fetch((location.hostname==='localhost'||location.hostname==='127.0.0.1'||location.protocol==='file:')?'./products.json':'/api/products');
           if (!resp.ok) throw new Error("products.json not found");
           const products = await resp.json();
           const p = products.find((x) => x.id === id);
@@ -455,7 +455,7 @@
         async function loadAllReviews(productId) {
           try {
             // Load reviews from products.json
-            const resp = await fetch("./products.json?v=3");
+            const resp = await fetch((location.hostname==='localhost'||location.hostname==='127.0.0.1'||location.protocol==='file:')?'./products.json':'/api/products');
             const products = await resp.json();
             const product = products.find((p) => p.id === productId);
             const jsonReviews = product?.reviews || [];

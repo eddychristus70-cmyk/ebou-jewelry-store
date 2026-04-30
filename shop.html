@@ -1097,9 +1097,14 @@
         const productsGrid = document.querySelector(".products-grid");
         if (!productsGrid) return;
 
-        fetch("./products.json?v=3")
+        const productSrc = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.protocol === "file:"
+          ? "./products.json"
+          : "/api/products";
+        fetch(productSrc)
           .then((response) => response.json())
           .then((products) => {
+            if (!Array.isArray(products)) products = [];
+
             // Clear existing hardcoded products
             productsGrid.innerHTML = "";
 

@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Products — Ebou Jewelry Admin</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #e50f65;
+      --success: #1eb981;
+      --danger: #ef4444;
+      --dark: #1f2937;
+      --border: #e5e7eb;
+      --bg: #f5f7fa;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--dark); min-height: 100vh; }
+
+    /* Header */
+    .header {
+      background: white; padding: 16px 24px; box-shadow: 0 2px 8px rgba(0,0,0,.08);
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    }
+    .logo { font-size: 20px; font-weight: 700; color: var(--primary); text-decoration: none; }
+    .admin-nav { display: flex; gap: 12px; }
+    .admin-nav a { color: var(--dark); padding: 6px 12px; border-radius: 8px; text-decoration: none; font-weight: 500; font-size: 14px; }
+    .admin-nav a.active { background: rgba(229,15,101,.1); color: var(--primary); }
+    .header-actions { display: flex; gap: 10px; align-items: center; }
+
+    /* Container */
+    .container { max-width: 1300px; margin: 24px auto; padding: 0 20px; }
+
+    /* Top bar */
+    .top-bar { display: flex; gap: 12px; align-items: center; margin-bottom: 20px; flex-wrap: wrap; }
+    .top-bar h1 { font-size: 22px; flex: 1; }
+    .search-box { padding: 8px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; width: 220px; outline: none; }
+    .search-box:focus { border-color: var(--primary); }
+    .btn { padding: 9px 18px; border-radius: 8px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: #c70d57; }
+    .btn-outline { background: white; color: var(--dark); border: 1px solid var(--border); }
+    .btn-outline:hover { background: #f3f4f6; }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-sm { padding: 6px 12px; font-size: 13px; }
+
+    /* Stats */
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 20px; }
+    .stat-card { background: white; border-radius: 10px; padding: 16px 20px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+    .stat-label { font-size: 12px; color: #6b7280; margin-bottom: 4px; }
+    .stat-value { font-size: 28px; font-weight: 700; color: var(--dark); }
+
+    /* Table */
+    .table-wrap { background: white; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,.06); overflow: hidden; }
+    .table-wrap table { width: 100%; border-collapse: collapse; }
+    th { background: #f9fafb; padding: 12px 16px; text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .5px; color: #6b7280; border-bottom: 1px solid var(--border); }
+    td { padding: 12px 16px; border-bottom: 1px solid #f3f4f6; font-size: 14px; vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #fafafa; }
+    .product-thumb { width: 52px; height: 52px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); }
+    .product-thumb-placeholder { width: 52px; height: 52px; border-radius: 8px; background: #f3f4f6; display: flex; align-items: center; justify-content: center; color: #9ca3af; font-size: 20px; }
+    .category-badge { padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; background: rgba(229,15,101,.1); color: var(--primary); }
+    .action-btns { display: flex; gap: 6px; }
+    .empty-state { text-align: center; padding: 60px 20px; color: #9ca3af; }
+    .empty-state i { font-size: 48px; margin-bottom: 12px; display: block; }
+
+    /* Modal */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+    .modal-overlay.show { display: flex; }
+    .modal { background: white; border-radius: 14px; width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,.2); }
+    .modal-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: white; z-index: 1; }
+    .modal-header h2 { font-size: 18px; }
+    .modal-close { background: none; border: none; font-size: 20px; cursor: pointer; color: #6b7280; padding: 4px; }
+    .modal-body { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+    .modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-label { font-size: 13px; font-weight: 600; color: #374151; }
+    .form-input, .form-select, .form-textarea { padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; outline: none; font-family: inherit; }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--primary); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .form-textarea { resize: vertical; min-height: 80px; }
+
+    /* Image upload */
+    .img-upload-area { border: 2px dashed var(--border); border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; transition: border-color .2s; position: relative; }
+    .img-upload-area:hover, .img-upload-area.drag { border-color: var(--primary); background: rgba(229,15,101,.03); }
+    .img-upload-area input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+    .img-preview { width: 100%; max-height: 180px; object-fit: contain; border-radius: 8px; margin-top: 10px; display: none; }
+    .img-preview.show { display: block; }
+    .upload-hint { color: #9ca3af; font-size: 13px; margin-top: 6px; }
+
+    /* Toast */
+    .toast { position: fixed; bottom: 24px; right: 24px; background: var(--dark); color: white; padding: 12px 20px; border-radius: 10px; font-size: 14px; z-index: 9999; transform: translateY(80px); opacity: 0; transition: .3s; pointer-events: none; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { background: var(--success); }
+    .toast.error { background: var(--danger); }
+
+    /* Confirm dialog */
+    .confirm-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); display: none; align-items: center; justify-content: center; z-index: 2000; }
+    .confirm-overlay.show { display: flex; }
+    .confirm-box { background: white; border-radius: 12px; padding: 28px; max-width: 380px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,.2); }
+    .confirm-box h3 { margin-bottom: 10px; }
+    .confirm-box p { color: #6b7280; margin-bottom: 20px; font-size: 14px; }
+    .confirm-actions { display: flex; gap: 10px; justify-content: center; }
+
+    #locked { display: none; position: fixed; inset: 0; background: white; align-items: center; justify-content: center; flex-direction: column; gap: 14px; z-index: 9999; }
+    #locked h2 { color: var(--dark); }
+  </style>
+</head>
+<body>
+
+  <!-- Lock screen -->
+  <div id="locked" style="display:none">
+    <i class="fas fa-lock" style="font-size:48px;color:#e50f65"></i>
+    <h2>Admin Access Required</h2>
+    <a href="login.html" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Go to Login</a>
+  </div>
+
+  <header class="header">
+    <a href="../index.html" class="logo"><i class="fas fa-gem"></i> Ebou Jewelry</a>
+    <nav class="admin-nav">
+      <a href="orders.html"><i class="fas fa-shopping-bag"></i> Orders</a>
+      <a href="products.html" class="active"><i class="fas fa-box"></i> Products</a>
+      <a href="messages.html"><i class="fas fa-envelope"></i> Messages</a>
+      <a href="customers.html"><i class="fas fa-users"></i> Customers</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn btn-outline btn-sm" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+  </header>
+
+  <div class="container" id="content" style="display:none">
+    <div class="top-bar">
+      <h1><i class="fas fa-box"></i> Products</h1>
+      <input class="search-box" id="search" placeholder="Search products..." oninput="filterProducts()" />
+      <button class="btn btn-outline btn-sm" onclick="loadProducts()"><i class="fas fa-sync-alt"></i> Refresh</button>
+      <button class="btn btn-primary" onclick="openAddModal()"><i class="fas fa-plus"></i> Add Product</button>
+    </div>
+
+    <div class="stats" id="stats">
+      <div class="stat-card"><div class="stat-label">Total Products</div><div class="stat-value" id="stat-total">—</div></div>
+      <div class="stat-card"><div class="stat-label">Categories</div><div class="stat-value" id="stat-cats">—</div></div>
+      <div class="stat-card"><div class="stat-label">With Discount</div><div class="stat-value" id="stat-disc">—</div></div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Original</th>
+            <th>Discount</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="products-tbody">
+          <tr><td colspan="7" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Add/Edit Modal -->
+  <div class="modal-overlay" id="product-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modal-title">Add Product</h2>
+        <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="edit-id" />
+
+        <div class="form-group">
+          <label class="form-label">Product Image</label>
+          <div class="img-upload-area" id="upload-area">
+            <input type="file" id="img-file" accept="image/*" onchange="handleImageSelect(this)" />
+            <i class="fas fa-cloud-upload-alt" style="font-size:28px;color:#9ca3af"></i>
+            <div style="margin-top:8px;font-weight:600;">Click or drag image here</div>
+            <div class="upload-hint">JPG, PNG, WEBP — max 5MB</div>
+            <img class="img-preview" id="img-preview" alt="preview" />
+          </div>
+          <input type="text" class="form-input" id="img-url" placeholder="Or paste image URL directly" oninput="handleUrlInput()" style="margin-top:6px" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Product Title *</label>
+          <input type="text" class="form-input" id="f-title" placeholder="e.g. Gold Pearl Necklace" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea class="form-textarea" id="f-desc" placeholder="Brief product description..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Category *</label>
+          <select class="form-select" id="f-cat">
+            <option value="Necklace">Necklace</option>
+            <option value="Earring">Earring</option>
+            <option value="Bracelet">Bracelet</option>
+            <option value="Ring">Ring</option>
+            <option value="Watch">Watch</option>
+            <option value="Anklet">Anklet</option>
+            <option value="Set">Set</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Price (₵) *</label>
+            <input type="number" class="form-input" id="f-price" placeholder="135" min="0" step="0.01" oninput="autoCalcDiscount()" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Original Price (₵)</label>
+            <input type="number" class="form-input" id="f-orig" placeholder="159" min="0" step="0.01" oninput="autoCalcDiscount()" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Discount %</label>
+          <input type="number" class="form-input" id="f-disc" placeholder="0" min="0" max="100" readonly style="background:#f9fafb;cursor:not-allowed" />
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" id="save-btn" onclick="saveProduct()"><i class="fas fa-save"></i> Save Product</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm Delete -->
+  <div class="confirm-overlay" id="confirm-overlay">
+    <div class="confirm-box">
+      <i class="fas fa-trash" style="font-size:36px;color:#ef4444;margin-bottom:12px"></i>
+      <h3>Delete Product?</h3>
+      <p id="confirm-msg">This will permanently remove the product from your store.</p>
+      <div class="confirm-actions">
+        <button class="btn btn-outline" onclick="closeConfirm()">Cancel</button>
+        <button class="btn btn-danger" id="confirm-yes" onclick="confirmDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    let allProducts = [];
+    let pendingDeleteId = null;
+    let uploadedImageUrl = null;
+    let uploadingImage = false;
+
+    // Auth check
+    function checkAuthentication() {
+      const session = JSON.parse(localStorage.getItem("adminSession") || "{}");
+      if (!session.loggedIn) return false;
+      const now = Date.now();
+      if (session.expiresAt && now > session.expiresAt) {
+        localStorage.removeItem("adminSession");
+        return false;
+      }
+      return true;
+    }
+
+    function logout() {
+      localStorage.removeItem("adminSession");
+      window.location.href = "login.html";
+    }
+
+    // Toast
+    function showToast(msg, type = "") {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.className = "toast show " + type;
+      setTimeout(() => t.className = "toast", 3000);
+    }
+
+    // Load products
+    async function loadProducts() {
+      try {
+        const res = await fetch("/api/products");
+        if (!res.ok) throw new Error("API error");
+        allProducts = await res.json();
+        renderStats();
+        filterProducts();
+      } catch (err) {
+        console.error(err);
+        showToast("Failed to load products", "error");
+      }
+    }
+
+    function renderStats() {
+      document.getElementById("stat-total").textContent = allProducts.length;
+      const cats = new Set(allProducts.map(p => p.category).filter(Boolean));
+      document.getElementById("stat-cats").textContent = cats.size;
+      document.getElementById("stat-disc").textContent = allProducts.filter(p => p.discount > 0).length;
+    }
+
+    function filterProducts() {
+      const q = document.getElementById("search").value.toLowerCase();
+      const filtered = q
+        ? allProducts.filter(p =>
+            (p.title || "").toLowerCase().includes(q) ||
+            (p.category || "").toLowerCase().includes(q) ||
+            (p.description || "").toLowerCase().includes(q)
+          )
+        : allProducts;
+      renderTable(filtered);
+    }
+
+    function renderTable(products) {
+      const tbody = document.getElementById("products-tbody");
+      if (!products.length) {
+        tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><i class="fas fa-box-open"></i><br>No products found</div></td></tr>`;
+        return;
+      }
+      tbody.innerHTML = products.map(p => `
+        <tr>
+          <td>
+            ${p.img
+              ? `<img class="product-thumb" src="${p.img}" alt="${p.title}" onerror="this.style.display='none'" />`
+              : `<div class="product-thumb-placeholder"><i class="fas fa-image"></i></div>`}
+          </td>
+          <td>
+            <div style="font-weight:600;margin-bottom:2px">${p.title}</div>
+            <div style="font-size:12px;color:#9ca3af;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.description || ""}</div>
+          </td>
+          <td><span class="category-badge">${p.category || "—"}</span></td>
+          <td style="font-weight:700;color:#e50f65">₵${Number(p.price || 0).toFixed(2)}</td>
+          <td style="color:#9ca3af;text-decoration:line-through">₵${Number(p.originalPrice || p.price || 0).toFixed(2)}</td>
+          <td>${p.discount > 0 ? `<span style="color:#1eb981;font-weight:700">-${p.discount}%</span>` : "—"}</td>
+          <td>
+            <div class="action-btns">
+              <button class="btn btn-outline btn-sm" onclick="openEditModal('${p.id}')"><i class="fas fa-edit"></i> Edit</button>
+              <button class="btn btn-danger btn-sm" onclick="askDelete('${p.id}','${(p.title||"").replace(/'/g,"\\'")}')"><i class="fas fa-trash"></i></button>
+            </div>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    // Add modal
+    function openAddModal() {
+      document.getElementById("modal-title").textContent = "Add Product";
+      document.getElementById("edit-id").value = "";
+      document.getElementById("f-title").value = "";
+      document.getElementById("f-desc").value = "";
+      document.getElementById("f-cat").value = "Necklace";
+      document.getElementById("f-price").value = "";
+      document.getElementById("f-orig").value = "";
+      document.getElementById("f-disc").value = "";
+      document.getElementById("img-url").value = "";
+      document.getElementById("img-file").value = "";
+      const prev = document.getElementById("img-preview");
+      prev.src = ""; prev.classList.remove("show");
+      uploadedImageUrl = null;
+      document.getElementById("product-modal").classList.add("show");
+    }
+
+    // Edit modal
+    function openEditModal(id) {
+      const p = allProducts.find(x => x.id === id);
+      if (!p) return;
+      document.getElementById("modal-title").textContent = "Edit Product";
+      document.getElementById("edit-id").value = p.id;
+      document.getElementById("f-title").value = p.title || "";
+      document.getElementById("f-desc").value = p.description || "";
+      document.getElementById("f-cat").value = p.category || "Other";
+      document.getElementById("f-price").value = p.price || "";
+      document.getElementById("f-orig").value = p.originalPrice || p.price || "";
+      document.getElementById("f-disc").value = p.discount || 0;
+      document.getElementById("img-url").value = p.img || "";
+      document.getElementById("img-file").value = "";
+      const prev = document.getElementById("img-preview");
+      if (p.img) { prev.src = p.img; prev.classList.add("show"); }
+      else { prev.src = ""; prev.classList.remove("show"); }
+      uploadedImageUrl = p.img || null;
+      document.getElementById("product-modal").classList.add("show");
+    }
+
+    function closeModal() {
+      document.getElementById("product-modal").classList.remove("show");
+    }
+
+    // Auto calc discount
+    function autoCalcDiscount() {
+      const price = parseFloat(document.getElementById("f-price").value) || 0;
+      const orig = parseFloat(document.getElementById("f-orig").value) || 0;
+      if (orig > 0 && price > 0 && orig > price) {
+        document.getElementById("f-disc").value = Math.round((1 - price / orig) * 100);
+      } else {
+        document.getElementById("f-disc").value = 0;
+      }
+    }
+
+    // Image handling
+    function handleUrlInput() {
+      const url = document.getElementById("img-url").value.trim();
+      const prev = document.getElementById("img-preview");
+      if (url) {
+        prev.src = url;
+        prev.classList.add("show");
+        uploadedImageUrl = url;
+      } else {
+        prev.src = "";
+        prev.classList.remove("show");
+        uploadedImageUrl = null;
+      }
+    }
+
+    async function handleImageSelect(input) {
+      const file = input.files[0];
+      if (!file) return;
+      if (file.size > 5 * 1024 * 1024) {
+        showToast("Image must be under 5MB", "error");
+        return;
+      }
+
+      // Preview locally first
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const base64 = e.target.result;
+        const prev = document.getElementById("img-preview");
+        prev.src = base64; prev.classList.add("show");
+
+        // Upload to Cloudinary
+        const saveBtn = document.getElementById("save-btn");
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading image...';
+        uploadingImage = true;
+
+        try {
+          const res = await fetch("/api/upload-image", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ image: base64 }),
+          });
+          const data = await res.json();
+          if (res.ok && data.url) {
+            uploadedImageUrl = data.url;
+            document.getElementById("img-url").value = data.url;
+            showToast("Image uploaded!", "success");
+          } else {
+            showToast("Image upload failed: " + (data.error || "unknown"), "error");
+            uploadedImageUrl = null;
+          }
+        } catch (err) {
+          showToast("Image upload error", "error");
+        } finally {
+          uploadingImage = false;
+          saveBtn.disabled = false;
+          saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Product';
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Save product
+    async function saveProduct() {
+      if (uploadingImage) { showToast("Please wait for image to finish uploading", ""); return; }
+
+      const title = document.getElementById("f-title").value.trim();
+      const price = parseFloat(document.getElementById("f-price").value);
+      if (!title) { showToast("Product title is required", "error"); return; }
+      if (!price || price <= 0) { showToast("Valid price is required", "error"); return; }
+
+      const id = document.getElementById("edit-id").value;
+      const payload = {
+        title,
+        description: document.getElementById("f-desc").value.trim(),
+        category: document.getElementById("f-cat").value,
+        price,
+        originalPrice: parseFloat(document.getElementById("f-orig").value) || price,
+        discount: parseInt(document.getElementById("f-disc").value) || 0,
+        img: uploadedImageUrl || document.getElementById("img-url").value.trim() || "",
+      };
+
+      const saveBtn = document.getElementById("save-btn");
+      saveBtn.disabled = true;
+      saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+      try {
+        const isEdit = Boolean(id);
+        const res = await fetch("/api/products", {
+          method: isEdit ? "PUT" : "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(isEdit ? { id, ...payload } : payload),
+        });
+        const data = await res.json();
+        if (res.ok && data.ok) {
+          showToast(isEdit ? "Product updated!" : "Product added!", "success");
+          closeModal();
+          await loadProducts();
+        } else {
+          showToast("Error: " + (data.error || "unknown"), "error");
+        }
+      } catch (err) {
+        showToast("Save failed", "error");
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Product';
+      }
+    }
+
+    // Delete
+    function askDelete(id, title) {
+      pendingDeleteId = id;
+      document.getElementById("confirm-msg").textContent = `"${title}" will be permanently removed from your store.`;
+      document.getElementById("confirm-overlay").classList.add("show");
+    }
+
+    function closeConfirm() {
+      pendingDeleteId = null;
+      document.getElementById("confirm-overlay").classList.remove("show");
+    }
+
+    async function confirmDelete() {
+      if (!pendingDeleteId) return;
+      const btn = document.getElementById("confirm-yes");
+      btn.disabled = true; btn.textContent = "Deleting...";
+      try {
+        const res = await fetch("/api/products", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: pendingDeleteId }),
+        });
+        const data = await res.json();
+        if (res.ok && data.ok) {
+          showToast("Product deleted", "success");
+          closeConfirm();
+          await loadProducts();
+        } else {
+          showToast("Delete failed: " + (data.error || ""), "error");
+        }
+      } catch (err) {
+        showToast("Delete error", "error");
+      } finally {
+        btn.disabled = false; btn.textContent = "Delete";
+      }
+    }
+
+    // Drag & drop on upload area
+    const uploadArea = document.getElementById("upload-area");
+    uploadArea.addEventListener("dragover", e => { e.preventDefault(); uploadArea.classList.add("drag"); });
+    uploadArea.addEventListener("dragleave", () => uploadArea.classList.remove("drag"));
+    uploadArea.addEventListener("drop", e => {
+      e.preventDefault(); uploadArea.classList.remove("drag");
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith("image/")) {
+        const input = document.getElementById("img-file");
+        const dt = new DataTransfer(); dt.items.add(file);
+        input.files = dt.files;
+        handleImageSelect(input);
+      }
+    });
+
+    // Init
+    document.addEventListener("DOMContentLoaded", () => {
+      if (!checkAuthentication()) {
+        document.getElementById("locked").style.display = "flex";
+        return;
+      }
+      document.getElementById("content").style.display = "block";
+      loadProducts();
+    });
+  </script>
+</body>
+</html>
