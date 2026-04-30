@@ -118,9 +118,9 @@
   <header class="header">
     <a href="../index.html" class="logo"><i class="fas fa-gem"></i> Ebou Jewelry</a>
     <nav class="admin-nav">
-      <a href="orders.html"><i class="fas fa-shopping-bag"></i> Orders</a>
+      <a href="orders.html" style="position:relative"><i class="fas fa-shopping-bag"></i> Orders<span id="nav-orders-badge" style="display:none;position:absolute;top:-6px;right:-10px;background:#f59e0b;color:white;font-size:11px;padding:2px 6px;border-radius:12px;font-weight:700">0</span></a>
       <a href="products.html" class="active"><i class="fas fa-box"></i> Products</a>
-      <a href="messages.html"><i class="fas fa-envelope"></i> Messages</a>
+      <a href="messages.html" style="position:relative"><i class="fas fa-envelope"></i> Messages<span id="nav-messages-badge" style="display:none;position:absolute;top:-6px;right:-10px;background:#ef4444;color:white;font-size:11px;padding:2px 6px;border-radius:12px;font-weight:700">0</span></a>
       <a href="customers.html"><i class="fas fa-users"></i> Customers</a>
     </nav>
     <div class="header-actions">
@@ -257,9 +257,9 @@
     // Auth check
     function checkAuthentication() {
       const session = JSON.parse(localStorage.getItem("adminSession") || "{}");
-      if (!session.loggedIn) return false;
+      if (!session.isLoggedIn) return false;
       const now = Date.now();
-      if (session.expiresAt && now > session.expiresAt) {
+      if (session.expiry && now > session.expiry) {
         localStorage.removeItem("adminSession");
         return false;
       }
@@ -282,14 +282,20 @@
     // Load products
     async function loadProducts() {
       try {
-        const res = await fetch("/api/products");
-        if (!res.ok) throw new Error("API error");
-        allProducts = await res.json();
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 10000);
+        const res = await fetch("/api/products", { signal: controller.signal });
+        clearTimeout(timer);
+        if (!res.ok) throw new Error("API returned " + res.status);
+        const data = await res.json();
+        allProducts = Array.isArray(data) ? data : [];
         renderStats();
         filterProducts();
       } catch (err) {
-        console.error(err);
-        showToast("Failed to load products", "error");
+        console.error("loadProducts error:", err);
+        document.getElementById("products-tbody").innerHTML =
+          `<tr><td colspan="7"><div class="empty-state"><i class="fas fa-exclamation-circle" style="color:#ef4444"></i><br>Failed to load products: ${err.message}<br><button class="btn btn-outline btn-sm" style="margin-top:12px" onclick="loadProducts()">Retry</button></div></td></tr>`;
+        showToast("Failed to load products — check console", "error");
       }
     }
 
@@ -558,6 +564,30 @@
       }
     });
 
+    // Nav badges
+    async function loadNavBadges() {
+      try {
+        const [ordersRes, msgsRes] = await Promise.allSettled([
+          fetch("/api/orders"),
+          fetch("/api/contact-messages")
+        ]);
+        if (ordersRes.status === "fulfilled" && ordersRes.value.ok) {
+          const d = await ordersRes.value.json();
+          const orders = Array.isArray(d) ? d : d.orders || [];
+          const count = orders.filter(o => o.status === "pending" || o.status === "confirmed" || o.status === "processing").length;
+          const b = document.getElementById("nav-orders-badge");
+          if (b) { b.textContent = count; b.style.display = count > 0 ? "block" : "none"; }
+        }
+        if (msgsRes.status === "fulfilled" && msgsRes.value.ok) {
+          const d = await msgsRes.value.json();
+          const msgs = Array.isArray(d) ? d : d.messages || [];
+          const count = msgs.filter(m => !m.readByAdmin).length;
+          const b = document.getElementById("nav-messages-badge");
+          if (b) { b.textContent = count; b.style.display = count > 0 ? "block" : "none"; }
+        }
+      } catch (e) {}
+    }
+
     // Init
     document.addEventListener("DOMContentLoaded", () => {
       if (!checkAuthentication()) {
@@ -566,6 +596,8 @@
       }
       document.getElementById("content").style.display = "block";
       loadProducts();
+      loadNavBadges();
+      setInterval(loadNavBadges, 30000);
     });
   </script>
 </body>

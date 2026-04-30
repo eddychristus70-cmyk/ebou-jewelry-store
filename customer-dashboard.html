@@ -679,12 +679,14 @@
         handleHashNavigation();
       });
 
-      // Load products from products.json
+      // Load products from API (falls back to products.json locally)
       async function loadProducts() {
         try {
-          const response = await fetch("products.json");
+          const src = (location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.protocol === "file:") ? "products.json" : "/api/products";
+          const response = await fetch(src);
           if (response.ok) {
             allProducts = await response.json();
+            if (!Array.isArray(allProducts)) allProducts = [];
           }
         } catch (error) {
           console.error("Error loading products:", error);
